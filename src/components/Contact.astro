@@ -3,6 +3,24 @@ import { contact, business } from '../content/site';
 
 const CONTACT_IMAGE =
   'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85&auto=format&fit=crop';
+
+/**
+ * Form backend: FormSubmit (formsubmit.co).
+ *
+ * How it works: the form's POST goes to https://formsubmit.co/<EMAIL>,
+ * which forwards every submission as an email to that address. First
+ * submission triggers a verification link to the email — once Adolfo
+ * clicks it, all future submissions land in his inbox.
+ *
+ * No signup, no API key, free unlimited.
+ *
+ * To swap to a real address: change FORM_RECIPIENT to Adolfo's email.
+ * To use the privacy-preserving hash mode (hides the email from page
+ * source so spam crawlers can't scrape it): generate the hash at
+ * https://formsubmit.co/ and paste here.
+ */
+const FORM_RECIPIENT = business.email; // 'hello@agapenurseryandlandscape.com'
+const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-h2">
@@ -34,6 +52,34 @@ const CONTACT_IMAGE =
         </div>
       </div>
 
+      <!-- What to expect — sets the async coordination expectation. -->
+      <ul class="expect-list" role="list">
+        <li>
+          <span class="expect-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span><span data-lang-en>Adolfo replies within 24 hours</span><span data-lang-es>Adolfo responde en 24 horas</span></span>
+        </li>
+        <li>
+          <span class="expect-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span><span data-lang-en>Free site visit at your schedule</span><span data-lang-es>Visita gratis a su horario</span></span>
+        </li>
+        <li>
+          <span class="expect-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span><span data-lang-en>Honest, written quote — no pressure</span><span data-lang-es>Presupuesto honesto, sin presión</span></span>
+        </li>
+        <li>
+          <span class="expect-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span><span data-lang-en>Bilingual — English &amp; Español</span><span data-lang-es>Bilingüe — English &amp; Español</span></span>
+        </li>
+      </ul>
+
       <ul class="contact-info" role="list">
         <li>
           <span class="info-icon" aria-hidden="true">
@@ -56,8 +102,24 @@ const CONTACT_IMAGE =
       </ul>
     </aside>
 
-    <!-- Right: form -->
-    <form class="contact-form reveal" data-anim="reveal" data-contact-form novalidate>
+    <!-- Right: form. POSTs to FormSubmit which emails Adolfo. -->
+    <form
+      class="contact-form reveal"
+      data-anim="reveal"
+      data-contact-form
+      action={FORM_ACTION}
+      method="POST"
+      novalidate
+    >
+      <!-- FormSubmit config (their special _-prefixed inputs) -->
+      <input type="hidden" name="_subject" value="🌿 New site visit request from agapenursery.com" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_next" value="https://agapenursery.com/?sent=1" />
+      <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Agape Nursery & Landscape — Adolfo will get back to you within 24 hours. If urgent, call (661) 778-0602." />
+
+      <!-- Honeypot (FormSubmit's spam check + our own redundancy) -->
+      <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
       <div class="form-grid">
@@ -141,27 +203,70 @@ const CONTACT_IMAGE =
 </section>
 
 <script>
+  /**
+   * Form submit UX:
+   *  - Honeypot fires before the network request (silent reject for bots)
+   *  - Real submissions POST to FormSubmit; we use AJAX so we can show
+   *    inline success state without a full page redirect (formsubmit
+   *    supports JSON responses when content-type is application/json)
+   *  - On success: hide form, show the leaf-checkmark success card
+   *  - On failure: tell the user to call instead (don't pretend success)
+   *
+   * We also handle the `?sent=1` URL param — if FormSubmit redirected back
+   * here (e.g. JS disabled), we surface the success state immediately.
+   */
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const button = document.querySelector<HTMLButtonElement>('[data-submit-button]');
   const buttonText = document.querySelector<HTMLSpanElement>('[data-submit-text]');
   const success = document.querySelector<HTMLDivElement>('[data-success]');
 
+  const showSuccess = () => {
+    if (!form || !success) return;
+    success.hidden = false;
+    form
+      .querySelectorAll<HTMLElement>('.form-row, .contact-submit, .contact-disclaimer')
+      .forEach((r) => (r.style.display = 'none'));
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  // If the user came back from FormSubmit's redirect with ?sent=1, jump to success
+  if (new URLSearchParams(window.location.search).get('sent') === '1') {
+    showSuccess();
+  }
+
   if (form && button && buttonText && success) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const honeypot = (form.elements.namedItem('company') as HTMLInputElement)?.value;
-      if (honeypot) {
-        success.hidden = false;
-        form.querySelectorAll<HTMLElement>('.form-row, .contact-submit').forEach((r) => (r.style.display = 'none'));
+      const honey2 = (form.elements.namedItem('_honey') as HTMLInputElement)?.value;
+      if (honeypot || honey2) {
+        // Silent success for bots — don't tip them off
+        showSuccess();
         return;
       }
       button.disabled = true;
       buttonText.textContent = 'Sending…';
-      window.setTimeout(() => {
-        success.hidden = false;
-        form.querySelectorAll<HTMLElement>('.form-row, .contact-submit, .contact-disclaimer').forEach((r) => (r.style.display = 'none'));
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 900);
+
+      try {
+        const data = new FormData(form);
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (resp.ok) {
+          showSuccess();
+        } else {
+          // FormSubmit returns 200 even on first-submit verification — handle gracefully
+          throw new Error(`HTTP ${resp.status}`);
+        }
+      } catch (err) {
+        // Don't fake success on real failures — tell the user to call.
+        button.disabled = false;
+        buttonText.textContent = 'Try again or call (661) 778-0602';
+        button.style.background = '#8C4126';
+        console.error('[contact form]', err);
+      }
     });
   }
 </script>
@@ -261,6 +366,37 @@ const CONTACT_IMAGE =
     font-weight: 500;
     line-height: 1.2;
     max-width: 18ch;
+  }
+
+  /* "What to expect" trust list — moved over from the deleted Booking section. */
+  .expect-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem 1.1rem;
+    background: rgba(74, 93, 58, 0.06);
+    border: 1px solid rgba(74, 93, 58, 0.14);
+    border-radius: var(--rad-lg);
+    margin-bottom: 0.5rem;
+  }
+  .expect-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--soil-brown);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .expect-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--leaf-fresh);
+    color: var(--cream);
+    flex-shrink: 0;
   }
 
   .contact-info {
