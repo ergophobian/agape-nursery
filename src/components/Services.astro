@@ -1,0 +1,155 @@
+---
+import { services } from '../content/site';
+
+/** SVG icon set — minimal, hand-feel rather than Material/Lucide stamp.
+    Keeps icons aligned with the editorial / family-business tone. */
+const ICONS: Record<string, string> = {
+  leaf: `<path d="M21 3c0 9-7.5 14-12 14a8 8 0 0 1-6-13c4-4 9-4 14-4 1 0 2 0 4 0 0 1 0 2 0 3z" fill="currentColor" opacity="0.18"/><path d="M21 3c0 9-7.5 14-12 14a8 8 0 0 1-6-13c4-4 9-4 14-4 1 0 2 0 4 0 0 1 0 2 0 3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 21 9 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  sprout: `<path d="M12 22V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 11c2 4 4 5 7 5 0-3-1-5-3-6-2-1-4 1-4 1z" fill="currentColor" opacity="0.18"/><path d="M5 11c2 4 4 5 7 5 0-3-1-5-3-6-2-1-4 1-4 1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M19 7c-2 4-4 5-7 5 0-3 1-5 3-6 2-1 4 1 4 1z" fill="currentColor" opacity="0.18"/><path d="M19 7c-2 4-4 5-7 5 0-3 1-5 3-6 2-1 4 1 4 1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>`,
+  shovel: `<path d="M16 4 20 8 14 14 10 10z" fill="currentColor" opacity="0.18"/><path d="M16 4 20 8 14 14 10 10z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 10 4 16C3 17 3 19 4 20l0 0C5 21 7 21 8 20L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  wheat: `<path d="M12 22V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 8c0-2 2-4 4-4 0 2-2 4-4 4z M12 8c0-2-2-4-4-4 0 2 2 4 4 4z M12 13c0-2 2-4 4-4 0 2-2 4-4 4z M12 13c0-2-2-4-4-4 0 2 2 4 4 4z M12 18c0-2 2-4 4-4 0 2-2 4-4 4z M12 18c0-2-2-4-4-4 0 2 2 4 4 4z" fill="currentColor" opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>`,
+};
+---
+
+<section id="services" class="services" aria-labelledby="services-h2">
+  <div class="container">
+    <header class="services-head reveal" data-anim="reveal">
+      <span class="eyebrow">What we do · <span lang="es">Lo que hacemos</span></span>
+      <h2 id="services-h2">Plants, design, install. And four generations of know-how.</h2>
+      <p class="lead">From a single tomato start to a full-yard transformation, we’ve been growing things that survive the Valley sun for 44 years.</p>
+    </header>
+
+    <ul class="service-grid reveal-stagger" role="list" data-anim="reveal-stagger">
+      {services.map((s, i) => (
+        <li class="service-card">
+          <div class="service-num" aria-hidden="true">0{i + 1}</div>
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="40" height="40" set:html={ICONS[s.icon]}></svg>
+          </div>
+          <h3 class="service-title">{s.title.en}</h3>
+          <p class="service-title-es lang-es" lang="es">{s.title.es}</p>
+          <p class="service-body">{s.body.en}</p>
+          <span class="service-arrow" aria-hidden="true">↗</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services {
+    background: linear-gradient(180deg, var(--cream) 0%, #F2EAD7 100%);
+  }
+
+  .services-head {
+    max-width: 38rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 3rem;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    --card-pad: clamp(1.4rem, 2.5vw, 2rem);
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-lg);
+    padding: var(--card-pad);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition:
+      transform var(--dur-base) var(--ease-out-soft),
+      box-shadow var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 100% 0%, rgba(244, 163, 0, 0.12), transparent 60%);
+    opacity: 0;
+    transition: opacity var(--dur-base);
+    z-index: -1;
+  }
+  .service-card:hover {
+    /* Lift 4px, not 6px (tightened at Phase 2 design review) */
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px var(--shadow-warm-elev);
+    border-color: var(--olive-deep-15);
+  }
+  .service-card:hover::before {
+    opacity: 1;
+  }
+
+  .service-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--terracotta);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .service-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--rad-md);
+    background: var(--olive-deep-15);
+    color: var(--olive-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+    transition: background var(--dur-base);
+  }
+  .service-card:hover .service-icon {
+    background: var(--olive-deep);
+    color: var(--cream);
+  }
+
+  .service-title {
+    color: var(--olive-deep);
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  .service-title-es {
+    color: var(--soil-brown-60);
+    font-size: 0.92rem;
+    margin-top: 0;
+    margin-bottom: 0.3rem;
+  }
+  .service-body {
+    color: var(--soil-brown-75);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .service-arrow {
+    align-self: flex-end;
+    font-size: 1.4rem;
+    color: var(--soil-brown-60);
+    transition: color var(--dur-fast), transform var(--dur-fast) var(--ease-out-soft);
+    margin-top: auto;
+  }
+  .service-card:hover .service-arrow {
+    color: var(--terracotta);
+    transform: translate(2px, -2px);
+  }
+
+  @media (min-width: 40rem) {
+    .service-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 64rem) {
+    .service-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

@@ -1,0 +1,174 @@
+---
+import { reviews, trust, business } from '../content/site';
+---
+
+<section id="trust" class="trust" aria-labelledby="trust-h2">
+  <div class="container trust-inner">
+    <!-- Stat strip — no count-up animation (cut at Phase 2 review). Just the number. -->
+    <div class="stats reveal" data-anim="reveal">
+      <div class="stat">
+        <span class="stat-num">{business.yearsInBusiness}</span>
+        <span class="stat-label">{trust.yearsLabel.en}</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">{trust.countiesLabel.en}</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">generations of family</span>
+      </div>
+    </div>
+
+    <!-- Reviews — manually curated, real names + cities -->
+    <header class="reviews-head reveal" data-anim="reveal">
+      <h2 id="trust-h2" class="text-center">What three generations of customers say.</h2>
+    </header>
+
+    <ul class="reviews reveal-stagger" role="list" data-anim="reveal-stagger">
+      {reviews.map((r) => (
+        <li class="review">
+          <svg class="review-quote" viewBox="0 0 32 24" width="36" height="28" aria-hidden="true">
+            <path
+              d="M0 12 C0 6, 4 0, 12 0 L12 6 C8 6, 6 8, 6 12 L12 12 L12 24 L0 24 Z M20 12 C20 6, 24 0, 32 0 L32 6 C28 6, 26 8, 26 12 L32 12 L32 24 L20 24 Z"
+              fill="currentColor"
+              opacity="0.18"
+            />
+          </svg>
+          <blockquote>{r.quote.en}</blockquote>
+          <p class="lang-es" lang="es">{r.quote.es}</p>
+          <footer class="review-foot">
+            <strong>{r.author}</strong>
+            <span class="review-meta">{r.location} · {r.project.en}</span>
+          </footer>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--cream);
+    border-top: 1px solid var(--soil-brown-15);
+    border-bottom: 1px solid var(--soil-brown-15);
+  }
+  .trust-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  /* Stats */
+  .stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.25rem;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    line-height: 1;
+    color: var(--terracotta);
+    letter-spacing: -0.04em;
+  }
+  .stat-label {
+    font-size: var(--fz-small);
+    color: var(--soil-brown-75);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    max-width: 14ch;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 64px;
+    background: var(--soil-brown-15);
+    display: none;
+  }
+  @media (min-width: 40rem) {
+    .stat-divider { display: block; }
+  }
+
+  /* Reviews */
+  .reviews-head h2 {
+    max-width: 22ch;
+    margin-inline: auto;
+  }
+
+  .reviews {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .review {
+    position: relative;
+    background: linear-gradient(180deg, #FAF5E9 0%, #F5EFE3 100%);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-lg);
+    padding: 1.75rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: transform var(--dur-base) var(--ease-out-soft), box-shadow var(--dur-base) var(--ease-out-soft);
+  }
+  .review:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px var(--shadow-warm-elev);
+  }
+
+  .review-quote {
+    color: var(--olive-deep);
+  }
+
+  .review blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.18rem;
+    line-height: 1.4;
+    color: var(--soil-brown);
+    font-weight: 500;
+  }
+  .review .lang-es {
+    color: var(--soil-brown-60);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin-top: 0;
+  }
+
+  .review-foot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: auto;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--soil-brown-15);
+  }
+  .review-foot strong {
+    color: var(--olive-deep);
+    font-weight: 700;
+  }
+  .review-meta {
+    font-size: var(--fz-small);
+    color: var(--soil-brown-60);
+  }
+
+  @media (min-width: 56rem) {
+    .reviews {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
