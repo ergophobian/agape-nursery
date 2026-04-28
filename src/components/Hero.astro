@@ -1,0 +1,257 @@
+---
+import { hero, business } from '../content/site';
+---
+
+<section id="top" class="hero" aria-labelledby="hero-h1">
+  <!-- Background: warm gradient + low-contrast leaf silhouette pattern. No Ken Burns
+       (cut at Phase 2 design review) — confidence over decoration. -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-gradient"></div>
+    <div class="hero-glow"></div>
+    <svg class="hero-leaves" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="leafPattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+          <path
+            d="M100 60 C120 60, 140 80, 140 110 C140 130, 120 150, 100 150 C80 150, 60 130, 60 110 C60 80, 80 60, 100 60 Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="0.6"
+            opacity="0.55"
+          />
+          <path
+            d="M100 60 L100 150"
+            stroke="currentColor"
+            stroke-width="0.4"
+            opacity="0.4"
+          />
+        </pattern>
+      </defs>
+      <rect width="800" height="800" fill="url(#leafPattern)" />
+    </svg>
+  </div>
+
+  <div class="hero-inner container">
+    <!-- Status pill: bilingual via aria + visible English -->
+    <div class="hero-status" data-anim="hero-status">
+      <span class="pill">
+        <span class="pill-dot" aria-hidden="true"></span>
+        <span>{hero.status.en}</span>
+      </span>
+    </div>
+
+    <h1 id="hero-h1" class="hero-h1">
+      <span data-anim="hero-h1-line">
+        <span data-anim="hero-word">Growing</span>{' '}
+        <span data-anim="hero-word">Delano’s</span>{' '}
+      </span>
+      <span data-anim="hero-h1-line">
+        <span data-anim="hero-word">gardens</span>{' '}
+        <span data-anim="hero-word italic-display">since</span>{' '}
+        <span data-anim="hero-word italic-display">1982.</span>
+      </span>
+      <span class="hero-h1-es lang-es" lang="es" data-anim="hero-h1-es">
+        {hero.h1.es}
+      </span>
+    </h1>
+
+    <p class="lead hero-lead" data-anim="hero-lead">
+      <span>{hero.subhead.en}</span>
+      <span class="lang-es" lang="es">{hero.subhead.es}</span>
+    </p>
+
+    <div class="hero-ctas" data-anim="hero-ctas">
+      <a href="#booking" class="btn btn-primary">
+        <span>{hero.primaryCta.en}</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href={business.phone.href} class="btn-ghost hero-secondary">
+        {hero.secondaryCta.en}
+      </a>
+    </div>
+
+    <p class="hero-trust" data-anim="hero-trust">
+      <span class="hero-trust-dot" aria-hidden="true">·</span>
+      <span>{hero.trustLine.en}</span>
+    </p>
+
+    <!-- Decorative number stamp: "1982" rendered very large + low-contrast for
+         atmospheric depth without competing with the H1 -->
+    <span class="hero-stamp" aria-hidden="true">1982</span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(7rem, 18vh, 11rem) clamp(3rem, 6vh, 5rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Background composition */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 60% at 70% 30%, rgba(244, 163, 0, 0.18), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 20% 80%, rgba(74, 93, 58, 0.14), transparent 70%),
+      linear-gradient(180deg, #F8F2E5 0%, #F5EFE3 60%, #EDE6D6 100%);
+  }
+  .hero-glow {
+    position: absolute;
+    inset: -20% -20% auto auto;
+    width: 70vw;
+    height: 70vw;
+    max-width: 800px;
+    max-height: 800px;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(244, 163, 0, 0.12), transparent 65%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .hero-leaves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--olive-deep);
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.85rem, 2vw, 1.35rem);
+    align-items: flex-start;
+    max-width: 56rem;
+  }
+
+  .hero-status {
+    /* Animated in by JS — start invisible to avoid flash */
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .hero-h1 {
+    font-size: var(--fz-h1);
+    line-height: 0.94;
+    letter-spacing: -0.028em;
+    color: var(--olive-deep);
+  }
+  .hero-h1 [data-anim='hero-h1-line'] {
+    display: block;
+    overflow: hidden;
+  }
+  .hero-h1 [data-anim='hero-word'] {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .hero-h1 .italic-display {
+    color: var(--terracotta);
+    font-style: italic;
+    font-weight: 500;
+    margin-left: 0.05em;
+  }
+  .hero-h1-es {
+    margin-top: 0.45em;
+    font-size: 0.5em;
+    font-style: italic;
+    color: var(--soil-brown-75);
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3;
+    opacity: 0;
+    transform: translateY(8px);
+    display: block;
+  }
+
+  .hero-lead {
+    font-size: clamp(1rem, 1vw + 0.95rem, 1.15rem);
+    color: var(--soil-brown-75);
+    max-width: 36ch;
+    opacity: 0;
+    transform: translateY(8px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hero-lead .lang-es {
+    margin-top: 0.4rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    align-items: stretch;
+    width: 100%;
+    max-width: 24rem;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-secondary {
+    text-align: center;
+    color: var(--soil-brown);
+  }
+
+  .hero-trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--fz-small);
+    color: var(--soil-brown-75);
+    margin-top: 0.5rem;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-trust-dot {
+    color: var(--terracotta);
+    font-weight: 800;
+  }
+
+  /* The atmospheric "1982" stamp */
+  .hero-stamp {
+    position: absolute;
+    right: -4vw;
+    bottom: -8vh;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(12rem, 30vw, 22rem);
+    line-height: 1;
+    color: var(--olive-deep);
+    opacity: 0.05;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+
+  /* Tablet+ */
+  @media (min-width: 48rem) {
+    .hero-ctas {
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+      max-width: none;
+    }
+    .hero-secondary {
+      text-align: left;
+    }
+  }
+</style>

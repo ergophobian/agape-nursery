@@ -1,0 +1,324 @@
+---
+import { booking, business } from '../content/site';
+---
+
+<section id="booking" class="booking" aria-labelledby="booking-h2">
+  <div class="container-mid booking-inner">
+    <header class="booking-head reveal" data-anim="reveal">
+      <span class="eyebrow">{booking.eyebrow.en} · <span lang="es">{booking.eyebrow.es}</span></span>
+      <h2 id="booking-h2">{booking.h2.en}</h2>
+      <p class="lang-es" lang="es">{booking.h2.es}</p>
+      <p class="lead booking-lead">{booking.body.en}</p>
+      <p class="lang-es booking-lead-es" lang="es">{booking.body.es}</p>
+    </header>
+
+    <!-- Calendly placeholder. Per PLAN.md §3.5 States Matrix:
+         loading skeleton → iframe → if iframe doesn't load in 4s, swap to fallback.
+         For v0 we ship the visual "skeleton" + fallback as a designed surface. -->
+    <div class="booking-shell reveal" data-anim="reveal">
+      <div class="booking-frame">
+        <div class="booking-skeleton" data-booking-skeleton aria-hidden="true">
+          <div class="sk sk-row sk-row--header"></div>
+          <div class="sk sk-row sk-row--header"></div>
+          <div class="sk-grid">
+            {Array.from({ length: 14 }).map(() => <div class="sk-cell"></div>)}
+          </div>
+          <div class="sk sk-row"></div>
+        </div>
+        <iframe
+          data-calendly
+          src={`${business.calendlyUrl}?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=A85638`}
+          title="Schedule a free landscape consultation with Agape Nursery"
+          loading="lazy"
+          height="640"
+          frameborder="0"
+        ></iframe>
+      </div>
+
+      <aside class="booking-aside" aria-label="Booking trust panel">
+        <ul class="booking-points" role="list">
+          <li>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>15-minute call, no pressure</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>We come to your yard</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Honest, written quote</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Bilingual: English & Español</span>
+          </li>
+        </ul>
+        <div class="booking-or-call">
+          <p class="eyebrow">Prefer to talk?</p>
+          <a href={business.phone.href} class="booking-phone">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-2.3 2.3z" fill="currentColor"/>
+            </svg>
+            <span>{business.phone.display}</span>
+          </a>
+          <p class="booking-call-sub">Adolfo answers his phone.</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Fallback form, hidden by default. Revealed if Calendly doesn't post a
+         load message within 4 seconds (PLAN.md §3.5 States Matrix). -->
+    <div class="booking-fallback" data-booking-fallback hidden>
+      <h3>{booking.fallbackHeadline.en}</h3>
+      <p class="lang-es" lang="es">{booking.fallbackHeadline.es}</p>
+      <p>{booking.fallbackBody.en}</p>
+      <a href={business.phone.href} class="btn btn-primary">
+        Call {business.phone.display}
+      </a>
+      <a href="#contact" class="btn btn-ghost">{booking.fallbackFormCta.en}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Calendly load detection per PLAN.md §3.5: postMessage signal + 4s timeout.
+  // If Calendly doesn't broadcast its widget-ready event within 4s, swap to fallback.
+  const iframe = document.querySelector<HTMLIFrameElement>('[data-calendly]');
+  const skeleton = document.querySelector<HTMLElement>('[data-booking-skeleton]');
+  const fallback = document.querySelector<HTMLElement>('[data-booking-fallback]');
+  let loaded = false;
+
+  if (iframe && skeleton && fallback) {
+    const reveal = () => {
+      skeleton.style.opacity = '0';
+      iframe.style.opacity = '1';
+      window.setTimeout(() => skeleton.remove(), 400);
+    };
+    const showFallback = () => {
+      iframe.style.display = 'none';
+      skeleton.remove();
+      fallback.hidden = false;
+    };
+
+    window.addEventListener('message', (e) => {
+      if (typeof e.data === 'string' && e.data.includes('calendly')) {
+        loaded = true;
+        reveal();
+      }
+      if (e.origin?.includes('calendly.com')) {
+        loaded = true;
+        reveal();
+      }
+    });
+
+    // iframe.onload fires regardless of AdBlock; useful as primary signal too.
+    iframe.addEventListener('load', () => {
+      // Give Calendly a beat to post its ready message; otherwise reveal anyway.
+      window.setTimeout(() => {
+        if (!loaded) reveal();
+      }, 1200);
+    });
+
+    // Hard timeout fallback for AdBlock / network failures.
+    window.setTimeout(() => {
+      if (!loaded) showFallback();
+    }, 4500);
+  }
+</script>
+
+<style>
+  .booking {
+    background: linear-gradient(180deg, var(--cream) 0%, #EBE3D0 100%);
+    position: relative;
+  }
+  .booking::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--soil-brown-15);
+  }
+
+  .booking-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .booking-head {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .booking-head h2 {
+    max-width: 22ch;
+    margin-inline: auto;
+  }
+  .booking-head .lang-es {
+    color: var(--soil-brown-60);
+    font-size: 1.1rem;
+  }
+  .booking-lead {
+    margin-top: 0.7rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .booking-lead-es {
+    margin-inline: auto;
+    text-align: center;
+    max-width: 38ch;
+    font-size: 0.95rem;
+  }
+
+  /* The shell holds iframe + side panel */
+  .booking-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    background: var(--cream);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-xl);
+    padding: clamp(0.5rem, 2vw, 1rem);
+    box-shadow: 0 12px 40px var(--shadow-warm);
+    overflow: hidden;
+  }
+
+  .booking-frame {
+    position: relative;
+    min-height: 520px;
+    border-radius: var(--rad-lg);
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .booking-frame iframe {
+    width: 100%;
+    height: 640px;
+    display: block;
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out-soft);
+  }
+
+  /* Skeleton */
+  .booking-skeleton {
+    position: absolute;
+    inset: 0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    transition: opacity var(--dur-base) var(--ease-out-soft);
+  }
+  .sk {
+    background: linear-gradient(90deg,
+      rgba(74, 93, 58, 0.06) 0%,
+      rgba(74, 93, 58, 0.12) 50%,
+      rgba(74, 93, 58, 0.06) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite linear;
+    border-radius: 8px;
+  }
+  .sk-row { height: 18px; }
+  .sk-row--header { width: 60%; height: 24px; }
+  .sk-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .sk-cell { aspect-ratio: 1 / 1; border-radius: 6px; }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Aside */
+  .booking-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 1rem;
+  }
+  .booking-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .booking-points li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--soil-brown);
+    font-weight: 500;
+  }
+  .booking-points svg {
+    color: var(--leaf-fresh);
+    flex-shrink: 0;
+  }
+
+  .booking-or-call {
+    border-top: 1px solid var(--soil-brown-15);
+    padding-top: 1rem;
+  }
+  .booking-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--olive-deep);
+    margin-top: 0.4rem;
+    transition: color var(--dur-fast);
+  }
+  .booking-phone:hover {
+    color: var(--terracotta);
+  }
+  .booking-phone svg {
+    color: var(--terracotta);
+  }
+  .booking-call-sub {
+    font-size: var(--fz-small);
+    color: var(--soil-brown-60);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+
+  .booking-fallback {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--cream);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-lg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .booking-fallback h3 { color: var(--olive-deep); }
+  .booking-fallback .btn { margin-top: 0.6rem; }
+
+  /* Tablet+ */
+  @media (min-width: 56rem) {
+    .booking-shell {
+      grid-template-columns: 1.6fr 1fr;
+    }
+    .booking-aside {
+      padding: 1.5rem;
+      border-left: 1px solid var(--soil-brown-15);
+    }
+  }
+</style>
