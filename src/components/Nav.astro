@@ -37,6 +37,7 @@ import { business, navItems, hero } from '../content/site';
     </ul>
 
     <div class="nav-cta-wrap">
+      <!-- Phone link — desktop only; mobile uses a tap-to-call icon and the drawer. -->
       <a href={business.phone.href} class="nav-phone" aria-label={`Call ${business.phone.display}`}>
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <path
@@ -47,8 +48,8 @@ import { business, navItems, hero } from '../content/site';
         <span class="nav-phone-text">{business.phone.display}</span>
       </a>
 
-      <!-- Language toggle (PILL style with sliding indicator) -->
-      <div class="lang-toggle" role="group" aria-label="Toggle language" data-lang-toggle>
+      <!-- Language toggle PILL — desktop only. Drawer has its own at mobile. -->
+      <div class="lang-toggle lang-toggle--desktop" role="group" aria-label="Toggle language" data-lang-toggle>
         <span class="lang-toggle-bg" aria-hidden="true"></span>
         <button type="button" data-set-lang="en" aria-label="English">EN</button>
         <button type="button" data-set-lang="es" aria-label="Español">ES</button>
@@ -69,6 +70,13 @@ import { business, navItems, hero } from '../content/site';
   </div>
 
   <div id="mobile-menu" class="mobile-menu" aria-hidden="true" data-mobile-menu>
+    <div class="mobile-menu-head">
+      <div class="lang-toggle lang-toggle--mobile" role="group" aria-label="Toggle language" data-lang-toggle>
+        <span class="lang-toggle-bg" aria-hidden="true"></span>
+        <button type="button" data-set-lang="en" aria-label="English">EN</button>
+        <button type="button" data-set-lang="es" aria-label="Español">ES</button>
+      </div>
+    </div>
     <ul role="list">
       {navItems.map((item) => (
         <li>
@@ -79,8 +87,8 @@ import { business, navItems, hero } from '../content/site';
       ))}
       <li class="mobile-cta">
         <a href={business.phone.href} class="btn btn-primary btn-block">
-          <span data-lang-en>{hero.secondaryCta.en}</span>
-          <span data-lang-es>{hero.secondaryCta.es}</span>
+          <span data-lang-en>Call {business.phone.display}</span>
+          <span data-lang-es>Llame al {business.phone.display}</span>
         </a>
       </li>
     </ul>
@@ -188,7 +196,9 @@ import { business, navItems, hero } from '../content/site';
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: nowrap;
     gap: 1rem;
+    min-width: 0;
   }
 
   /* Brand — cream by default (over hero), switches to olive after scroll. */
@@ -243,9 +253,12 @@ import { business, navItems, hero } from '../content/site';
     color: var(--soil-brown-60);
   }
 
-  /* Nav links — desktop only. Cream over hero, soil-brown after scroll. */
+  /* Nav links — desktop only. Cream over hero, soil-brown after scroll.
+     The redundant `display: none` rule below 64rem is belt-and-suspenders:
+     if anything in CSS load order shifts, the !important on the inverse
+     mobile rule keeps the desktop list out of mobile viewports. */
   .nav-list {
-    display: none;
+    display: none !important;
     align-items: center;
     gap: 1.4rem;
   }
@@ -442,50 +455,82 @@ import { business, navItems, hero } from '../content/site';
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  /* Mobile menu drawer */
+  /* Mobile menu drawer.
+     z-index sits ABOVE the nav (var(--z-nav) is 100, drawer is 110) so it
+     can definitively cover the entire viewport including the nav itself
+     when open. */
   .mobile-menu {
     position: fixed;
     inset: 0;
     background: var(--cream);
-    z-index: calc(var(--z-nav) - 1);
-    padding: 6rem 1.5rem 2rem;
+    z-index: calc(var(--z-nav) + 10);
+    padding: 5.5rem 1.5rem 2rem;
     transform: translateX(100%);
     transition: transform var(--dur-base) var(--ease-out-soft);
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .mobile-menu.is-open {
     transform: translateX(0);
   }
+
+  .mobile-menu-head {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px dashed var(--soil-brown-15);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
   .mobile-menu ul {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
   .mobile-link {
     display: block;
-    padding: 1.1rem 1.25rem;
+    padding: 1rem 1.25rem;
     border-radius: var(--rad-md);
     font-family: var(--font-display);
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     font-weight: 700;
     color: var(--olive-deep);
-    line-height: 1.1;
-    transition: background var(--dur-fast);
+    line-height: 1.15;
+    transition: background var(--dur-fast), padding-left var(--dur-fast);
   }
   .mobile-link:hover {
     background: var(--olive-deep-15);
+    padding-left: 1.6rem;
   }
   .mobile-cta {
     margin-top: 1.5rem;
   }
+  .mobile-cta .btn {
+    font-size: 1rem;
+  }
 
-  /* Desktop layout */
+  /* Hide the in-drawer lang toggle on desktop (we have the desktop one in the nav). */
+  .lang-toggle--mobile {
+    display: inline-flex;
+  }
+  .lang-toggle--desktop {
+    display: none;
+  }
+
+  /* Desktop layout — bumps to 64rem (1024px). */
   @media (min-width: 64rem) {
     .nav-list {
-      display: flex;
+      display: flex !important;
     }
     .nav-phone {
       display: inline-flex;
+    }
+    .lang-toggle--desktop {
+      display: inline-flex;
+    }
+    .lang-toggle--mobile {
+      display: none;
     }
     .nav-toggle {
       display: none;
