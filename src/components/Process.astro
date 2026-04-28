@@ -1,0 +1,127 @@
+---
+import { process } from '../content/site';
+---
+
+<section id="process" class="process" aria-labelledby="process-h2">
+  <div class="container">
+    <header class="process-head reveal" data-anim="reveal">
+      <span class="eyebrow">{process.eyebrow.en} · <span lang="es">{process.eyebrow.es}</span></span>
+      <h2 id="process-h2">{process.h2.en}</h2>
+      <p class="lang-es" lang="es">{process.h2.es}</p>
+    </header>
+
+    <ol class="steps" data-process>
+      <!-- SVG line that connects the three steps. Animates path-length on scroll
+           via the IntersectionObserver in animations.ts (motion moment #6). -->
+      <svg
+        class="process-line"
+        viewBox="0 0 1000 600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          class="process-line-path"
+          d="M 80 60 L 920 60 M 920 60 L 920 300 M 920 300 L 80 300 M 80 300 L 80 540 M 80 540 L 920 540"
+          fill="none"
+          stroke="var(--terracotta)"
+          stroke-width="2"
+          stroke-dasharray="4 6"
+          opacity="0.4"
+        />
+      </svg>
+
+      {process.steps.map((step, i) => (
+        <li class="step reveal" data-anim="reveal" style={`--delay: ${i * 100}ms`}>
+          <div class="step-num" aria-hidden="true">{step.n}</div>
+          <h3 class="step-title">{step.title.en}</h3>
+          <p class="step-title-es lang-es" lang="es">{step.title.es}</p>
+          <p class="step-body">{step.body.en}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: linear-gradient(180deg, #F2EAD7 0%, var(--cream) 100%);
+    position: relative;
+  }
+
+  .process-head {
+    max-width: 36rem;
+    margin-bottom: 3rem;
+  }
+
+  .steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    counter-reset: step;
+  }
+
+  .process-line {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .process-line-path {
+    stroke-dasharray: 8 6;
+  }
+
+  .step {
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-lg);
+    padding: 2rem 1.5rem 1.75rem;
+    z-index: 1;
+    transition: transform var(--dur-base) var(--ease-out-soft),
+                box-shadow var(--dur-base) var(--ease-out-soft);
+  }
+  .step:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px var(--shadow-warm-elev);
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--terracotta);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.85rem;
+  }
+  .step-title {
+    color: var(--olive-deep);
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  .step-title-es {
+    color: var(--soil-brown-60);
+    font-size: 0.92rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.65rem;
+  }
+  .step-body {
+    color: var(--soil-brown-75);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 56rem) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .process-line {
+      display: block;
+    }
+  }
+</style>

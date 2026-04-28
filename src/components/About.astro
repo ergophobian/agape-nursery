@@ -1,0 +1,204 @@
+---
+import { about } from '../content/site';
+---
+
+<section id="about" class="about" aria-labelledby="about-h2">
+  <div class="container about-inner">
+    <div class="about-image-wrap reveal" data-anim="reveal">
+      <div class="about-image">
+        <img
+          src={about.imagePlaceholder}
+          alt="Adolfo at the nursery"
+          loading="lazy"
+          decoding="async"
+          width="900"
+          height="1200"
+        />
+        <span class="about-image-tag">Placeholder · Drive coming</span>
+      </div>
+      <div class="about-image-stamp" aria-hidden="true">
+        <span class="about-stamp-num">1982</span>
+        <span class="about-stamp-line">est.</span>
+      </div>
+    </div>
+
+    <div class="about-text reveal" data-anim="reveal">
+      <span class="eyebrow">{about.eyebrow.en} · <span lang="es">{about.eyebrow.es}</span></span>
+      <h2 id="about-h2">{about.h2.en}</h2>
+      <p class="lang-es about-h2-es" lang="es">{about.h2.es}</p>
+      <p class="about-body">{about.body.en}</p>
+      <details class="about-es-toggle">
+        <summary lang="es">En español</summary>
+        <p class="lang-es" lang="es">{about.body.es}</p>
+      </details>
+      <p class="about-signature italic-display">{about.signature.en}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -15%;
+    width: 50vw;
+    height: 50vw;
+    max-width: 500px;
+    max-height: 500px;
+    background: radial-gradient(circle, rgba(168, 86, 56, 0.08), transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .about-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    z-index: 1;
+  }
+
+  /* Image with rotated frame stamp */
+  .about-image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-width: 32rem;
+    margin-inline: auto;
+    width: 100%;
+  }
+  .about-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--rad-xl);
+    overflow: hidden;
+    border: 1px solid var(--soil-brown-15);
+    box-shadow: 0 24px 60px var(--shadow-warm-elev);
+  }
+  .about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Slight saturation to feel "warm summer photo" rather than flat stock */
+    filter: saturate(1.04) contrast(1.02);
+  }
+  .about-image-tag {
+    position: absolute;
+    top: 0.65rem;
+    left: 0.65rem;
+    background: rgba(245, 239, 227, 0.92);
+    color: var(--soil-brown);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--rad-pill);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .about-image-stamp {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1rem;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background: var(--terracotta);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-8deg);
+    font-family: var(--font-display);
+    box-shadow: 0 12px 24px var(--shadow-warm-elev);
+    /* Hand-pressed seal feel via inset shadow */
+    --seal-color: rgba(245, 239, 227, 0.25);
+    box-shadow:
+      0 12px 24px var(--shadow-warm-elev),
+      inset 0 0 0 2px var(--seal-color),
+      inset 0 0 0 4px var(--terracotta);
+  }
+  .about-stamp-num {
+    font-weight: 800;
+    font-size: 1.85rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .about-stamp-line {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    margin-top: 0.1rem;
+  }
+
+  /* Text */
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .about-h2-es {
+    color: var(--soil-brown-60);
+    font-size: 1.05rem;
+    margin-top: -0.2rem;
+  }
+  .about-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--soil-brown);
+  }
+  .about-es-toggle {
+    margin-top: 0.4rem;
+    border-top: 1px dashed var(--soil-brown-15);
+    padding-top: 0.85rem;
+  }
+  .about-es-toggle summary {
+    font-size: 0.92rem;
+    color: var(--terracotta);
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .about-es-toggle summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1rem;
+    text-align: center;
+    font-weight: 800;
+    transition: transform var(--dur-fast);
+  }
+  .about-es-toggle[open] summary::before {
+    transform: rotate(45deg);
+  }
+  .about-es-toggle p {
+    margin-top: 0.6rem;
+    color: var(--soil-brown-75);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .about-signature {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: var(--olive-deep);
+    font-style: italic;
+  }
+
+  @media (min-width: 56rem) {
+    .about-inner {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 4rem;
+    }
+  }
+</style>
