@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!--
+    Open Graph / iMessage share preview — 1200x630 (the FB/iMessage standard).
+    When the URL is texted, iOS shows a rich preview card with this image.
+    Composition: dramatic warm gradient + leaf silhouette decoration + brand
+    wordmark + tagline + call-to-action footer.
+  -->
+  <defs>
+    <linearGradient id="ogBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3E5028" />
+      <stop offset="50%" stop-color="#4A5D3A" />
+      <stop offset="100%" stop-color="#2A3818" />
+    </linearGradient>
+    <radialGradient id="ogSun" cx="80%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="#F4A300" stop-opacity="0.45" />
+      <stop offset="60%" stop-color="#A85638" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#A85638" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="ogVignette" cx="50%" cy="50%" r="80%">
+      <stop offset="60%" stop-color="#000" stop-opacity="0" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0.5" />
+    </radialGradient>
+    <filter id="ogGrain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="3" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.95  0 0 0 0 0.85  0 0 0 0 0.65  0 0 0 0.16 0"/>
+    </filter>
+  </defs>
+
+  <!-- Background stack -->
+  <rect width="1200" height="630" fill="url(#ogBg)" />
+  <rect width="1200" height="630" fill="url(#ogSun)" />
+  <rect width="1200" height="630" fill="url(#ogVignette)" />
+  <rect width="1200" height="630" filter="url(#ogGrain)" opacity="0.5" />
+
+  <!-- Decorative botanical: stylized palm-frond silhouette, lower-left -->
+  <g transform="translate(-40 480) scale(1.1)" opacity="0.7">
+    <path
+      d="M 100 200 C 100 160, 90 120, 70 80 C 50 50, 30 30, 10 20 L 25 12 C 50 30, 70 55, 90 95 C 105 75, 130 55, 160 40 L 175 50 C 145 60, 120 85, 105 110 C 115 145, 110 180, 100 200 Z"
+      fill="#1F2913"
+      stroke="#0E1A07"
+      stroke-width="2"
+    />
+  </g>
+
+  <!-- Decorative botanical: agave silhouette, lower-right -->
+  <g transform="translate(1040 410) scale(1.4)" opacity="0.55">
+    <path
+      d="M 60 220 L 60 160 C 50 150, 40 140, 30 125 L 38 125 C 45 132, 53 140, 60 148 L 60 130 C 50 120, 40 105, 30 88 L 38 85 C 50 100, 56 110, 60 120 L 60 100 C 53 90, 42 75, 30 58 L 38 55 C 50 70, 56 80, 60 88 L 60 70 L 70 70 L 70 88 C 74 80, 80 70, 92 55 L 100 58 C 88 75, 77 90, 70 100 L 70 120 C 74 110, 80 100, 92 85 L 100 88 C 90 105, 80 120, 70 130 L 70 148 C 77 140, 85 132, 92 125 L 100 125 C 90 140, 80 150, 70 160 L 70 220 Z"
+      fill="#1F2913"
+      stroke="#0E1A07"
+      stroke-width="1.5"
+    />
+  </g>
+
+  <!--
+    Brand mark, top-left — small olive-circle "A" matching the nav.
+  -->
+  <g transform="translate(80 86)">
+    <circle cx="22" cy="22" r="22" fill="#A85638" />
+    <text
+      x="22"
+      y="32"
+      text-anchor="middle"
+      font-family="Georgia, serif"
+      font-weight="800"
+      font-size="26"
+      fill="#F5EFE3"
+    >A</text>
+    <text
+      x="58"
+      y="20"
+      font-family="Georgia, serif"
+      font-weight="800"
+      font-size="28"
+      fill="#F5EFE3"
+      letter-spacing="-1"
+    >Agape</text>
+    <text
+      x="58"
+      y="40"
+      font-family="Helvetica, Arial, sans-serif"
+      font-style="italic"
+      font-weight="500"
+      font-size="13"
+      fill="#F4A300"
+      letter-spacing="3"
+    >EST. 1982</text>
+  </g>
+
+  <!--
+    Big editorial wordmark — Fraunces-style serif heavy + italic accent.
+    Uses Georgia as a reasonable system fallback for SVG-to-PNG rendering since
+    Fraunces isn't system-installed and we're rendering with sharp+rsvg.
+  -->
+  <g transform="translate(80 280)">
+    <text
+      x="0"
+      y="0"
+      font-family="Georgia, serif"
+      font-weight="800"
+      font-size="92"
+      fill="#F5EFE3"
+      letter-spacing="-2"
+    >Growing Delano’s</text>
+    <text
+      x="0"
+      y="105"
+      font-family="Georgia, serif"
+      font-weight="800"
+      font-size="92"
+      fill="#F5EFE3"
+      letter-spacing="-2"
+    >gardens
+      <tspan font-style="italic" fill="#F4A300" font-weight="500"> since 1982.</tspan>
+    </text>
+  </g>
+
+  <!-- Subtitle / value prop -->
+  <text
+    x="80"
+    y="500"
+    font-family="Helvetica, Arial, sans-serif"
+    font-weight="400"
+    font-size="22"
+    fill="#F5EFE3"
+    fill-opacity="0.85"
+    letter-spacing="0.5"
+  >Family-owned nursery and landscape design in California’s Central Valley.</text>
+
+  <!-- Footer strip: phone + URL -->
+  <g transform="translate(80 560)">
+    <!-- Phone pill -->
+    <rect x="0" y="0" width="290" height="44" rx="22" fill="#A85638" />
+    <text
+      x="22"
+      y="29"
+      font-family="Georgia, serif"
+      font-style="italic"
+      font-weight="700"
+      font-size="20"
+      fill="#F5EFE3"
+    >Call (661) 778-0602</text>
+    <circle cx="266" cy="22" r="9" fill="none" stroke="#F5EFE3" stroke-width="2" stroke-opacity="0.6" />
+    <path d="M 264 22 L 268 24" stroke="#F5EFE3" stroke-width="2" stroke-linecap="round" stroke-opacity="0.7"/>
+
+    <!-- URL pill, right side -->
+  </g>
+  <text
+    x="1120"
+    y="589"
+    text-anchor="end"
+    font-family="Helvetica, Arial, sans-serif"
+    font-weight="500"
+    font-size="18"
+    fill="#F4A300"
+    fill-opacity="0.9"
+    letter-spacing="0.5"
+  >Tulare and Kern Counties · 200+ installs since 1982</text>
+</svg>

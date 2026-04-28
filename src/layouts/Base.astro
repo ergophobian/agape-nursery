@@ -11,6 +11,16 @@ const {
   title = `${business.name} · Delano, CA · Since 1982`,
   description = 'Family-run nursery and landscape company in Delano, California. Serving Tulare and Kern Counties with plants, garden supplies, and landscape design since 1982.',
 } = Astro.props;
+
+// BASE_URL is "/agape-nursery" on GitHub Pages, "/" in local dev. We strip
+// trailing slashes so we can compose paths cleanly without double-slashing.
+const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+const asset = (path: string) => `${base}/${path.replace(/^\/+/, '')}`;
+
+// Canonical URL of this page — used for og:url and twitter:url.
+// Astro.site is configured in astro.config.mjs; pathname includes BASE_URL.
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(asset('og-image.jpg'), Astro.site).toString();
 ---
 
 <!doctype html>
@@ -30,17 +40,39 @@ const {
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace(/\/+/g, '/')} />
+    <!-- Favicons + iOS / Android home-screen icons -->
+    <link rel="icon" type="image/svg+xml" href={asset('favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="32x32" href={asset('favicon-32.png')} />
+    <link rel="icon" type="image/png" sizes="16x16" href={asset('favicon-16.png')} />
+    <link rel="apple-touch-icon" sizes="180x180" href={asset('apple-touch-icon.png')} />
+    <link rel="manifest" href={asset('site.webmanifest')} />
+
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#F5EFE3" />
+    <meta name="theme-color" content="#4A5D3A" />
+    <meta name="apple-mobile-web-app-title" content="Agape" />
+    <meta name="application-name" content="Agape" />
+    <link rel="canonical" href={canonicalUrl} />
     <title>{title}</title>
 
-    <!-- OpenGraph -->
+    <!-- OpenGraph (FB / iMessage / LinkedIn / Slack rich previews) -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Agape Nursery & Landscape · Growing Delano's gardens since 1982" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="es_US" />
+
+    <!-- Twitter / X large summary card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="Agape Nursery & Landscape · Growing Delano's gardens since 1982" />
 
     <!-- Schema.org/LocalBusiness — NAP gate per PLAN.md §11 -->
     <script

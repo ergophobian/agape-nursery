@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "branding": "node scripts/generate-branding.mjs",
+    "prebuild": "node scripts/generate-branding.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
