@@ -12,8 +12,9 @@ const {
   description = 'Family-run nursery and landscape company in Delano, California. Serving Tulare and Kern Counties with plants, garden supplies, and landscape design since 1982.',
 } = Astro.props;
 
-// BASE_URL is "/agape-nursery" on GitHub Pages, "/" in local dev. We strip
-// trailing slashes so we can compose paths cleanly without double-slashing.
+// On agapenursery.com (custom domain) BASE_URL is "/", so this resolves to
+// simple absolute paths like /favicon.svg. The function still handles any
+// leading-slash quirks defensively in case the base ever changes back.
 const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
 const asset = (path: string) => `${base}/${path.replace(/^\/+/, '')}`;
 
