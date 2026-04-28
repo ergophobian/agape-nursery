@@ -56,11 +56,11 @@ export const business = {
 };
 
 export const navItems = [
-  { id: 'booking', en: 'Book a Visit', es: 'Reservar Cita' },
+  { id: 'contact', en: 'Get a Quote', es: 'Cotización' },
   { id: 'services', en: 'Services', es: 'Servicios' },
   { id: 'portfolio', en: 'Our Work', es: 'Nuestro Trabajo' },
   { id: 'about', en: 'Family Story', es: 'Familia' },
-  { id: 'contact', en: 'Contact', es: 'Contacto' },
+  { id: 'in-stock', en: 'In Stock', es: 'En Stock' },
 ];
 
 export const hero = {
@@ -77,8 +77,8 @@ export const hero = {
     es: 'Diseñamos, plantamos y cuidamos jardines en los condados de Tulare y Kern. Visita gratis, sin compromiso.',
   },
   primaryCta: {
-    en: 'Book a Free Landscape Consultation',
-    es: 'Reservar Consulta Gratis',
+    en: 'Get a Free Site Visit',
+    es: 'Visita Gratis · Sin Compromiso',
   },
   secondaryCta: {
     en: 'Or call (661) 778-0602',
