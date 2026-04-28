@@ -163,6 +163,10 @@ import { business, navItems, hero } from '../content/site';
     right: 0;
     z-index: var(--z-nav);
     padding: 0.7rem clamp(1rem, 3vw, 1.6rem);
+    /* Subtle dark gradient at the very top so the nav has a legible backplate
+       even when the hero photo behind has busy / dark / low-contrast content.
+       Fades to transparent after ~80px so the hero photo still reads cleanly. */
+    background: linear-gradient(180deg, rgba(20, 15, 8, 0.55) 0%, rgba(20, 15, 8, 0.25) 50%, transparent 100%);
     transition:
       background var(--dur-base) var(--ease-out-soft),
       backdrop-filter var(--dur-base) var(--ease-out-soft),
@@ -171,7 +175,7 @@ import { business, navItems, hero } from '../content/site';
     border-bottom: 1px solid transparent;
   }
   .nav.is-scrolled {
-    background: rgba(245, 239, 227, 0.86);
+    background: rgba(245, 239, 227, 0.92);
     backdrop-filter: saturate(140%) blur(16px);
     -webkit-backdrop-filter: saturate(140%) blur(16px);
     border-bottom-color: var(--soil-brown-15);
@@ -187,7 +191,7 @@ import { business, navItems, hero } from '../content/site';
     gap: 1rem;
   }
 
-  /* Brand */
+  /* Brand — cream by default (over hero), switches to olive after scroll. */
   .nav-brand {
     display: inline-flex;
     align-items: center;
@@ -195,8 +199,16 @@ import { business, navItems, hero } from '../content/site';
     font-family: var(--font-display);
     font-weight: 800;
     font-size: 1.4rem;
-    color: var(--olive-deep);
+    color: var(--cream);
     letter-spacing: -0.02em;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+    transition:
+      color var(--dur-base) var(--ease-out-soft),
+      text-shadow var(--dur-base) var(--ease-out-soft);
+  }
+  .nav.is-scrolled .nav-brand {
+    color: var(--olive-deep);
+    text-shadow: none;
   }
   .brand-mark {
     width: 36px;
@@ -221,13 +233,17 @@ import { business, navItems, hero } from '../content/site';
     font-style: italic;
     font-size: 0.6rem;
     font-weight: 500;
-    color: var(--soil-brown-60);
+    color: rgba(245, 239, 227, 0.7);
     letter-spacing: 0.16em;
     text-transform: lowercase;
     margin-top: 2px;
+    transition: color var(--dur-base) var(--ease-out-soft);
+  }
+  .nav.is-scrolled .brand-since {
+    color: var(--soil-brown-60);
   }
 
-  /* Nav links — desktop only */
+  /* Nav links — desktop only. Cream over hero, soil-brown after scroll. */
   .nav-list {
     display: none;
     align-items: center;
@@ -236,10 +252,17 @@ import { business, navItems, hero } from '../content/site';
   .nav-link {
     font-size: 0.92rem;
     font-weight: 500;
-    color: var(--soil-brown);
-    transition: color var(--dur-fast) var(--ease-out-soft);
+    color: rgba(245, 239, 227, 0.92);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+    transition:
+      color var(--dur-base) var(--ease-out-soft),
+      text-shadow var(--dur-base) var(--ease-out-soft);
     position: relative;
     padding: 0.4rem 0;
+  }
+  .nav.is-scrolled .nav-link {
+    color: var(--soil-brown);
+    text-shadow: none;
   }
   .nav-link::after {
     content: '';
@@ -248,12 +271,18 @@ import { business, navItems, hero } from '../content/site';
     right: 0;
     bottom: 0;
     height: 1.5px;
-    background: var(--terracotta);
+    background: var(--marigold);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform var(--dur-base) var(--ease-out-soft);
   }
+  .nav.is-scrolled .nav-link::after {
+    background: var(--terracotta);
+  }
   .nav-link:hover {
+    color: var(--cream);
+  }
+  .nav.is-scrolled .nav-link:hover {
     color: var(--olive-deep);
   }
   .nav-link:hover::after {
@@ -266,26 +295,45 @@ import { business, navItems, hero } from '../content/site';
     gap: 0.55rem;
   }
 
-  /* Phone — desktop only */
+  /* Phone — desktop only. Cream-on-translucent over hero, olive after scroll. */
   .nav-phone {
     display: none;
     align-items: center;
     gap: 0.45rem;
-    color: var(--olive-deep);
+    color: var(--cream);
     font-weight: 600;
     font-size: 0.85rem;
     padding: 0.45rem 0.85rem;
     border-radius: var(--rad-pill);
-    background: rgba(74, 93, 58, 0.08);
+    background: rgba(245, 239, 227, 0.14);
+    border: 1px solid rgba(245, 239, 227, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition:
-      background var(--dur-fast) var(--ease-out-soft),
+      background var(--dur-base) var(--ease-out-soft),
+      color var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft),
       transform var(--dur-fast) var(--ease-out-soft);
   }
+  .nav.is-scrolled .nav-phone {
+    background: rgba(74, 93, 58, 0.08);
+    border-color: transparent;
+    color: var(--olive-deep);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   .nav-phone:hover {
-    background: rgba(74, 93, 58, 0.16);
+    background: rgba(245, 239, 227, 0.22);
     transform: translateY(-1px);
   }
+  .nav.is-scrolled .nav-phone:hover {
+    background: rgba(74, 93, 58, 0.16);
+  }
   .nav-phone svg {
+    color: var(--marigold);
+    transition: color var(--dur-base) var(--ease-out-soft);
+  }
+  .nav.is-scrolled .nav-phone svg {
     color: var(--terracotta);
   }
 
@@ -293,10 +341,22 @@ import { business, navItems, hero } from '../content/site';
   .lang-toggle {
     position: relative;
     display: inline-flex;
-    background: rgba(74, 93, 58, 0.08);
+    background: rgba(245, 239, 227, 0.14);
+    border: 1px solid rgba(245, 239, 227, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: var(--rad-pill);
     padding: 3px;
     isolation: isolate;
+    transition:
+      background var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft);
+  }
+  .nav.is-scrolled .lang-toggle {
+    background: rgba(74, 93, 58, 0.08);
+    border-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .lang-toggle-bg {
     position: absolute;
@@ -304,10 +364,16 @@ import { business, navItems, hero } from '../content/site';
     bottom: 3px;
     left: 3px;
     width: calc(50% - 3px);
-    background: var(--olive-deep);
+    background: var(--terracotta);
     border-radius: var(--rad-pill);
-    transition: transform var(--dur-base) var(--ease-out-soft);
+    transition:
+      transform var(--dur-base) var(--ease-out-soft),
+      background var(--dur-base) var(--ease-out-soft);
     z-index: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+  .nav.is-scrolled .lang-toggle-bg {
+    background: var(--olive-deep);
     box-shadow: 0 2px 6px var(--shadow-warm);
   }
   [data-lang='es'] .lang-toggle-bg {
@@ -320,14 +386,20 @@ import { business, navItems, hero } from '../content/site';
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.06em;
-    color: var(--soil-brown-75);
+    color: rgba(245, 239, 227, 0.78);
     transition: color var(--dur-base) var(--ease-out-soft);
     min-width: 36px;
     cursor: pointer;
     background: none;
     border: none;
   }
+  .nav.is-scrolled .lang-toggle button {
+    color: var(--soil-brown-75);
+  }
   .lang-toggle button[aria-pressed='true'] {
+    color: var(--cream);
+  }
+  .nav.is-scrolled .lang-toggle button[aria-pressed='true'] {
     color: var(--cream);
   }
 
@@ -347,11 +419,18 @@ import { business, navItems, hero } from '../content/site';
     display: block;
     width: 20px;
     height: 2px;
-    background: var(--soil-brown);
+    background: var(--cream);
     border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     transition:
+      background var(--dur-base) var(--ease-out-soft),
+      box-shadow var(--dur-base) var(--ease-out-soft),
       transform var(--dur-base) var(--ease-out-soft),
       opacity var(--dur-fast);
+  }
+  .nav.is-scrolled .nav-toggle span {
+    background: var(--soil-brown);
+    box-shadow: none;
   }
   [aria-expanded='true'] span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
