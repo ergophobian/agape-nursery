@@ -1,0 +1,107 @@
+---
+import { business } from '../content/site';
+---
+
+<a
+  href={business.phone.href}
+  class="floating-call"
+  data-floating-call
+  aria-label={`Call ${business.phone.display}`}
+  hidden
+>
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <path
+      d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-2.3 2.3z"
+      fill="currentColor"
+    />
+  </svg>
+  <span class="floating-call-text">Call us</span>
+</a>
+
+<script>
+  // PLAN.md §6: floating call button hidden while hero is on-screen.
+  // Reveals only after hero is fully scrolled past — never competes with primary CTA.
+  const button = document.querySelector<HTMLAnchorElement>('[data-floating-call]');
+  const hero = document.querySelector<HTMLElement>('#top');
+
+  if (button && hero && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          // Show when hero is no longer visible (scrolled past)
+          if (entry.intersectionRatio === 0) {
+            button.hidden = false;
+            requestAnimationFrame(() => button.classList.add('is-visible'));
+          } else {
+            button.classList.remove('is-visible');
+            window.setTimeout(() => {
+              if (!button.classList.contains('is-visible')) {
+                button.hidden = true;
+              }
+            }, 300);
+          }
+        }
+      },
+      { threshold: [0, 0.05] }
+    );
+    observer.observe(hero);
+  }
+</script>
+
+<style>
+  .floating-call {
+    position: fixed;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    right: 1rem;
+    z-index: var(--z-floating);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--rad-pill);
+    background: var(--terracotta);
+    color: var(--cream);
+
+    box-shadow: 0 8px 24px rgba(168, 86, 56, 0.45),
+                0 2px 6px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.005em;
+
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    transition:
+      opacity var(--dur-base) var(--ease-out-soft),
+      transform var(--dur-base) var(--ease-out-soft),
+      background var(--dur-fast);
+    min-height: 44px; /* WCAG touch target */
+  }
+  .floating-call.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .floating-call:hover {
+    background: var(--terracotta-700);
+  }
+  .floating-call:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* Hide text on small screens; keep just the icon for tap-target clarity */
+  @media (max-width: 23.999rem) {
+    .floating-call-text {
+      display: none;
+    }
+    .floating-call {
+      padding: 0.85rem;
+    }
+  }
+
+  /* On desktop, hide entirely — the nav has the phone number */
+  @media (min-width: 64rem) {
+    .floating-call {
+      display: none;
+    }
+  }
+</style>

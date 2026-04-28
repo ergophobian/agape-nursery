@@ -1,0 +1,313 @@
+---
+import { contact, business } from '../content/site';
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-h2">
+  <div class="container contact-inner">
+    <div class="contact-text reveal" data-anim="reveal">
+      <span class="eyebrow">{contact.eyebrow.en} · <span lang="es">{contact.eyebrow.es}</span></span>
+      <h2 id="contact-h2">{contact.h2.en}</h2>
+      <p class="lang-es contact-h2-es" lang="es">{contact.h2.es}</p>
+      <p class="lead contact-body">{contact.body.en}</p>
+
+      <ul class="contact-meta" role="list">
+        <li>
+          <span class="meta-label">Phone · Teléfono</span>
+          <a href={business.phone.href} class="meta-value">{business.phone.display}</a>
+        </li>
+        <li>
+          <span class="meta-label">Address · Dirección</span>
+          <a href={business.address.mapsUrl} target="_blank" rel="noopener noreferrer" class="meta-value">
+            {business.address.formatted}
+          </a>
+        </li>
+        <li>
+          <span class="meta-label">Hours · Horario</span>
+          <span class="meta-value">{business.hours.summary}</span>
+          <span class="lang-es meta-es" lang="es">{business.hours.summaryEs}</span>
+        </li>
+      </ul>
+    </div>
+
+    <form class="contact-form reveal" data-anim="reveal" data-contact-form novalidate>
+      <!-- Honeypot -->
+      <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <div class="form-row">
+        <label for="name">
+          <span>{contact.form.name.en}</span>
+          <span class="lang-es" lang="es">{contact.form.name.es}</span>
+        </label>
+        <input id="name" name="name" type="text" required autocomplete="name" />
+      </div>
+
+      <div class="form-row">
+        <label for="phone">
+          <span>{contact.form.phone.en}</span>
+          <span class="lang-es" lang="es">{contact.form.phone.es}</span>
+        </label>
+        <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="(661) 555-0100" />
+      </div>
+
+      <div class="form-row">
+        <label for="email">
+          <span>{contact.form.email.en}</span>
+          <span class="lang-es" lang="es">{contact.form.email.es}</span>
+        </label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+      </div>
+
+      <div class="form-row">
+        <label for="projectType">
+          <span>{contact.form.projectType.en}</span>
+          <span class="lang-es" lang="es">{contact.form.projectType.es}</span>
+        </label>
+        <select id="projectType" name="projectType" required>
+          <option value="">—</option>
+          {contact.projectTypes.map((p) => (
+            <option value={p.value}>{p.en} · {p.es}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="timeline">
+          <span>{contact.form.timeline.en}</span>
+          <span class="lang-es" lang="es">{contact.form.timeline.es}</span>
+        </label>
+        <select id="timeline" name="timeline">
+          <option value="">—</option>
+          {contact.timelines.map((t) => (
+            <option value={t.value}>{t.en} · {t.es}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="form-row form-row-full">
+        <label for="description">
+          <span>{contact.form.description.en}</span>
+          <span class="lang-es" lang="es">{contact.form.description.es}</span>
+        </label>
+        <textarea id="description" name="description" rows="4" placeholder="Front yard, backyard, drought-tolerant ideas, anything…"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary contact-submit" data-submit-button>
+        <span data-submit-text>{contact.form.submit.en}</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </button>
+
+      <p class="contact-disclaimer">
+        We use your contact info only to reach you about your inquiry.
+        <span class="lang-es" lang="es">Solo usamos sus datos para contactarle.</span>
+      </p>
+
+      <div class="contact-success" data-success hidden role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="var(--leaf-fresh)" opacity="0.18" />
+          <path d="M7 12l4 4 6-7" fill="none" stroke="var(--leaf-fresh)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p>{contact.form.success.en}</p>
+        <p class="lang-es" lang="es">{contact.form.success.es}</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  // v0: simulated submit. Real backend (Cloudflare Pages Function + Resend + R2)
+  // is the next step per PLAN.md §7.1. The form does NOT actually email yet.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const button = document.querySelector<HTMLButtonElement>('[data-submit-button]');
+  const buttonText = document.querySelector<HTMLSpanElement>('[data-submit-text]');
+  const success = document.querySelector<HTMLDivElement>('[data-success]');
+
+  if (form && button && buttonText && success) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const honeypot = (form.elements.namedItem('company') as HTMLInputElement)?.value;
+      if (honeypot) {
+        // Silent reject for bots
+        success.hidden = false;
+        form.querySelectorAll<HTMLElement>('.form-row').forEach((r) => (r.style.display = 'none'));
+        button.style.display = 'none';
+        return;
+      }
+      button.disabled = true;
+      buttonText.textContent = 'Sending…';
+      window.setTimeout(() => {
+        success.hidden = false;
+        form.querySelectorAll<HTMLElement>('.form-row').forEach((r) => (r.style.display = 'none'));
+        button.style.display = 'none';
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 900);
+    });
+  }
+</script>
+
+<style>
+  .contact {
+    background: linear-gradient(180deg, #F2EAD7 0%, #E8E0CC 100%);
+    border-top: 1px solid var(--soil-brown-15);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .contact-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .contact-h2-es {
+    color: var(--soil-brown-60);
+    font-size: 1.05rem;
+    margin-top: -0.2rem;
+  }
+  .contact-body {
+    margin-top: 0.6rem;
+  }
+
+  .contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--soil-brown-15);
+  }
+  .contact-meta li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .meta-label {
+    font-size: 0.78rem;
+    color: var(--soil-brown-60);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+  }
+  .meta-value {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--olive-deep);
+  }
+  a.meta-value:hover {
+    color: var(--terracotta);
+  }
+  .meta-es {
+    font-size: 0.85rem;
+    color: var(--soil-brown-60);
+    margin-top: 0.1rem;
+  }
+
+  /* Form */
+  .contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.25rem;
+    background: var(--cream);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--rad-xl);
+    border: 1px solid var(--soil-brown-15);
+    box-shadow: 0 16px 40px var(--shadow-warm);
+    align-content: start;
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .form-row-full {
+    grid-column: 1 / -1;
+  }
+  .form-row label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.85rem;
+    color: var(--soil-brown);
+    font-weight: 500;
+  }
+  .form-row label .lang-es {
+    font-size: 0.75rem;
+    color: var(--soil-brown-60);
+    margin-top: 0;
+  }
+
+  .form-row input,
+  .form-row select,
+  .form-row textarea {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-md);
+    background: var(--cream);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--soil-brown);
+    transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+  }
+  .form-row input:focus,
+  .form-row select:focus,
+  .form-row textarea:focus {
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(168, 86, 56, 0.15);
+    outline: none;
+  }
+  .form-row textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .contact-submit {
+    grid-column: 1 / -1;
+    margin-top: 0.4rem;
+    justify-self: start;
+  }
+
+  .contact-disclaimer {
+    grid-column: 1 / -1;
+    font-size: 0.78rem;
+    color: var(--soil-brown-60);
+    line-height: 1.4;
+  }
+  .contact-disclaimer .lang-es {
+    display: inline;
+    font-size: 0.78rem;
+    margin-left: 0.25rem;
+  }
+
+  .contact-success {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: rgba(90, 123, 63, 0.08);
+    border: 1px solid var(--leaf-fresh);
+    border-radius: var(--rad-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .contact-success p { max-width: 32ch; line-height: 1.5; }
+
+  @media (min-width: 56rem) {
+    .contact-inner {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+    }
+  }
+</style>
