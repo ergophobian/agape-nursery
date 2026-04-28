@@ -1,0 +1,418 @@
+---
+import { business, navItems, hero } from '../content/site';
+---
+
+<nav class="nav" data-nav aria-label="Primary">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand" aria-label={`${business.shortName} home`}>
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path
+            d="M12 3 C 8 7, 5 11, 5 15 C 5 19, 8 21, 12 21 C 16 21, 19 19, 19 15 C 19 11, 16 7, 12 3 Z"
+            fill="currentColor"
+            opacity="0.94"
+          />
+          <path
+            d="M12 6 L12 18"
+            stroke="rgba(245, 239, 227, 0.5)"
+            stroke-width="1"
+            stroke-linecap="round"
+          />
+        </svg>
+      </span>
+      <span class="brand-word">
+        Agape
+        <span class="brand-since">est. 1982</span>
+      </span>
+    </a>
+
+    <ul class="nav-list" role="list">
+      {navItems.map((item) => (
+        <li>
+          <a href={`#${item.id}`} class="nav-link">
+            <span data-lang-en>{item.en}</span><span data-lang-es>{item.es}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="nav-cta-wrap">
+      <a href={business.phone.href} class="nav-phone" aria-label={`Call ${business.phone.display}`}>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path
+            d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-2.3 2.3z"
+            fill="currentColor"
+          />
+        </svg>
+        <span class="nav-phone-text">{business.phone.display}</span>
+      </a>
+
+      <!-- Language toggle (PILL style with sliding indicator) -->
+      <div class="lang-toggle" role="group" aria-label="Toggle language" data-lang-toggle>
+        <span class="lang-toggle-bg" aria-hidden="true"></span>
+        <button type="button" data-set-lang="en" aria-label="English">EN</button>
+        <button type="button" data-set-lang="es" aria-label="Español">ES</button>
+      </div>
+
+      <button
+        class="nav-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-nav-toggle
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true" data-mobile-menu>
+    <ul role="list">
+      {navItems.map((item) => (
+        <li>
+          <a href={`#${item.id}`} class="mobile-link">
+            <span data-lang-en>{item.en}</span><span data-lang-es>{item.es}</span>
+          </a>
+        </li>
+      ))}
+      <li class="mobile-cta">
+        <a href={business.phone.href} class="btn btn-primary btn-block">
+          <span data-lang-en>{hero.secondaryCta.en}</span>
+          <span data-lang-es>{hero.secondaryCta.es}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // ─── Sticky-opaque after scroll ───
+  const nav = document.querySelector('[data-nav]') as HTMLElement | null;
+  const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
+  const menu = document.querySelector('[data-mobile-menu]') as HTMLElement | null;
+
+  if (nav) {
+    let ticking = false;
+    const onScroll = () => {
+      if (window.scrollY > 100) nav.classList.add('is-scrolled');
+      else nav.classList.remove('is-scrolled');
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  // ─── Mobile drawer ───
+  if (toggle && menu) {
+    let isOpen = false;
+    const setOpen = (next: boolean) => {
+      isOpen = next;
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+      menu.classList.toggle('is-open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    };
+    toggle.addEventListener('click', () => setOpen(!isOpen));
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).matches('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) setOpen(false);
+    });
+  }
+
+  // ─── Language toggle ───
+  const langButtons = document.querySelectorAll<HTMLButtonElement>('[data-set-lang]');
+  const setLang = (lang: 'en' | 'es') => {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    try {
+      localStorage.setItem('agape-lang', lang);
+    } catch {}
+    langButtons.forEach((btn) => {
+      btn.setAttribute('aria-pressed', btn.dataset.setLang === lang ? 'true' : 'false');
+    });
+  };
+  // Sync initial state from <html data-lang> set by Base.astro inline script
+  const initial = (document.documentElement.getAttribute('data-lang') as 'en' | 'es') || 'en';
+  setLang(initial);
+
+  langButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.setLang as 'en' | 'es';
+      setLang(next);
+    });
+  });
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    padding: 0.7rem clamp(1rem, 3vw, 1.6rem);
+    transition:
+      background var(--dur-base) var(--ease-out-soft),
+      backdrop-filter var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft),
+      padding var(--dur-base) var(--ease-out-soft);
+    border-bottom: 1px solid transparent;
+  }
+  .nav.is-scrolled {
+    background: rgba(245, 239, 227, 0.86);
+    backdrop-filter: saturate(140%) blur(16px);
+    -webkit-backdrop-filter: saturate(140%) blur(16px);
+    border-bottom-color: var(--soil-brown-15);
+    padding-block: 0.55rem;
+  }
+
+  .nav-inner {
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  /* Brand */
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--olive-deep);
+    letter-spacing: -0.02em;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(140deg, #5A7B3F 0%, var(--olive-deep) 70%);
+    color: var(--cream);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      inset 0 -2px 4px rgba(255, 255, 255, 0.18),
+      0 4px 10px var(--shadow-warm);
+  }
+  .brand-word {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .brand-since {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--soil-brown-60);
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    margin-top: 2px;
+  }
+
+  /* Nav links — desktop only */
+  .nav-list {
+    display: none;
+    align-items: center;
+    gap: 1.4rem;
+  }
+  .nav-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--soil-brown);
+    transition: color var(--dur-fast) var(--ease-out-soft);
+    position: relative;
+    padding: 0.4rem 0;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: var(--terracotta);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-base) var(--ease-out-soft);
+  }
+  .nav-link:hover {
+    color: var(--olive-deep);
+  }
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav-cta-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  /* Phone — desktop only */
+  .nav-phone {
+    display: none;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--olive-deep);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--rad-pill);
+    background: rgba(74, 93, 58, 0.08);
+    transition:
+      background var(--dur-fast) var(--ease-out-soft),
+      transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .nav-phone:hover {
+    background: rgba(74, 93, 58, 0.16);
+    transform: translateY(-1px);
+  }
+  .nav-phone svg {
+    color: var(--terracotta);
+  }
+
+  /* ── LANGUAGE TOGGLE PILL ── */
+  .lang-toggle {
+    position: relative;
+    display: inline-flex;
+    background: rgba(74, 93, 58, 0.08);
+    border-radius: var(--rad-pill);
+    padding: 3px;
+    isolation: isolate;
+  }
+  .lang-toggle-bg {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    background: var(--olive-deep);
+    border-radius: var(--rad-pill);
+    transition: transform var(--dur-base) var(--ease-out-soft);
+    z-index: 0;
+    box-shadow: 0 2px 6px var(--shadow-warm);
+  }
+  [data-lang='es'] .lang-toggle-bg {
+    transform: translateX(calc(100% + 0px));
+  }
+  .lang-toggle button {
+    position: relative;
+    z-index: 1;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--soil-brown-75);
+    transition: color var(--dur-base) var(--ease-out-soft);
+    min-width: 36px;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  .lang-toggle button[aria-pressed='true'] {
+    color: var(--cream);
+  }
+
+  /* Mobile hamburger */
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rad-md);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--soil-brown);
+    border-radius: 2px;
+    transition:
+      transform var(--dur-base) var(--ease-out-soft),
+      opacity var(--dur-fast);
+  }
+  [aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  [aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  [aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile menu drawer */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--cream);
+    z-index: calc(var(--z-nav) - 1);
+    padding: 6rem 1.5rem 2rem;
+    transform: translateX(100%);
+    transition: transform var(--dur-base) var(--ease-out-soft);
+    overflow-y: auto;
+  }
+  .mobile-menu.is-open {
+    transform: translateX(0);
+  }
+  .mobile-menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .mobile-link {
+    display: block;
+    padding: 1.1rem 1.25rem;
+    border-radius: var(--rad-md);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--olive-deep);
+    line-height: 1.1;
+    transition: background var(--dur-fast);
+  }
+  .mobile-link:hover {
+    background: var(--olive-deep-15);
+  }
+  .mobile-cta {
+    margin-top: 1.5rem;
+  }
+
+  /* Desktop layout */
+  @media (min-width: 64rem) {
+    .nav-list {
+      display: flex;
+    }
+    .nav-phone {
+      display: inline-flex;
+    }
+    .nav-toggle {
+      display: none;
+    }
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>

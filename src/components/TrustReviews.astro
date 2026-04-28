@@ -1,0 +1,278 @@
+---
+import { reviews, business } from '../content/site';
+---
+
+<section id="trust" class="trust" aria-labelledby="trust-h2">
+  <div class="trust-pattern" aria-hidden="true"></div>
+
+  <div class="container trust-inner">
+    <!-- Headline + stat ribbon -->
+    <header class="trust-head reveal" data-anim="reveal">
+      <div class="trust-headline">
+        <span class="eyebrow">
+          <span data-lang-en>Trusted by Delano</span><span data-lang-es>Confianza en Delano</span>
+        </span>
+        <h2 id="trust-h2" class="trust-h2">
+          <span data-lang-en>Three generations of customers <span class="italic-display accent">say it best.</span></span>
+          <span data-lang-es>Tres generaciones de clientes <span class="italic-display accent">lo dicen mejor.</span></span>
+        </h2>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num italic-display" data-counter={business.yearsInBusiness}>0</span>
+          <span class="stat-label">
+            <span data-lang-en>years family-run</span><span data-lang-es>años de negocio familiar</span>
+          </span>
+        </div>
+        <div class="stat-div" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-num italic-display" data-counter="200">0</span><span class="stat-num italic-display stat-plus">+</span>
+          <span class="stat-label">
+            <span data-lang-en>installs done</span><span data-lang-es>instalaciones</span>
+          </span>
+        </div>
+        <div class="stat-div" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-num italic-display" data-counter="3">0</span>
+          <span class="stat-label">
+            <span data-lang-en>generations</span><span data-lang-es>generaciones</span>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Reviews -->
+    <ul class="reviews reveal-stagger" role="list" data-anim="reveal-stagger">
+      {reviews.map((r, i) => (
+        <li class={`review review--${i}`}>
+          <!-- Single SVG with 5 stars baked in — no flex-wrap risk, always one row -->
+          <svg class="review-rating" viewBox="0 0 92 16" width="92" height="16" aria-label="5 of 5 stars">
+            {[0, 19, 38, 57, 76].map((x) => (
+              <path
+                transform={`translate(${x} 1)`}
+                d="M7 0 L8.6 4.3 L13 4.7 L9.6 7.7 L10.7 12 L7 9.6 L3.3 12 L4.4 7.7 L1 4.7 L5.4 4.3 Z"
+                fill="var(--marigold)"
+              />
+            ))}
+          </svg>
+          <blockquote>
+            <span data-lang-en>{r.quote.en}</span><span data-lang-es>{r.quote.es}</span>
+          </blockquote>
+          <footer class="review-foot">
+            <div class="review-avatar" aria-hidden="true">
+              <span>{r.author.split(' ').map(n => n[0]).join('')}</span>
+            </div>
+            <div class="review-credit">
+              <strong>{r.author}</strong>
+              <span class="review-meta">
+                {r.location} · <span data-lang-en>{r.project.en}</span><span data-lang-es>{r.project.es}</span>
+              </span>
+            </div>
+          </footer>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    position: relative;
+    background: linear-gradient(180deg, var(--cream) 0%, #FAF5E9 50%, var(--cream) 100%);
+    padding-block: clamp(4rem, 7vw, 7rem);
+    overflow: hidden;
+  }
+
+  .trust-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 25% 30%, rgba(244, 163, 0, 0.06), transparent 35%),
+      radial-gradient(circle at 75% 70%, rgba(74, 93, 58, 0.06), transparent 35%);
+    pointer-events: none;
+  }
+
+  .trust-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .trust-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .trust-headline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 28ch;
+  }
+  .trust-h2 {
+    font-size: clamp(1.85rem, 4vw, 3rem);
+    line-height: 1.06;
+  }
+  .trust-h2 .accent {
+    color: var(--terracotta);
+  }
+
+  /* Stat ribbon */
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 2.5rem);
+    flex-wrap: wrap;
+    padding: 1.4rem 1.8rem;
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-xl);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(245, 239, 227, 0.3) 100%);
+    backdrop-filter: blur(10px);
+    align-self: flex-start;
+  }
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .stat-num {
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    color: var(--terracotta);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    min-width: 2ch;
+  }
+  .stat-plus {
+    color: var(--marigold);
+    margin-left: -0.05em;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--soil-brown-75);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    line-height: 1.2;
+    max-width: 14ch;
+  }
+  .stat-div {
+    width: 1px;
+    height: 36px;
+    background: var(--soil-brown-15);
+    display: none;
+  }
+  @media (min-width: 40rem) {
+    .stat-div { display: block; }
+  }
+
+  /* Reviews */
+  .reviews {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .review {
+    position: relative;
+    background: linear-gradient(180deg, #FFFCF5 0%, var(--cream) 100%);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-xl);
+    padding: 1.75rem 1.6rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition:
+      transform var(--dur-base) var(--ease-out-soft),
+      box-shadow var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base);
+  }
+  .review:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--shadow-warm-elev);
+    border-color: var(--marigold);
+  }
+  .review::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--terracotta);
+    line-height: 1;
+    opacity: 0.18;
+  }
+
+  .review-rating {
+    display: block;
+    width: 92px;
+    height: 16px;
+  }
+
+  .review blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.45;
+    color: var(--soil-brown);
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .review-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--soil-brown-15);
+  }
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--olive-deep), #5A7B3F);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px var(--shadow-warm);
+  }
+  .review-credit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    line-height: 1.25;
+  }
+  .review-credit strong {
+    color: var(--olive-deep);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .review-meta {
+    font-size: 0.78rem;
+    color: var(--soil-brown-60);
+  }
+
+  @media (min-width: 56rem) {
+    .reviews {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .trust-head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+  }
+</style>

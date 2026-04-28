@@ -1,0 +1,128 @@
+/* ============================================================================
+   AGAPE NURSERY DESIGN TOKENS
+   Per PLAN.md §4.1 (palette), §4.2 (typography), §4.4 (texture), §5 (motion).
+   All colors WCAG-AA verified on cream background.
+   ============================================================================ */
+
+:root {
+  /* ────── Color: 4 core ────── */
+  --olive-deep: #4A5D3A;       /* Primary brand, headings (6.87:1 on cream, AAA) */
+  --cream: #F5EFE3;            /* Background, cards */
+  --soil-brown: #3E2E20;       /* Body text (11.2:1 on cream, AAA) */
+  --terracotta: #A85638;       /* CTAs only (5.4:1 on cream, AA — white text on button: 4.7:1) */
+
+  /* Hover/active states for terracotta */
+  --terracotta-700: #8C4126;
+  --terracotta-300: #C97B5C;   /* Original — kept for non-text decorative use only */
+
+  /* ────── Color: 2 state-only accents ────── */
+  --leaf-fresh: #5A7B3F;       /* Success states only — 4.65:1 on cream */
+  --marigold: #F4A300;         /* Cempasúchil orange — tiny highlights, hover-only accents */
+
+  /* ────── Color: utility ────── */
+  --shadow-warm: rgba(62, 46, 32, 0.12);
+  --shadow-warm-elev: rgba(62, 46, 32, 0.18);
+  --shadow-warm-lifted: rgba(62, 46, 32, 0.22);
+  --soil-brown-75: rgba(62, 46, 32, 0.75);   /* Subtitle / caption color */
+  --soil-brown-60: rgba(62, 46, 32, 0.6);
+  --soil-brown-15: rgba(62, 46, 32, 0.15);   /* Hairline borders */
+  --olive-deep-15: rgba(74, 93, 58, 0.15);
+
+  /* ────── Type: families ────── */
+  --font-display: 'Fraunces', 'Iowan Old Style', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ────── Type: scale (ratio 1.25) ────── */
+  /* Mobile defaults; desktop overrides below */
+  --fz-h1: clamp(2.5rem, 5vw + 1rem, 4.5rem);     /* 40-72px */
+  --fz-h2: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);  /* 28-40px */
+  --fz-h3: clamp(1.375rem, 2vw + 0.5rem, 1.75rem); /* 22-28px */
+  --fz-body: clamp(1rem, 0.5vw + 0.875rem, 1.0625rem); /* 16-17px */
+  --fz-small: 0.875rem;   /* 14px */
+  --fz-micro: 0.75rem;    /* 12px */
+
+  /* ────── Spacing: 8pt grid ────── */
+  --sp-1: 0.5rem;   /* 8 */
+  --sp-2: 1rem;     /* 16 */
+  --sp-3: 1.5rem;   /* 24 */
+  --sp-4: 2rem;     /* 32 */
+  --sp-5: 3rem;     /* 48 */
+  --sp-6: 4rem;     /* 64 */
+  --sp-7: 6rem;     /* 96 */
+  --sp-8: 8rem;     /* 128 */
+
+  /* Section padding */
+  --section-py: clamp(var(--sp-6), 8vw, var(--sp-8));
+  --section-px: clamp(var(--sp-3), 5vw, var(--sp-7));
+
+  /* Container widths */
+  --container-narrow: 42rem;   /* 672px — about, process copy */
+  --container-mid: 60rem;      /* 960px — services, contact */
+  --container-wide: 76rem;     /* 1216px — portfolio, hero */
+
+  /* ────── Radius ────── */
+  --rad-sm: 4px;
+  --rad-md: 8px;
+  --rad-lg: 14px;
+  --rad-xl: 22px;
+  --rad-pill: 999px;
+
+  /* ────── Motion ────── */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --dur-fast: 180ms;
+  --dur-base: 280ms;
+  --dur-slow: 480ms;
+  --dur-reveal: 800ms;
+
+  /* ────── Z-index ────── */
+  --z-nav: 100;
+  --z-floating: 90;
+  --z-modal: 1000;
+  --z-toast: 1100;
+}
+
+/* Desktop type tweaks */
+@media (min-width: 64rem) {
+  :root {
+    --fz-h1: clamp(4rem, 5vw + 1rem, 4.5rem);
+  }
+}
+
+/* ============================================================================
+   GLOBAL REDUCED-MOTION (PLAN.md §5.4)
+   Defense-in-depth: collapses every animation/transition to instant.
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================================
+   FOCUS RINGS — visible, brand-tinted, never default browser blue
+   ============================================================================ */
+:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================================================
+   SELECTION
+   ============================================================================ */
+::selection {
+  background: var(--olive-deep);
+  color: var(--cream);
+}

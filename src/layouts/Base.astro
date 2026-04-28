@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import { business } from '../content/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${business.name} · Delano, CA · Since 1982`,
+  description = 'Family-run nursery and landscape company in Delano, California. Serving Tulare and Kern Counties with plants, garden supplies, and landscape design since 1982.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <!-- Inline script: read saved language preference BEFORE paint to prevent flash -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('agape-lang');
+          const lang = stored === 'es' ? 'es' : 'en';
+          document.documentElement.setAttribute('data-lang', lang);
+          document.documentElement.setAttribute('lang', lang);
+        } catch {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace(/\/+/g, '/')} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#F5EFE3" />
+    <title>{title}</title>
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_US" />
+
+    <!-- Schema.org/LocalBusiness — NAP gate per PLAN.md §11 -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'LandscapingBusiness',
+        name: business.name,
+        image: 'https://agapenurseryandlandscape.com/og-cover.jpg',
+        '@id': 'https://agapenurseryandlandscape.com',
+        url: 'https://agapenurseryandlandscape.com',
+        telephone: business.phone.display,
+        priceRange: '$$',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: business.address.street,
+          addressLocality: business.address.city,
+          addressRegion: business.address.state,
+          postalCode: business.address.zip,
+          addressCountry: 'US',
+        },
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            opens: '08:00',
+            closes: '17:30',
+          },
+        ],
+        areaServed: business.serviceArea.cities.map((c) => ({
+          '@type': 'City',
+          name: c,
+        })),
+        foundingDate: '1982',
+        slogan: business.tagline.en,
+      })}
+    />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* Page-level overflow guard — prevents horizontal scroll from any decorative element */
+  html, body {
+    overflow-x: hidden;
+  }
+</style>

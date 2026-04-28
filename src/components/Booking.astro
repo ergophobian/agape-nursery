@@ -1,0 +1,574 @@
+---
+import { booking, business } from '../content/site';
+
+const BOOKING_IMAGE =
+  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1400&q=85&auto=format&fit=crop';
+
+/**
+ * Precompute the static booking calendar so the JSX template doesn't have to
+ * use `<=` inline (Astro's compiler treats `<` in expressions as fragment-open).
+ *
+ * The "calendar" is a 35-cell grid (5 weeks × 7 days). May 1, 2026 lands on
+ * a Friday → 4 leading empty cells before "1". We mark weekends inactive,
+ * "May 15" as the selected example day.
+ */
+const calendarCells = Array.from({ length: 35 }, (_, i) => {
+  const idx = i;
+  const dayNum = idx >= 4 && idx <= 33 ? idx - 3 : null;
+  const dow = idx % 7; // 0 = Sun, 6 = Sat
+  const isWeekend = dow === 0 || dow === 6;
+  const isAvailable = dayNum !== null && !isWeekend;
+  const isSelected = dayNum === 15;
+  return { dayNum, isAvailable, isSelected };
+});
+
+const exampleTimes = ['9:00 AM', '10:30 AM', '1:00 PM', '2:30 PM', '4:00 PM'];
+---
+
+<section id="booking" class="booking" aria-labelledby="booking-h2">
+  <div class="booking-bg" aria-hidden="true"></div>
+
+  <div class="container booking-inner">
+    <header class="booking-head reveal" data-anim="reveal">
+      <span class="eyebrow eyebrow-warm">
+        <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true">
+          <path d="M3 2v2M11 2v2M2 6h10M3 4h8a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"
+            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <span data-lang-en>{booking.eyebrow.en}</span><span data-lang-es>{booking.eyebrow.es}</span>
+      </span>
+      <h2 id="booking-h2" class="booking-h2">
+        <span data-lang-en>{booking.h2.en}</span><span data-lang-es>{booking.h2.es}</span>
+      </h2>
+      <p class="booking-lead">
+        <span data-lang-en>{booking.body.en}</span><span data-lang-es>{booking.body.es}</span>
+      </p>
+    </header>
+
+    <div class="booking-grid reveal" data-anim="reveal">
+      <!-- Left: photo + trust panel -->
+      <aside class="booking-aside" aria-label="Why book with Agape">
+        <div class="booking-image-frame">
+          <img
+            src={BOOKING_IMAGE}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width="800"
+            height="1000"
+          />
+          <div class="booking-image-overlay"></div>
+          <span class="booking-image-quote italic-display">
+            <span data-lang-en>"Adolfo answers his phone."</span>
+            <span data-lang-es>"Adolfo contesta su teléfono."</span>
+          </span>
+        </div>
+
+        <ul class="booking-points" role="list">
+          <li>
+            <span class="check-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><span data-lang-en>15-minute call, no pressure</span><span data-lang-es>Llamada de 15 minutos, sin presión</span></span>
+          </li>
+          <li>
+            <span class="check-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><span data-lang-en>We come to your yard</span><span data-lang-es>Vamos a su jardín</span></span>
+          </li>
+          <li>
+            <span class="check-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><span data-lang-en>Honest, written quote</span><span data-lang-es>Presupuesto honesto, escrito</span></span>
+          </li>
+          <li>
+            <span class="check-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12l5 5L21 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><span data-lang-en>Bilingual: English &amp; Español</span><span data-lang-es>Bilingüe: English &amp; Español</span></span>
+          </li>
+        </ul>
+
+        <a href={business.phone.href} class="booking-phone-cta">
+          <span class="booking-phone-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-2.3 2.3z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span>
+            <span class="phone-eyebrow"><span data-lang-en>Or call right now</span><span data-lang-es>O llame ahora</span></span>
+            <span class="phone-number">{business.phone.display}</span>
+          </span>
+        </a>
+      </aside>
+
+      <!-- Right: designed booking preview.
+           v0.3: shows a beautiful static "preview" of the Calendly widget so the
+           page never looks broken. When Adolfo's real Calendly URL is added,
+           swap this preview with the iframe (we keep the iframe code below
+           commented for the eventual swap). -->
+      <div class="booking-frame">
+        <div class="booking-preview" aria-label="Booking preview — schedule via phone for now">
+          <div class="bp-header">
+            <div class="bp-header-left">
+              <span class="bp-eyebrow">
+                <span data-lang-en>Free consultation</span><span data-lang-es>Consulta gratis</span>
+              </span>
+              <h3 class="bp-title">
+                <span data-lang-en>15-minute landscape visit</span>
+                <span data-lang-es>Visita de 15 minutos</span>
+              </h3>
+              <div class="bp-meta">
+                <span class="bp-meta-item"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7 L12 12 L16 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg><span>15 min</span></span>
+                <span class="bp-meta-item"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M3 5h18 M3 12h18 M3 19h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Phone or in-person</span></span>
+              </div>
+            </div>
+            <div class="bp-month">
+              <span class="bp-month-arrow" aria-hidden="true">‹</span>
+              <span class="bp-month-label">May 2026</span>
+              <span class="bp-month-arrow" aria-hidden="true">›</span>
+            </div>
+          </div>
+
+          <div class="bp-cal">
+            <div class="bp-cal-dows" aria-hidden="true">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="bp-cal-grid">
+              {calendarCells.map((c) => (
+                <button
+                  type="button"
+                  class={`bp-cal-cell${c.isAvailable ? ' is-avail' : ''}${c.isSelected ? ' is-selected' : ''}${c.dayNum === null ? ' is-empty' : ''}`}
+                  disabled={!c.isAvailable && !c.isSelected}
+                  aria-label={c.dayNum ? `May ${c.dayNum}` : ''}
+                >
+                  {c.dayNum ?? ''}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div class="bp-times">
+            <div class="bp-times-header">
+              <span class="bp-times-title">
+                <span data-lang-en>Wednesday, May 15</span>
+                <span data-lang-es>Miércoles, 15 de Mayo</span>
+              </span>
+              <span class="bp-times-tz">PT</span>
+            </div>
+            <div class="bp-times-list">
+              {exampleTimes.map((t, i) => (
+                <button type="button" class={`bp-time-slot${i === 2 ? ' is-selected' : ''}`}>
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div class="bp-footer">
+            <a href={business.phone.href} class="btn btn-primary bp-confirm">
+              <span data-lang-en>Confirm — call to lock the slot</span>
+              <span data-lang-es>Confirmar — llame para reservar</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <p class="bp-footer-note">
+              <span data-lang-en>Online booking opens here once Adolfo confirms his calendar — for now, call him directly.</span>
+              <span data-lang-es>La reserva en línea se abrirá aquí pronto. Por ahora, llame directamente.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .booking {
+    position: relative;
+    background: linear-gradient(180deg, #1F1610 0%, #2A1F15 100%);
+    color: var(--cream);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .booking-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 30%, rgba(244, 163, 0, 0.18), transparent 65%),
+      radial-gradient(ellipse 50% 50% at 0% 80%, rgba(168, 86, 56, 0.16), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .booking-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .booking-head {
+    max-width: 50rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .eyebrow-warm {
+    color: var(--marigold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .booking-h2 {
+    color: var(--cream);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.04;
+    max-width: 22ch;
+  }
+  .booking-lead {
+    color: rgba(245, 239, 227, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    max-width: 38ch;
+  }
+
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  /* ── Aside: image + trust + phone ── */
+  .booking-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .booking-image-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--rad-xl);
+    overflow: hidden;
+    border: 1px solid rgba(245, 239, 227, 0.1);
+  }
+  .booking-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.05);
+  }
+  .booking-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(20, 15, 8, 0.85) 100%);
+  }
+  .booking-image-quote {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    color: var(--cream);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-style: italic;
+    line-height: 1.3;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .booking-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .booking-points li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: rgba(245, 239, 227, 0.88);
+    font-weight: 500;
+  }
+  .check-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(90, 123, 63, 0.25);
+    color: var(--leaf-fresh);
+    flex-shrink: 0;
+  }
+
+  .booking-phone-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.95rem 1.1rem;
+    border-radius: var(--rad-lg);
+    background: rgba(245, 239, 227, 0.08);
+    border: 1px solid rgba(245, 239, 227, 0.16);
+    color: var(--cream);
+    transition:
+      background var(--dur-fast),
+      transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .booking-phone-cta:hover {
+    background: rgba(245, 239, 227, 0.14);
+    transform: translateY(-2px);
+  }
+  .booking-phone-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    flex-shrink: 0;
+  }
+  .booking-phone-cta > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .phone-eyebrow {
+    font-size: 0.72rem;
+    color: rgba(245, 239, 227, 0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .phone-number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--cream);
+    margin-top: 0.15rem;
+  }
+
+  /* ── Booking preview (designed static calendar) ── */
+  .booking-frame {
+    position: relative;
+    border-radius: var(--rad-xl);
+    overflow: hidden;
+    background: var(--cream);
+    border: 1px solid rgba(245, 239, 227, 0.1);
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.4);
+  }
+
+  .booking-preview {
+    padding: clamp(1.25rem, 2vw, 1.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: var(--soil-brown);
+    background:
+      linear-gradient(180deg, #FFFCF5 0%, var(--cream) 100%);
+  }
+
+  .bp-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--soil-brown-15);
+  }
+  .bp-header-left { display: flex; flex-direction: column; gap: 0.4rem; }
+  .bp-eyebrow {
+    font-size: 0.7rem;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .bp-title {
+    color: var(--olive-deep);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  .bp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+  .bp-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--soil-brown-75);
+  }
+
+  .bp-month {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--soil-brown);
+    align-self: flex-start;
+  }
+  .bp-month-label { font-size: 1rem; }
+  .bp-month-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(74, 93, 58, 0.1);
+    color: var(--olive-deep);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .bp-cal-dows {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 0.4rem;
+  }
+  .bp-cal-dows span {
+    text-align: center;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--soil-brown-60);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .bp-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .bp-cal-cell {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--soil-brown-60);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: not-allowed;
+    transition:
+      background var(--dur-fast),
+      transform var(--dur-fast),
+      border-color var(--dur-fast);
+  }
+  .bp-cal-cell.is-empty {
+    background: transparent;
+    border-color: transparent;
+  }
+  .bp-cal-cell.is-avail {
+    background: var(--cream);
+    border-color: var(--soil-brown-15);
+    color: var(--olive-deep);
+    cursor: pointer;
+  }
+  .bp-cal-cell.is-avail:hover {
+    background: rgba(74, 93, 58, 0.1);
+    border-color: var(--olive-deep);
+    transform: translateY(-1px);
+  }
+  .bp-cal-cell.is-selected {
+    background: var(--olive-deep);
+    color: var(--cream);
+    border-color: var(--olive-deep);
+    box-shadow: 0 4px 10px rgba(74, 93, 58, 0.3);
+  }
+
+  .bp-times {
+    padding-top: 0.5rem;
+  }
+  .bp-times-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+  }
+  .bp-times-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--soil-brown);
+  }
+  .bp-times-tz {
+    font-size: 0.72rem;
+    color: var(--soil-brown-60);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    background: rgba(74, 93, 58, 0.08);
+    border-radius: var(--rad-pill);
+  }
+  .bp-times-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+  .bp-time-slot {
+    padding: 0.85rem 0.5rem;
+    background: var(--cream);
+    border: 1px solid var(--soil-brown-15);
+    border-radius: var(--rad-md);
+    color: var(--olive-deep);
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition:
+      background var(--dur-fast),
+      border-color var(--dur-fast),
+      transform var(--dur-fast);
+  }
+  .bp-time-slot:hover {
+    background: rgba(74, 93, 58, 0.08);
+    border-color: var(--olive-deep);
+    transform: translateY(-1px);
+  }
+  .bp-time-slot.is-selected {
+    background: var(--terracotta);
+    color: var(--cream);
+    border-color: var(--terracotta);
+    box-shadow: 0 6px 14px rgba(168, 86, 56, 0.4);
+  }
+
+  .bp-footer {
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--soil-brown-15);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: stretch;
+  }
+  .bp-confirm {
+    width: 100%;
+    background: var(--terracotta);
+    box-shadow: 0 8px 22px rgba(168, 86, 56, 0.4);
+  }
+  .bp-footer-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--soil-brown-60);
+    line-height: 1.5;
+    font-style: italic;
+    max-width: 38ch;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 56rem) {
+    .booking-grid {
+      grid-template-columns: 1fr 1.6fr;
+      gap: 2rem;
+    }
+    .booking-aside .booking-image-frame {
+      aspect-ratio: 1 / 1.2;
+    }
+  }
+</style>

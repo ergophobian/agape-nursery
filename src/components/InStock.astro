@@ -1,0 +1,244 @@
+---
+import { inStock, business } from '../content/site';
+
+const updated = new Date(inStock.updated);
+const daysOld = Math.floor((Date.now() - updated.getTime()) / 86400000);
+const isStale = daysOld > 14;
+const formattedDate = updated.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+// Duplicate the items array for seamless marquee scroll
+const ticker = [...inStock.items, ...inStock.items];
+---
+
+<section id="in-stock" class="in-stock" aria-labelledby="in-stock-h2">
+  <div class="container in-stock-head reveal" data-anim="reveal">
+    <div class="in-stock-head-row">
+      <span class="eyebrow eyebrow-warm">
+        <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+          <circle cx="6" cy="6" r="3" fill="currentColor"/>
+        </svg>
+        <span data-lang-en>{inStock.eyebrow.en}</span><span data-lang-es>{inStock.eyebrow.es}</span>
+      </span>
+      {!isStale && (
+        <span class="in-stock-updated">
+          <span data-lang-en>Updated</span><span data-lang-es>Actualizado</span>
+          &nbsp;<time datetime={inStock.updated}>{formattedDate}</time>
+        </span>
+      )}
+    </div>
+    <h2 id="in-stock-h2" class="in-stock-h2">
+      <span data-lang-en>Just arrived <span class="italic-display accent">at the nursery.</span></span>
+      <span data-lang-es>Recién llegado <span class="italic-display accent">al vivero.</span></span>
+    </h2>
+  </div>
+
+  {!isStale ? (
+    <div class="marquee" data-marquee aria-label="In-stock items, scrolling">
+      <div class="marquee-track">
+        {ticker.map((item) => (
+          <a href={business.phone.href} class="ticker-item">
+            <span class="ticker-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path d="M12 2 L12 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M5 9c2 4 4 5 7 5 0-3-1-5-3-6-2-1-4 1-4 1z M19 9c-2 4-4 5-7 5 0-3 1-5 3-6 2-1 4 1 4 1z"
+                  fill="currentColor" opacity="0.4" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div class="ticker-text">
+              <span class="ticker-name">
+                <span data-lang-en>{item.name.en}</span><span data-lang-es>{item.name.es}</span>
+              </span>
+              <span class="ticker-meta">
+                <span class="ticker-size">{item.size}</span>
+                <span class="ticker-bullet" aria-hidden="true">·</span>
+                <span class="ticker-cta"><span data-lang-en>Call to reserve</span><span data-lang-es>Llamar para reservar</span></span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="container">
+      <div class="stock-fallback reveal" data-anim="reveal">
+        <p>
+          <span data-lang-en>We carry annuals, perennials, fruit trees, shade trees, mulch, fertilizer, and more.</span>
+          <span data-lang-es>Tenemos anuales, perennes, árboles frutales, árboles de sombra, mantillo, fertilizante y más.</span>
+        </p>
+        <a href={business.phone.href} class="btn btn-primary">
+          <span data-lang-en>Call for this week’s availability</span>
+          <span data-lang-es>Llame para disponibilidad</span>
+        </a>
+      </div>
+    </div>
+  )}
+
+  <div class="container in-stock-foot reveal" data-anim="reveal">
+    <p class="foot-text">
+      <span data-lang-en>Plant inventory rotates weekly with the seasons.</span>
+      <span data-lang-es>El inventario rota cada semana con las estaciones.</span>
+      <a href={business.phone.href} class="foot-link">
+        <span data-lang-en>Call for what's in today</span><span data-lang-es>Llame para lo de hoy</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .in-stock {
+    position: relative;
+    background: linear-gradient(180deg, #2A1F15 0%, #1F1610 100%);
+    color: var(--cream);
+    padding-block: clamp(4rem, 7vw, 6rem);
+    overflow: hidden;
+  }
+
+  .in-stock-head {
+    margin-bottom: 2.5rem;
+  }
+  .in-stock-head-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+  }
+  .eyebrow-warm {
+    color: var(--marigold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+  }
+  .in-stock-updated {
+    font-size: 0.82rem;
+    color: rgba(245, 239, 227, 0.55);
+    font-style: italic;
+  }
+  .in-stock-h2 {
+    color: var(--cream);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.04;
+    max-width: 18ch;
+  }
+  .in-stock-h2 .accent {
+    color: var(--marigold);
+  }
+
+  /* Marquee */
+  .marquee {
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 50%, rgba(244, 163, 0, 0.06), transparent 70%);
+    padding-block: 1.5rem;
+    border-block: 1px solid rgba(245, 239, 227, 0.08);
+  }
+  .marquee-track {
+    animation-duration: 65s;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: var(--rad-pill);
+    background: rgba(245, 239, 227, 0.06);
+    border: 1px solid rgba(245, 239, 227, 0.14);
+    color: var(--cream);
+    flex-shrink: 0;
+    transition:
+      background var(--dur-fast),
+      border-color var(--dur-fast),
+      transform var(--dur-fast);
+  }
+  .ticker-item:hover {
+    background: rgba(244, 163, 0, 0.18);
+    border-color: var(--marigold);
+    transform: translateY(-2px);
+  }
+  .ticker-icon {
+    color: var(--marigold);
+    flex-shrink: 0;
+  }
+  .ticker-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    line-height: 1.2;
+  }
+  .ticker-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+  .ticker-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: rgba(245, 239, 227, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .ticker-size {
+    color: var(--marigold);
+    font-weight: 600;
+  }
+  .ticker-bullet { opacity: 0.4; }
+  .ticker-cta { color: rgba(245, 239, 227, 0.55); }
+  .ticker-item:hover .ticker-cta { color: var(--marigold); }
+
+  /* Foot */
+  .in-stock-foot {
+    margin-top: 2.25rem;
+    text-align: center;
+  }
+  .foot-text {
+    color: rgba(245, 239, 227, 0.65);
+    font-size: 0.92rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    line-height: 1.5;
+  }
+  .foot-link {
+    color: var(--marigold);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(244, 163, 0, 0.4);
+    transition: text-decoration-color var(--dur-fast);
+  }
+  .foot-link:hover {
+    text-decoration-color: var(--marigold);
+  }
+
+  .stock-fallback {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    background: rgba(245, 239, 227, 0.06);
+    border: 1px solid rgba(245, 239, 227, 0.14);
+    border-radius: var(--rad-lg);
+    color: var(--cream);
+  }
+</style>
