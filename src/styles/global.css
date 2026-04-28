@@ -78,14 +78,29 @@ h3 {
   max-width: 38ch;
 }
 
+/* ============================================================================
+   LANGUAGE TOGGLE — replaces dual-render dual-language pattern.
+   <html data-lang="en"> shows [data-lang-en] elements; same for "es".
+   `display: revert` returns to user-agent default for the element type:
+   span → inline, p/h1 → block, etc.
+   ============================================================================ */
+
+[data-lang-en],
+[data-lang-es] {
+  display: none;
+}
+[data-lang='en'] [data-lang-en] {
+  display: revert;
+}
+[data-lang='es'] [data-lang-es] {
+  display: revert;
+}
+
+/* Legacy .lang-es helper kept for non-toggleable supplementary copy
+   (e.g. "Open today · Delano, CA" status pills that show one language).
+   This class is being removed scene-by-scene as components migrate. */
 .lang-es {
-  font-style: italic;
-  opacity: 0.82;
-  font-size: 0.86em;
-  display: block;
-  margin-top: 0.25em;
-  font-weight: 400;
-  letter-spacing: 0;
+  display: none;
 }
 
 /* ============================================================================
@@ -270,6 +285,109 @@ section {
   height: 1px;
   background: var(--soil-brown-15);
   margin-block: var(--sp-3);
+}
+
+/* ============================================================================
+   LENIS smooth scroll — required CSS hooks
+   ============================================================================ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ============================================================================
+   CUSTOM CURSOR (desktop hover-capable only, injected by animations.ts)
+   ============================================================================ */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  margin-top: -14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--olive-deep);
+  background: rgba(74, 93, 58, 0.06);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+  transition:
+    width var(--dur-fast) var(--ease-out-soft),
+    height var(--dur-fast) var(--ease-out-soft),
+    background var(--dur-fast) var(--ease-out-soft),
+    border-color var(--dur-fast) var(--ease-out-soft),
+    opacity var(--dur-fast);
+}
+.cursor-ring.is-hovering {
+  width: 56px;
+  height: 56px;
+  margin-left: -28px;
+  margin-top: -28px;
+  background: rgba(168, 86, 56, 0.1);
+  border-color: var(--terracotta);
+}
+.cursor-ring.is-hidden {
+  opacity: 0;
+}
+@media (hover: none) {
+  .cursor-ring { display: none; }
+}
+
+/* ============================================================================
+   MARQUEE — used by InStock and other ticker-style scrolls
+   ============================================================================ */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  /* Allow horizontal touch swipe to feel natural on mobile */
+  -webkit-overflow-scrolling: touch;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  animation: marqueeScroll 50s linear infinite;
+  padding-right: 1.5rem;
+  will-change: transform;
+}
+.marquee.is-paused .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+/* On smaller screens, increase the marquee gap to compensate for compressed tickets */
+@media (min-width: 48rem) {
+  .marquee-track { gap: 2.5rem; padding-right: 2.5rem; }
+}
+
+/* ============================================================================
+   3D TILT — disable on touch devices (the hover effect doesn't apply anyway,
+   but make sure no transforms get stuck if a touch device fires hover events
+   before mouseleave gets a chance).
+   ============================================================================ */
+@media (hover: none) {
+  [data-tilt] {
+    transform: none !important;
+  }
+  [data-tilt-sheen] { display: none; }
 }
 
 /* ============================================================================

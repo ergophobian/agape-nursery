@@ -1,121 +1,146 @@
 ---
 import { contact, business } from '../content/site';
+
+const CONTACT_IMAGE =
+  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85&auto=format&fit=crop';
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-h2">
-  <div class="container contact-inner">
-    <div class="contact-text reveal" data-anim="reveal">
-      <span class="eyebrow">{contact.eyebrow.en} · <span lang="es">{contact.eyebrow.es}</span></span>
-      <h2 id="contact-h2">{contact.h2.en}</h2>
-      <p class="lang-es contact-h2-es" lang="es">{contact.h2.es}</p>
-      <p class="lead contact-body">{contact.body.en}</p>
+  <div class="contact-pattern" aria-hidden="true"></div>
 
-      <ul class="contact-meta" role="list">
+  <div class="container contact-inner">
+    <!-- Left: copy + contact card + atmospheric image -->
+    <aside class="contact-aside reveal" data-anim="reveal">
+      <span class="eyebrow eyebrow-warm">
+        <span data-lang-en>{contact.eyebrow.en}</span><span data-lang-es>{contact.eyebrow.es}</span>
+      </span>
+      <h2 id="contact-h2" class="contact-h2">
+        <span data-lang-en>Send a few details. <span class="italic-display accent">We'll be in touch within 24 hours.</span></span>
+        <span data-lang-es>Envíe algunos detalles. <span class="italic-display accent">Le contactamos en 24 horas.</span></span>
+      </h2>
+      <p class="contact-body">
+        <span data-lang-en>{contact.body.en}</span><span data-lang-es>{contact.body.es}</span>
+      </p>
+
+      <div class="contact-image">
+        <img src={CONTACT_IMAGE} alt="" loading="lazy" decoding="async" width="900" height="650" />
+        <div class="contact-image-overlay"></div>
+        <div class="contact-image-meta">
+          <span class="meta-time italic-display">24h</span>
+          <span class="meta-text">
+            <span data-lang-en>typical response time</span>
+            <span data-lang-es>tiempo típico de respuesta</span>
+          </span>
+        </div>
+      </div>
+
+      <ul class="contact-info" role="list">
         <li>
-          <span class="meta-label">Phone · Teléfono</span>
-          <a href={business.phone.href} class="meta-value">{business.phone.display}</a>
+          <span class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-2.3 2.3z" fill="currentColor"/></svg>
+          </span>
+          <a href={business.phone.href}>{business.phone.display}</a>
         </li>
         <li>
-          <span class="meta-label">Address · Dirección</span>
-          <a href={business.address.mapsUrl} target="_blank" rel="noopener noreferrer" class="meta-value">
-            {business.address.formatted}
-          </a>
+          <span class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2 C 8 7, 5 11, 5 14 C 5 18, 8 21, 12 21 C 16 21, 19 18, 19 14 C 19 11, 16 7, 12 2 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="13" r="2.5" fill="currentColor"/></svg>
+          </span>
+          <a href={business.address.mapsUrl} target="_blank" rel="noopener noreferrer">{business.address.formatted}</a>
         </li>
         <li>
-          <span class="meta-label">Hours · Horario</span>
-          <span class="meta-value">{business.hours.summary}</span>
-          <span class="lang-es meta-es" lang="es">{business.hours.summaryEs}</span>
+          <span class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7 L12 12 L16 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+          </span>
+          <span><span data-lang-en>{business.hours.summary}</span><span data-lang-es>{business.hours.summaryEs}</span></span>
         </li>
       </ul>
-    </div>
+    </aside>
 
+    <!-- Right: form -->
     <form class="contact-form reveal" data-anim="reveal" data-contact-form novalidate>
-      <!-- Honeypot -->
       <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-      <div class="form-row">
-        <label for="name">
-          <span>{contact.form.name.en}</span>
-          <span class="lang-es" lang="es">{contact.form.name.es}</span>
-        </label>
-        <input id="name" name="name" type="text" required autocomplete="name" />
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="name">
+            <span data-lang-en>{contact.form.name.en}</span><span data-lang-es>{contact.form.name.es}</span>
+          </label>
+          <input id="name" name="name" type="text" required autocomplete="name" placeholder="Maria Lopez" />
+        </div>
+
+        <div class="form-row">
+          <label for="phone">
+            <span data-lang-en>{contact.form.phone.en}</span><span data-lang-es>{contact.form.phone.es}</span>
+          </label>
+          <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="(661) 555-0100" />
+        </div>
+
+        <div class="form-row form-row-full">
+          <label for="email">
+            <span data-lang-en>{contact.form.email.en}</span><span data-lang-es>{contact.form.email.es}</span>
+          </label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="form-row">
+          <label for="projectType">
+            <span data-lang-en>{contact.form.projectType.en}</span><span data-lang-es>{contact.form.projectType.es}</span>
+          </label>
+          <select id="projectType" name="projectType" required>
+            <option value="">—</option>
+            {contact.projectTypes.map((p) => (
+              <option value={p.value}>{p.en}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="timeline">
+            <span data-lang-en>{contact.form.timeline.en}</span><span data-lang-es>{contact.form.timeline.es}</span>
+          </label>
+          <select id="timeline" name="timeline">
+            <option value="">—</option>
+            {contact.timelines.map((t) => (
+              <option value={t.value}>{t.en}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="form-row form-row-full">
+          <label for="description">
+            <span data-lang-en>{contact.form.description.en}</span><span data-lang-es>{contact.form.description.es}</span>
+          </label>
+          <textarea id="description" name="description" rows="4"
+            placeholder="Front yard, backyard, drought-tolerant ideas, anything…"></textarea>
+        </div>
       </div>
 
-      <div class="form-row">
-        <label for="phone">
-          <span>{contact.form.phone.en}</span>
-          <span class="lang-es" lang="es">{contact.form.phone.es}</span>
-        </label>
-        <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="(661) 555-0100" />
-      </div>
-
-      <div class="form-row">
-        <label for="email">
-          <span>{contact.form.email.en}</span>
-          <span class="lang-es" lang="es">{contact.form.email.es}</span>
-        </label>
-        <input id="email" name="email" type="email" autocomplete="email" />
-      </div>
-
-      <div class="form-row">
-        <label for="projectType">
-          <span>{contact.form.projectType.en}</span>
-          <span class="lang-es" lang="es">{contact.form.projectType.es}</span>
-        </label>
-        <select id="projectType" name="projectType" required>
-          <option value="">—</option>
-          {contact.projectTypes.map((p) => (
-            <option value={p.value}>{p.en} · {p.es}</option>
-          ))}
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="timeline">
-          <span>{contact.form.timeline.en}</span>
-          <span class="lang-es" lang="es">{contact.form.timeline.es}</span>
-        </label>
-        <select id="timeline" name="timeline">
-          <option value="">—</option>
-          {contact.timelines.map((t) => (
-            <option value={t.value}>{t.en} · {t.es}</option>
-          ))}
-        </select>
-      </div>
-
-      <div class="form-row form-row-full">
-        <label for="description">
-          <span>{contact.form.description.en}</span>
-          <span class="lang-es" lang="es">{contact.form.description.es}</span>
-        </label>
-        <textarea id="description" name="description" rows="4" placeholder="Front yard, backyard, drought-tolerant ideas, anything…"></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-primary contact-submit" data-submit-button>
-        <span data-submit-text>{contact.form.submit.en}</span>
+      <button type="submit" class="btn btn-primary contact-submit" data-submit-button data-magnetic>
+        <span data-submit-text>
+          <span data-lang-en>{contact.form.submit.en}</span><span data-lang-es>{contact.form.submit.es}</span>
+        </span>
         <span class="btn-arrow" aria-hidden="true">→</span>
       </button>
 
       <p class="contact-disclaimer">
-        We use your contact info only to reach you about your inquiry.
-        <span class="lang-es" lang="es">Solo usamos sus datos para contactarle.</span>
+        <span data-lang-en>We use your contact info only to reach you about your inquiry.</span>
+        <span data-lang-es>Solo usamos sus datos para contactarle sobre su consulta.</span>
       </p>
 
       <div class="contact-success" data-success hidden role="status" aria-live="polite">
-        <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
           <circle cx="12" cy="12" r="11" fill="var(--leaf-fresh)" opacity="0.18" />
           <path d="M7 12l4 4 6-7" fill="none" stroke="var(--leaf-fresh)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <p>{contact.form.success.en}</p>
-        <p class="lang-es" lang="es">{contact.form.success.es}</p>
+        <p>
+          <span data-lang-en>{contact.form.success.en}</span><span data-lang-es>{contact.form.success.es}</span>
+        </p>
       </div>
     </form>
   </div>
 </section>
 
 <script>
-  // v0: simulated submit. Real backend (Cloudflare Pages Function + Resend + R2)
-  // is the next step per PLAN.md §7.1. The form does NOT actually email yet.
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const button = document.querySelector<HTMLButtonElement>('[data-submit-button]');
   const buttonText = document.querySelector<HTMLSpanElement>('[data-submit-text]');
@@ -126,18 +151,15 @@ import { contact, business } from '../content/site';
       e.preventDefault();
       const honeypot = (form.elements.namedItem('company') as HTMLInputElement)?.value;
       if (honeypot) {
-        // Silent reject for bots
         success.hidden = false;
-        form.querySelectorAll<HTMLElement>('.form-row').forEach((r) => (r.style.display = 'none'));
-        button.style.display = 'none';
+        form.querySelectorAll<HTMLElement>('.form-row, .contact-submit').forEach((r) => (r.style.display = 'none'));
         return;
       }
       button.disabled = true;
       buttonText.textContent = 'Sending…';
       window.setTimeout(() => {
         success.hidden = false;
-        form.querySelectorAll<HTMLElement>('.form-row').forEach((r) => (r.style.display = 'none'));
-        button.style.display = 'none';
+        form.querySelectorAll<HTMLElement>('.form-row, .contact-submit, .contact-disclaimer').forEach((r) => (r.style.display = 'none'));
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 900);
     });
@@ -146,76 +168,134 @@ import { contact, business } from '../content/site';
 
 <style>
   .contact {
-    background: linear-gradient(180deg, #F2EAD7 0%, #E8E0CC 100%);
-    border-top: 1px solid var(--soil-brown-15);
+    position: relative;
+    background: linear-gradient(180deg, var(--cream) 0%, #F2EAD7 100%);
+    padding-block: clamp(4rem, 7vw, 7rem);
+    overflow: hidden;
+  }
+
+  .contact-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 50% 40% at 100% 0%, rgba(74, 93, 58, 0.08), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 0% 100%, rgba(168, 86, 56, 0.06), transparent 60%);
+    pointer-events: none;
   }
 
   .contact-inner {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
 
-  .contact-text {
+  /* ── Aside ── */
+  .contact-aside {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 1.5rem;
   }
-  .contact-h2-es {
-    color: var(--soil-brown-60);
-    font-size: 1.05rem;
-    margin-top: -0.2rem;
+  .eyebrow-warm {
+    color: var(--terracotta);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .contact-h2 {
+    font-size: clamp(1.85rem, 3.5vw, 2.6rem);
+    line-height: 1.1;
+  }
+  .contact-h2 .accent {
+    color: var(--terracotta);
   }
   .contact-body {
-    margin-top: 0.6rem;
+    color: var(--soil-brown-75);
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 36ch;
   }
 
-  .contact-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--soil-brown-15);
+  .contact-image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--rad-xl);
+    overflow: hidden;
+    border: 1px solid var(--soil-brown-15);
+    box-shadow: 0 16px 36px var(--shadow-warm);
   }
-  .contact-meta li {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
+  .contact-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.05);
   }
-  .meta-label {
+  .contact-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(31, 23, 14, 0.6) 100%);
+  }
+  .contact-image-meta {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--cream);
+  }
+  .meta-time {
+    font-size: 2.4rem;
+    font-style: italic;
+    font-weight: 800;
+    color: var(--marigold);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .meta-text {
     font-size: 0.78rem;
-    color: var(--soil-brown-60);
+    color: rgba(245, 239, 227, 0.85);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     font-weight: 500;
-  }
-  .meta-value {
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--olive-deep);
-  }
-  a.meta-value:hover {
-    color: var(--terracotta);
-  }
-  .meta-es {
-    font-size: 0.85rem;
-    color: var(--soil-brown-60);
-    margin-top: 0.1rem;
+    line-height: 1.2;
+    max-width: 18ch;
   }
 
-  /* Form */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.95rem;
+    color: var(--soil-brown);
+  }
+  .contact-info a:hover { color: var(--terracotta); }
+  .info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(74, 93, 58, 0.1);
+    color: var(--olive-deep);
+    flex-shrink: 0;
+  }
+
+  /* ── Form ── */
   .contact-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem 1.25rem;
     background: var(--cream);
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    border-radius: var(--rad-xl);
     border: 1px solid var(--soil-brown-15);
-    box-shadow: 0 16px 40px var(--shadow-warm);
-    align-content: start;
+    border-radius: var(--rad-xl);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    box-shadow: 0 24px 56px var(--shadow-warm-elev);
+    align-self: start;
   }
 
   .hp-field {
@@ -226,6 +306,11 @@ import { contact, business } from '../content/site';
     opacity: 0;
   }
 
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.1rem;
+  }
   .form-row {
     display: flex;
     flex-direction: column;
@@ -235,63 +320,66 @@ import { contact, business } from '../content/site';
     grid-column: 1 / -1;
   }
   .form-row label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--soil-brown);
-    font-weight: 500;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
-  .form-row label .lang-es {
-    font-size: 0.75rem;
-    color: var(--soil-brown-60);
-    margin-top: 0;
-  }
-
   .form-row input,
   .form-row select,
   .form-row textarea {
-    padding: 0.7rem 0.9rem;
+    padding: 0.85rem 1rem;
     border: 1px solid var(--soil-brown-15);
     border-radius: var(--rad-md);
-    background: var(--cream);
+    background: rgba(245, 239, 227, 0.4);
     font-family: var(--font-body);
     font-size: 1rem;
     color: var(--soil-brown);
-    transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+    transition:
+      border-color var(--dur-fast),
+      box-shadow var(--dur-fast),
+      background var(--dur-fast);
+  }
+  .form-row input::placeholder,
+  .form-row textarea::placeholder {
+    color: var(--soil-brown-60);
   }
   .form-row input:focus,
   .form-row select:focus,
   .form-row textarea:focus {
     border-color: var(--terracotta);
-    box-shadow: 0 0 0 3px rgba(168, 86, 56, 0.15);
+    box-shadow: 0 0 0 4px rgba(168, 86, 56, 0.15);
+    background: var(--cream);
     outline: none;
   }
   .form-row textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 110px;
   }
 
   .contact-submit {
-    grid-column: 1 / -1;
-    margin-top: 0.4rem;
-    justify-self: start;
+    margin-top: 1.4rem;
+    width: 100%;
+    background: var(--terracotta);
+    box-shadow:
+      0 8px 24px rgba(168, 86, 56, 0.4),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+    will-change: transform;
+  }
+  .contact-submit:hover {
+    background: var(--terracotta-700);
   }
 
   .contact-disclaimer {
-    grid-column: 1 / -1;
+    margin-top: 0.9rem;
     font-size: 0.78rem;
     color: var(--soil-brown-60);
-    line-height: 1.4;
-  }
-  .contact-disclaimer .lang-es {
-    display: inline;
-    font-size: 0.78rem;
-    margin-left: 0.25rem;
+    text-align: center;
+    line-height: 1.5;
   }
 
   .contact-success {
-    grid-column: 1 / -1;
     text-align: center;
     padding: 2rem 1rem;
     background: rgba(90, 123, 63, 0.08);

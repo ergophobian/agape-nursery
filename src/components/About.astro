@@ -1,44 +1,107 @@
 ---
-import { about } from '../content/site';
+import { about, business } from '../content/site';
 ---
 
 <section id="about" class="about" aria-labelledby="about-h2">
   <div class="container about-inner">
-    <div class="about-image-wrap reveal" data-anim="reveal">
-      <div class="about-image">
-        <img
-          src={about.imagePlaceholder}
-          alt="Adolfo at the nursery"
-          loading="lazy"
-          decoding="async"
-          width="900"
-          height="1200"
-        />
-        <span class="about-image-tag">Placeholder · Drive coming</span>
-      </div>
-      <div class="about-image-stamp" aria-hidden="true">
-        <span class="about-stamp-num">1982</span>
-        <span class="about-stamp-line">est.</span>
+    <!-- Image side -->
+    <div class="about-visual reveal" data-anim="reveal">
+      <div class="about-image-stack">
+        <div class="about-image about-image-main">
+          <img
+            src={about.imagePlaceholder}
+            alt="Adolfo and family at the nursery"
+            loading="lazy"
+            decoding="async"
+            width="900"
+            height="1200"
+          />
+        </div>
+        <!-- Year stamp overlay -->
+        <div class="year-stamp" aria-hidden="true">
+          <svg viewBox="0 0 200 200" class="stamp-circle">
+            <defs>
+              <path id="stampPath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
+            </defs>
+            <text class="stamp-text">
+              <textPath href="#stampPath" startOffset="0">
+                FAMILY · OWNED · DELANO · CALIFORNIA · SINCE · 1982 ·
+              </textPath>
+            </text>
+          </svg>
+          <div class="stamp-center">
+            <span class="stamp-num">{business.yearsInBusiness}</span>
+            <span class="stamp-label">years</span>
+          </div>
+        </div>
+        <!-- Botanical decoration -->
+        <svg class="about-leaf" viewBox="0 0 120 240" aria-hidden="true">
+          <g fill="var(--olive-deep)" opacity="0.92">
+            <path d="M 60 240 C 55 200, 45 160, 30 120 C 15 80, 5 50, 0 30 L 12 25 C 22 50, 35 80, 50 120 C 60 100, 75 80, 95 60 L 105 70 C 90 80, 75 100, 65 120 C 75 160, 65 200, 60 240 Z"/>
+          </g>
+        </svg>
       </div>
     </div>
 
+    <!-- Text side -->
     <div class="about-text reveal" data-anim="reveal">
-      <span class="eyebrow">{about.eyebrow.en} · <span lang="es">{about.eyebrow.es}</span></span>
-      <h2 id="about-h2">{about.h2.en}</h2>
-      <p class="lang-es about-h2-es" lang="es">{about.h2.es}</p>
-      <p class="about-body">{about.body.en}</p>
-      <details class="about-es-toggle">
-        <summary lang="es">En español</summary>
-        <p class="lang-es" lang="es">{about.body.es}</p>
-      </details>
-      <p class="about-signature italic-display">{about.signature.en}</p>
+      <span class="eyebrow eyebrow-warm">
+        <span data-lang-en>{about.eyebrow.en}</span><span data-lang-es>{about.eyebrow.es}</span>
+      </span>
+      <h2 id="about-h2" class="about-h2">
+        <span data-lang-en>Forty-four <span class="italic-display accent">years.</span> Same family. Same dirt under our fingernails.</span>
+        <span data-lang-es>Cuarenta y cuatro <span class="italic-display accent">años.</span> Misma familia. Misma tierra bajo las uñas.</span>
+      </h2>
+      <p class="about-body">
+        <span data-lang-en>{about.body.en}</span>
+        <span data-lang-es>{about.body.es}</span>
+      </p>
+
+      <!-- Pull quote / signature -->
+      <div class="about-pull">
+        <svg class="pull-quote-mark" viewBox="0 0 32 24" width="40" height="32" aria-hidden="true">
+          <path d="M0 12 C0 6, 4 0, 12 0 L12 6 C8 6, 6 8, 6 12 L12 12 L12 24 L0 24 Z M20 12 C20 6, 24 0, 32 0 L32 6 C28 6, 26 8, 26 12 L32 12 L32 24 L20 24 Z"
+            fill="var(--terracotta)"/>
+        </svg>
+        <p class="about-pull-text italic-display">
+          <span data-lang-en>We know which trees survive August. We know which roses keep blooming in October.</span>
+          <span data-lang-es>Sabemos qué árboles sobreviven agosto. Sabemos qué rosas siguen floreciendo en octubre.</span>
+        </p>
+        <p class="about-signature italic-display">
+          <span data-lang-en>{about.signature.en}</span>
+          <span data-lang-es>{about.signature.es}</span>
+        </p>
+      </div>
+
+      <!-- Stat highlights -->
+      <div class="about-highlights">
+        <div class="highlight">
+          <span class="highlight-num italic-display">1982</span>
+          <span class="highlight-label">
+            <span data-lang-en>founded</span><span data-lang-es>fundado</span>
+          </span>
+        </div>
+        <div class="highlight">
+          <span class="highlight-num italic-display" data-counter="3" data-counter-duration="1200">0</span>
+          <span class="highlight-label">
+            <span data-lang-en>generations</span><span data-lang-es>generaciones</span>
+          </span>
+        </div>
+        <div class="highlight">
+          <span class="highlight-num italic-display" data-counter="200" data-counter-duration="1800">0</span><span class="highlight-num italic-display highlight-plus">+</span>
+          <span class="highlight-label">
+            <span data-lang-en>installs</span><span data-lang-es>instalaciones</span>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .about {
-    background: var(--cream);
+    background:
+      linear-gradient(180deg, var(--cream) 0%, #F2EAD7 100%);
     position: relative;
     overflow: hidden;
   }
@@ -46,158 +109,223 @@ import { about } from '../content/site';
     content: '';
     position: absolute;
     top: -10%;
-    right: -15%;
-    width: 50vw;
-    height: 50vw;
-    max-width: 500px;
-    max-height: 500px;
-    background: radial-gradient(circle, rgba(168, 86, 56, 0.08), transparent 60%);
+    left: -8%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 600px;
+    max-height: 600px;
+    background:
+      radial-gradient(circle, rgba(168, 86, 56, 0.08), transparent 60%);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 0;
   }
 
   .about-inner {
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 3rem;
     align-items: center;
-    z-index: 1;
   }
 
-  /* Image with rotated frame stamp */
-  .about-image-wrap {
+  /* ── Visual side ── */
+  .about-visual {
     position: relative;
     aspect-ratio: 4 / 5;
     max-width: 32rem;
     margin-inline: auto;
     width: 100%;
   }
-  .about-image {
+
+  .about-image-stack {
     position: relative;
     width: 100%;
     height: 100%;
+  }
+
+  .about-image {
+    position: absolute;
+    inset: 0;
     border-radius: var(--rad-xl);
     overflow: hidden;
     border: 1px solid var(--soil-brown-15);
-    box-shadow: 0 24px 60px var(--shadow-warm-elev);
+    box-shadow: 0 28px 64px var(--shadow-warm-elev);
+    transform: rotate(-2deg);
+    transition: transform var(--dur-slow) var(--ease-out-soft);
+  }
+  .about-image:hover {
+    transform: rotate(0);
   }
   .about-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Slight saturation to feel "warm summer photo" rather than flat stock */
     filter: saturate(1.04) contrast(1.02);
   }
-  .about-image-tag {
-    position: absolute;
-    top: 0.65rem;
-    left: 0.65rem;
-    background: rgba(245, 239, 227, 0.92);
-    color: var(--soil-brown);
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: var(--rad-pill);
-    font-weight: 500;
-    letter-spacing: 0.04em;
-  }
 
-  .about-image-stamp {
+  /* Rotating year stamp */
+  .year-stamp {
     position: absolute;
-    bottom: -1.5rem;
-    right: -1rem;
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
+    bottom: -2rem;
+    right: -2rem;
+    width: clamp(8rem, 14vw, 11rem);
+    height: clamp(8rem, 14vw, 11rem);
     background: var(--terracotta);
     color: var(--cream);
+    border-radius: 50%;
+    box-shadow: 0 16px 32px var(--shadow-warm-elev);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    /* Hand-pressed seal feel */
+    box-shadow:
+      0 16px 32px var(--shadow-warm-elev),
+      inset 0 0 0 2px rgba(245, 239, 227, 0.25),
+      inset 0 0 0 4px var(--terracotta);
+  }
+  .stamp-circle {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotateStamp 28s linear infinite;
+  }
+  .stamp-text {
+    fill: var(--cream);
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  @keyframes rotateStamp {
+    from { transform: rotate(0); }
+    to   { transform: rotate(360deg); }
+  }
+  .stamp-center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    transform: rotate(-8deg);
+    line-height: 0.9;
+  }
+  .stamp-num {
     font-family: var(--font-display);
-    box-shadow: 0 12px 24px var(--shadow-warm-elev);
-    /* Hand-pressed seal feel via inset shadow */
-    --seal-color: rgba(245, 239, 227, 0.25);
-    box-shadow:
-      0 12px 24px var(--shadow-warm-elev),
-      inset 0 0 0 2px var(--seal-color),
-      inset 0 0 0 4px var(--terracotta);
-  }
-  .about-stamp-num {
-    font-weight: 800;
-    font-size: 1.85rem;
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .about-stamp-line {
     font-style: italic;
+    font-weight: 800;
+    font-size: 2.4rem;
+    letter-spacing: -0.04em;
+  }
+  .stamp-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     font-weight: 500;
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
-    margin-top: 0.1rem;
+    margin-top: 0.15rem;
+    opacity: 0.85;
   }
 
-  /* Text */
+  /* Botanical leaf decoration */
+  .about-leaf {
+    position: absolute;
+    top: -1.5rem;
+    left: -2rem;
+    width: clamp(60px, 10vw, 90px);
+    height: auto;
+    z-index: 1;
+    transform: rotate(-12deg);
+    pointer-events: none;
+  }
+
+  /* ── Text side ── */
   .about-text {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 1rem;
   }
-  .about-h2-es {
-    color: var(--soil-brown-60);
-    font-size: 1.05rem;
-    margin-top: -0.2rem;
+  .eyebrow-warm {
+    color: var(--terracotta);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .about-h2 {
+    font-size: clamp(1.85rem, 3.5vw, 2.85rem);
+    line-height: 1.06;
+  }
+  .about-h2 .accent {
+    color: var(--terracotta);
   }
   .about-body {
     font-size: 1.05rem;
     line-height: 1.7;
     color: var(--soil-brown);
   }
-  .about-es-toggle {
-    margin-top: 0.4rem;
-    border-top: 1px dashed var(--soil-brown-15);
-    padding-top: 0.85rem;
+
+  .about-pull {
+    margin-block: 0.5rem;
+    padding: 1.5rem;
+    border-left: 3px solid var(--terracotta);
+    background:
+      linear-gradient(90deg, rgba(168, 86, 56, 0.06) 0%, transparent 100%);
+    border-radius: 0 var(--rad-md) var(--rad-md) 0;
+    position: relative;
   }
-  .about-es-toggle summary {
-    font-size: 0.92rem;
-    color: var(--terracotta);
-    font-weight: 500;
-    cursor: pointer;
-    list-style: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+  .pull-quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.85rem;
+    opacity: 0.4;
   }
-  .about-es-toggle summary::before {
-    content: '+';
-    display: inline-block;
-    width: 1rem;
-    text-align: center;
-    font-weight: 800;
-    transition: transform var(--dur-fast);
-  }
-  .about-es-toggle[open] summary::before {
-    transform: rotate(45deg);
-  }
-  .about-es-toggle p {
-    margin-top: 0.6rem;
-    color: var(--soil-brown-75);
-    font-size: 0.95rem;
-    line-height: 1.65;
+  .about-pull-text {
+    font-size: 1.25rem;
+    color: var(--olive-deep);
+    line-height: 1.4;
+    font-style: italic;
+    margin-bottom: 0.75rem;
   }
   .about-signature {
-    margin-top: 1rem;
-    font-size: 1.5rem;
-    color: var(--olive-deep);
+    color: var(--terracotta);
+    font-size: 1.1rem;
     font-style: italic;
+  }
+
+  .about-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--soil-brown-15);
+  }
+  .highlight {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .highlight-num {
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--olive-deep);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .highlight-plus {
+    color: var(--terracotta);
+    margin-left: -0.05em;
+  }
+  .highlight-label {
+    font-size: 0.78rem;
+    color: var(--soil-brown-60);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
   }
 
   @media (min-width: 56rem) {
     .about-inner {
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.95fr 1.05fr;
       gap: 4rem;
     }
   }

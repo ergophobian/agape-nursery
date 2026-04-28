@@ -3,39 +3,71 @@ import { process } from '../content/site';
 ---
 
 <section id="process" class="process" aria-labelledby="process-h2">
+  <div class="process-bg" aria-hidden="true"></div>
+
   <div class="container">
     <header class="process-head reveal" data-anim="reveal">
-      <span class="eyebrow">{process.eyebrow.en} · <span lang="es">{process.eyebrow.es}</span></span>
-      <h2 id="process-h2">{process.h2.en}</h2>
-      <p class="lang-es" lang="es">{process.h2.es}</p>
+      <span class="eyebrow">
+        <span data-lang-en>{process.eyebrow.en}</span><span data-lang-es>{process.eyebrow.es}</span>
+      </span>
+      <h2 id="process-h2" class="process-h2">
+        <span data-lang-en>Three steps to a yard <span class="italic-display accent">you'll actually use.</span></span>
+        <span data-lang-es>Tres pasos para un jardín <span class="italic-display accent">que disfrutará.</span></span>
+      </h2>
     </header>
 
-    <ol class="steps" data-process>
-      <!-- SVG line that connects the three steps. Animates path-length on scroll
-           via the IntersectionObserver in animations.ts (motion moment #6). -->
-      <svg
-        class="process-line"
-        viewBox="0 0 1000 600"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          class="process-line-path"
-          d="M 80 60 L 920 60 M 920 60 L 920 300 M 920 300 L 80 300 M 80 300 L 80 540 M 80 540 L 920 540"
-          fill="none"
-          stroke="var(--terracotta)"
-          stroke-width="2"
-          stroke-dasharray="4 6"
-          opacity="0.4"
-        />
+    <ol class="steps" data-process-line-container>
+      <!-- Hand-drawn-feel arrow path connecting the steps -->
+      <svg class="process-arrows" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Arrow 1 → 2 -->
+        <g class="arrow-group">
+          <path
+            data-process-line
+            d="M 360 120 C 410 120, 430 100, 460 100"
+            stroke="var(--terracotta)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-dasharray="6 5"
+            fill="none"
+            opacity="0.6"
+          />
+          <polygon points="450,93 462,100 450,107" fill="var(--terracotta)" opacity="0.6"/>
+        </g>
+        <!-- Arrow 2 → 3 -->
+        <g class="arrow-group">
+          <path
+            data-process-line
+            d="M 760 120 C 810 120, 830 100, 860 100"
+            stroke="var(--terracotta)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-dasharray="6 5"
+            fill="none"
+            opacity="0.6"
+          />
+          <polygon points="850,93 862,100 850,107" fill="var(--terracotta)" opacity="0.6"/>
+        </g>
       </svg>
 
-      {process.steps.map((step, i) => (
-        <li class="step reveal" data-anim="reveal" style={`--delay: ${i * 100}ms`}>
-          <div class="step-num" aria-hidden="true">{step.n}</div>
-          <h3 class="step-title">{step.title.en}</h3>
-          <p class="step-title-es lang-es" lang="es">{step.title.es}</p>
-          <p class="step-body">{step.body.en}</p>
+      {process.steps.map((step) => (
+        <li class="step reveal" data-anim="reveal">
+          <div class="step-image">
+            <img src={step.image} alt="" loading="lazy" decoding="async" width="800" height="600" />
+            <div class="step-image-tint"></div>
+            <span class="step-num italic-display" aria-hidden="true">{step.n}</span>
+          </div>
+          <div class="step-text">
+            <span class="step-duration">
+              <span class="duration-dot" aria-hidden="true"></span>
+              <span data-lang-en>{step.duration.en}</span><span data-lang-es>{step.duration.es}</span>
+            </span>
+            <h3 class="step-title">
+              <span data-lang-en>{step.title.en}</span><span data-lang-es>{step.title.es}</span>
+            </h3>
+            <p class="step-body">
+              <span data-lang-en>{step.body.en}</span><span data-lang-es>{step.body.es}</span>
+            </p>
+          </div>
         </li>
       ))}
     </ol>
@@ -44,83 +76,149 @@ import { process } from '../content/site';
 
 <style>
   .process {
-    background: linear-gradient(180deg, #F2EAD7 0%, var(--cream) 100%);
     position: relative;
+    background: linear-gradient(180deg, #F2EAD7 0%, var(--cream) 100%);
+    padding-block: clamp(4rem, 7vw, 7rem);
+    overflow: hidden;
+  }
+
+  .process-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(168, 86, 56, 0.06), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(74, 93, 58, 0.06), transparent 50%);
+    pointer-events: none;
   }
 
   .process-head {
-    max-width: 36rem;
-    margin-bottom: 3rem;
+    max-width: 38rem;
+    margin-bottom: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .process-h2 {
+    font-size: clamp(1.85rem, 4vw, 3rem);
+    line-height: 1.06;
+  }
+  .process-h2 .accent {
+    color: var(--terracotta);
   }
 
   .steps {
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    counter-reset: step;
+    gap: 2.5rem;
   }
 
-  .process-line {
+  .process-arrows {
     display: none;
     position: absolute;
-    inset: 0;
+    top: 90px;
+    left: 0;
+    right: 0;
     width: 100%;
-    height: 100%;
+    height: 80px;
     pointer-events: none;
   }
-  .process-line-path {
-    stroke-dasharray: 8 6;
+  .arrow-group {
+    /* Lifted by data-process-line animation in animations.ts */
   }
 
   .step {
     position: relative;
-    background: var(--cream);
-    border: 1px solid var(--soil-brown-15);
-    border-radius: var(--rad-lg);
-    padding: 2rem 1.5rem 1.75rem;
-    z-index: 1;
-    transition: transform var(--dur-base) var(--ease-out-soft),
-                box-shadow var(--dur-base) var(--ease-out-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
-  .step:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 30px var(--shadow-warm-elev);
+
+  .step-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--rad-xl);
+    overflow: hidden;
+    box-shadow: 0 16px 36px var(--shadow-warm);
+    border: 1px solid var(--soil-brown-15);
+  }
+  .step-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out-quint);
+  }
+  .step:hover .step-image img {
+    transform: scale(1.04);
+  }
+  .step-image-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(31, 23, 14, 0) 50%, rgba(31, 23, 14, 0.55) 100%);
   }
 
   .step-num {
-    font-family: var(--font-display);
+    position: absolute;
+    bottom: 0.85rem;
+    left: 1.1rem;
     font-style: italic;
-    font-size: 3rem;
     font-weight: 800;
-    color: var(--terracotta);
-    line-height: 1;
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    line-height: 0.85;
+    color: var(--cream);
     letter-spacing: -0.04em;
-    margin-bottom: 0.85rem;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
+
+  .step-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .step-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: var(--terracotta);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    align-self: flex-start;
+    padding: 0.3rem 0.7rem 0.3rem 0.5rem;
+    background: rgba(168, 86, 56, 0.08);
+    border-radius: var(--rad-pill);
+  }
+  .duration-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    animation: durationPulse 2s var(--ease-out-soft) infinite;
+  }
+  @keyframes durationPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(168, 86, 56, 0.4); }
+    50%      { box-shadow: 0 0 0 6px rgba(168, 86, 56, 0); }
+  }
+
   .step-title {
     color: var(--olive-deep);
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     line-height: 1.2;
-  }
-  .step-title-es {
-    color: var(--soil-brown-60);
-    font-size: 0.92rem;
-    margin-top: 0.1rem;
-    margin-bottom: 0.65rem;
   }
   .step-body {
     color: var(--soil-brown-75);
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.55;
   }
 
   @media (min-width: 56rem) {
     .steps {
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
     }
-    .process-line {
+    .process-arrows {
       display: block;
     }
   }

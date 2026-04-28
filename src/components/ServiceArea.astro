@@ -1,13 +1,25 @@
 ---
 import { serviceAreaCopy, business } from '../content/site';
+
+const cityCoords: Record<string, { x: number; y: number; size: number }> = {
+  Visalia: { x: 380, y: 90, size: 6 },
+  Wasco: { x: 180, y: 240, size: 5 },
+  Shafter: { x: 220, y: 280, size: 5 },
+  McFarland: { x: 280, y: 200, size: 5 },
+  Bakersfield: { x: 80, y: 320, size: 6 },
+};
 ---
 
 <section id="service-area" class="service-area" aria-labelledby="service-area-h2">
   <div class="container service-area-inner">
     <div class="service-area-text reveal" data-anim="reveal">
-      <span class="eyebrow">{serviceAreaCopy.eyebrow.en} · <span lang="es">{serviceAreaCopy.eyebrow.es}</span></span>
-      <h2 id="service-area-h2">{serviceAreaCopy.h2.en}</h2>
-      <p class="lang-es" lang="es">{serviceAreaCopy.h2.es}</p>
+      <span class="eyebrow">
+        <span data-lang-en>{serviceAreaCopy.eyebrow.en}</span><span data-lang-es>{serviceAreaCopy.eyebrow.es}</span>
+      </span>
+      <h2 id="service-area-h2" class="service-area-h2">
+        <span data-lang-en>From Delano <span class="italic-display accent">to Bakersfield,</span> Visalia and beyond.</span>
+        <span data-lang-es>Desde Delano <span class="italic-display accent">hasta Bakersfield,</span> Visalia y más allá.</span>
+      </h2>
       <ul class="service-cities" role="list">
         {business.serviceArea.cities.map((c) => (
           <li>
@@ -17,12 +29,15 @@ import { serviceAreaCopy, business } from '../content/site';
         ))}
       </ul>
       <p class="service-area-note">
-        Outside this list? <a href={business.phone.href} class="service-area-call">Call us</a> — we may still be able to help.
+        <span data-lang-en>Outside this list?</span><span data-lang-es>¿Fuera de esta lista?</span>
+        <a href={business.phone.href} class="service-area-call">
+          <span data-lang-en>Call us</span><span data-lang-es>Llámenos</span>
+        </a>
+        <span data-lang-en>— we may still be able to help.</span>
+        <span data-lang-es>— quizás aún podamos ayudar.</span>
       </p>
     </div>
 
-    <!-- Hand-drawn-feel SVG map. Pure decoration; not interactive. Static image
-         deeplinks via the "Open in Maps" link beneath. -->
     <a
       class="service-map reveal"
       data-anim="reveal"
@@ -32,63 +47,49 @@ import { serviceAreaCopy, business } from '../content/site';
       aria-label="Open Agape Nursery location in Google Maps"
     >
       <svg viewBox="0 0 480 360" class="map-svg" aria-hidden="true">
-        <!-- Backdrop -->
         <defs>
           <pattern id="topoLines" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-            <path d="M 0 7 Q 3.5 5, 7 7 T 14 7" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.25"/>
+            <path d="M 0 7 Q 3.5 5, 7 7 T 14 7" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
           </pattern>
           <radialGradient id="centerGlow" cx="50%" cy="55%" r="60%">
-            <stop offset="0%" stop-color="#F4A300" stop-opacity="0.3" />
+            <stop offset="0%" stop-color="#F4A300" stop-opacity="0.4" />
             <stop offset="100%" stop-color="#F4A300" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="usGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#A85638" stop-opacity="1" />
+            <stop offset="100%" stop-color="#A85638" stop-opacity="0" />
           </radialGradient>
         </defs>
         <rect width="480" height="360" fill="#F2EAD7" />
         <rect width="480" height="360" fill="url(#topoLines)" color="#4A5D3A" />
         <rect width="480" height="360" fill="url(#centerGlow)" />
 
-        <!-- Highway 99 abstract path -->
-        <path d="M 60 320 Q 180 280, 230 200 T 380 80" fill="none" stroke="#A85638" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.5" />
+        <!-- Highway 99 path -->
+        <path d="M 60 320 Q 180 280, 230 200 T 380 80" fill="none" stroke="#A85638" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.6" />
+        <text x="180" y="270" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="#A85638" opacity="0.7" letter-spacing="2">HWY 99</text>
 
-        <!-- Cities — points + labels -->
-        <!-- Visalia -->
-        <g transform="translate(380 90)">
-          <circle r="6" fill="#4A5D3A" />
-          <circle r="14" fill="none" stroke="#4A5D3A" stroke-width="1" opacity="0.4" />
-          <text x="14" y="4" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3E2E20">Visalia</text>
-        </g>
-        <!-- Wasco -->
-        <g transform="translate(180 240)">
-          <circle r="5" fill="#4A5D3A" />
-          <text x="-50" y="4" font-family="Inter, sans-serif" font-size="11" fill="#3E2E20">Wasco</text>
-        </g>
-        <!-- Shafter -->
-        <g transform="translate(220 280)">
-          <circle r="5" fill="#4A5D3A" />
-          <text x="12" y="4" font-family="Inter, sans-serif" font-size="11" fill="#3E2E20">Shafter</text>
-        </g>
-        <!-- McFarland -->
-        <g transform="translate(280 200)">
-          <circle r="5" fill="#4A5D3A" />
-          <text x="12" y="4" font-family="Inter, sans-serif" font-size="11" fill="#3E2E20">McFarland</text>
-        </g>
-        <!-- Bakersfield -->
-        <g transform="translate(80 320)">
-          <circle r="6" fill="#4A5D3A" />
-          <circle r="14" fill="none" stroke="#4A5D3A" stroke-width="1" opacity="0.4" />
-          <text x="14" y="4" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3E2E20">Bakersfield</text>
-        </g>
+        <!-- Cities -->
+        {Object.entries(cityCoords).map(([name, c]) => (
+          <g transform={`translate(${c.x} ${c.y})`}>
+            <circle r={c.size} fill="#4A5D3A" />
+            <circle r={c.size + 8} fill="none" stroke="#4A5D3A" stroke-width="1" opacity="0.4" />
+            <text x={c.size + 8} y="4" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#3E2E20">{name}</text>
+          </g>
+        ))}
+
         <!-- Delano (us) — terracotta seal -->
         <g transform="translate(240 200)">
+          <circle r="50" fill="url(#usGlow)" opacity="0.4" />
           <circle r="22" fill="#A85638" opacity="0.18" />
           <circle r="14" fill="#A85638" opacity="0.4" />
-          <circle r="8" fill="#A85638" />
+          <circle r="9" fill="#A85638" />
           <circle r="3" fill="#F5EFE3" />
-          <text x="0" y="-32" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="700" font-size="16" fill="#A85638">Delano</text>
-          <text x="0" y="-18" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#A85638" letter-spacing="2">— US —</text>
+          <text x="0" y="-32" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="700" font-size="17" fill="#A85638">Delano</text>
+          <text x="0" y="-18" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#A85638" letter-spacing="2">— US —</text>
         </g>
       </svg>
       <span class="map-cta">
-        <span>Open in Maps</span>
+        <span data-lang-en>Open in Maps</span><span data-lang-es>Abrir en Maps</span>
         <span aria-hidden="true">↗</span>
       </span>
     </a>
@@ -98,6 +99,7 @@ import { serviceAreaCopy, business } from '../content/site';
 <style>
   .service-area {
     background: linear-gradient(180deg, var(--cream) 0%, #F2EAD7 100%);
+    padding-block: clamp(4rem, 7vw, 6rem);
   }
 
   .service-area-inner {
@@ -110,7 +112,14 @@ import { serviceAreaCopy, business } from '../content/site';
   .service-area-text {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.85rem;
+  }
+  .service-area-h2 {
+    font-size: clamp(1.85rem, 4vw, 3rem);
+    line-height: 1.06;
+  }
+  .service-area-h2 .accent {
+    color: var(--terracotta);
   }
 
   .service-cities {
@@ -122,7 +131,7 @@ import { serviceAreaCopy, business } from '../content/site';
   .service-cities li {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
     color: var(--soil-brown);
     font-weight: 500;
   }
@@ -144,7 +153,7 @@ import { serviceAreaCopy, business } from '../content/site';
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .service-map {
@@ -153,20 +162,18 @@ import { serviceAreaCopy, business } from '../content/site';
     border-radius: var(--rad-xl);
     overflow: hidden;
     border: 1px solid var(--soil-brown-15);
-    box-shadow: 0 16px 40px var(--shadow-warm);
+    box-shadow: 0 20px 44px var(--shadow-warm);
     aspect-ratio: 4 / 3;
     transition: transform var(--dur-base) var(--ease-out-soft);
   }
   .service-map:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
   }
-
   .map-svg {
     width: 100%;
     height: 100%;
     display: block;
   }
-
   .map-cta {
     position: absolute;
     bottom: 1rem;
@@ -176,10 +183,10 @@ import { serviceAreaCopy, business } from '../content/site';
     gap: 0.4rem;
     background: var(--cream);
     color: var(--olive-deep);
-    padding: 0.5rem 0.95rem;
+    padding: 0.55rem 1rem;
     border-radius: var(--rad-pill);
     font-size: 0.88rem;
-    font-weight: 500;
+    font-weight: 600;
     box-shadow: 0 4px 12px var(--shadow-warm);
   }
 

@@ -1,155 +1,336 @@
 ---
 import { services } from '../content/site';
-
-/** SVG icon set — minimal, hand-feel rather than Material/Lucide stamp.
-    Keeps icons aligned with the editorial / family-business tone. */
-const ICONS: Record<string, string> = {
-  leaf: `<path d="M21 3c0 9-7.5 14-12 14a8 8 0 0 1-6-13c4-4 9-4 14-4 1 0 2 0 4 0 0 1 0 2 0 3z" fill="currentColor" opacity="0.18"/><path d="M21 3c0 9-7.5 14-12 14a8 8 0 0 1-6-13c4-4 9-4 14-4 1 0 2 0 4 0 0 1 0 2 0 3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 21 9 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
-  sprout: `<path d="M12 22V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 11c2 4 4 5 7 5 0-3-1-5-3-6-2-1-4 1-4 1z" fill="currentColor" opacity="0.18"/><path d="M5 11c2 4 4 5 7 5 0-3-1-5-3-6-2-1-4 1-4 1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M19 7c-2 4-4 5-7 5 0-3 1-5 3-6 2-1 4 1 4 1z" fill="currentColor" opacity="0.18"/><path d="M19 7c-2 4-4 5-7 5 0-3 1-5 3-6 2-1 4 1 4 1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>`,
-  shovel: `<path d="M16 4 20 8 14 14 10 10z" fill="currentColor" opacity="0.18"/><path d="M16 4 20 8 14 14 10 10z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 10 4 16C3 17 3 19 4 20l0 0C5 21 7 21 8 20L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
-  wheat: `<path d="M12 22V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 8c0-2 2-4 4-4 0 2-2 4-4 4z M12 8c0-2-2-4-4-4 0 2 2 4 4 4z M12 13c0-2 2-4 4-4 0 2-2 4-4 4z M12 13c0-2-2-4-4-4 0 2 2 4 4 4z M12 18c0-2 2-4 4-4 0 2-2 4-4 4z M12 18c0-2-2-4-4-4 0 2 2 4 4 4z" fill="currentColor" opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>`,
-};
 ---
 
 <section id="services" class="services" aria-labelledby="services-h2">
-  <div class="container">
+  <div class="services-bg" aria-hidden="true"></div>
+  <div class="container services-inner">
     <header class="services-head reveal" data-anim="reveal">
-      <span class="eyebrow">What we do · <span lang="es">Lo que hacemos</span></span>
-      <h2 id="services-h2">Plants, design, install. And four generations of know-how.</h2>
-      <p class="lead">From a single tomato start to a full-yard transformation, we’ve been growing things that survive the Valley sun for 44 years.</p>
+      <span class="eyebrow">
+        <span data-lang-en>What we do</span><span data-lang-es>Lo que hacemos</span>
+      </span>
+      <h2 id="services-h2" class="services-h2">
+        <span data-lang-en>Plants, design, install. <span class="italic-display accent">Four generations</span> of know-how.</span>
+        <span data-lang-es>Plantas, diseño, instalación. <span class="italic-display accent">Cuatro generaciones</span> de experiencia.</span>
+      </h2>
+      <p class="services-lead">
+        <span data-lang-en>From a single tomato start to a full-yard transformation, we've been growing things that survive the Valley sun for 44 years.</span>
+        <span data-lang-es>Desde una sola plántula de tomate hasta la transformación total del patio, llevamos 44 años cultivando lo que sobrevive al sol del Valle.</span>
+      </p>
     </header>
 
     <ul class="service-grid reveal-stagger" role="list" data-anim="reveal-stagger">
       {services.map((s, i) => (
-        <li class="service-card">
-          <div class="service-num" aria-hidden="true">0{i + 1}</div>
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="40" height="40" set:html={ICONS[s.icon]}></svg>
-          </div>
-          <h3 class="service-title">{s.title.en}</h3>
-          <p class="service-title-es lang-es" lang="es">{s.title.es}</p>
-          <p class="service-body">{s.body.en}</p>
-          <span class="service-arrow" aria-hidden="true">↗</span>
+        <li class="service-card" data-tilt data-tilt-intensity="5">
+          <span class="service-sheen" data-tilt-sheen aria-hidden="true"></span>
+          <a href="#booking" class="service-link">
+            <div class="service-image-wrap">
+              <img
+                src={s.image}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                width="600"
+                height="700"
+              />
+              <div class="service-image-tint"></div>
+              <span class="service-num" aria-hidden="true">0{i + 1}</span>
+            </div>
+            <div class="service-text">
+              <h3 class="service-title">
+                <span data-lang-en>{s.title.en}</span><span data-lang-es>{s.title.es}</span>
+              </h3>
+              <p class="service-body">
+                <span data-lang-en>{s.body.en}</span><span data-lang-es>{s.body.es}</span>
+              </p>
+              <span class="service-cta">
+                <span data-lang-en>Book a visit</span><span data-lang-es>Reservar visita</span>
+                <span class="service-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </a>
         </li>
       ))}
     </ul>
+  </div>
+
+  <!-- Bottom credit strip — the "tree" placeholder is replaced with a proper
+       editorial wonderhead that anchors the section. -->
+  <div class="container services-foot reveal" data-anim="reveal">
+    <p class="services-foot-stat italic-display">
+      <span class="foot-num">200<span class="foot-plus">+</span></span>
+      <span class="foot-text">
+        <span class="foot-label-1"><span data-lang-en>installs since</span><span data-lang-es>instalaciones desde</span> 1982</span>
+        <span class="foot-label-2"><span data-lang-en>across Tulare and Kern</span><span data-lang-es>en Tulare y Kern</span></span>
+      </span>
+    </p>
+    <a href="#portfolio" class="services-foot-link">
+      <span data-lang-en>See our work</span><span data-lang-es>Ver nuestro trabajo</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
 <style>
   .services {
-    background: linear-gradient(180deg, var(--cream) 0%, #F2EAD7 100%);
-  }
-
-  .services-head {
-    max-width: 38rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin-bottom: 3rem;
-  }
-
-  .service-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .service-card {
-    --card-pad: clamp(1.4rem, 2.5vw, 2rem);
     position: relative;
-    background: var(--cream);
-    border: 1px solid var(--soil-brown-15);
-    border-radius: var(--rad-lg);
-    padding: var(--card-pad);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    transition:
-      transform var(--dur-base) var(--ease-out-soft),
-      box-shadow var(--dur-base) var(--ease-out-soft),
-      border-color var(--dur-base) var(--ease-out-soft);
+    background: linear-gradient(180deg, #F5EFE3 0%, #EBE3D0 100%);
     overflow: hidden;
     isolation: isolate;
   }
-  .service-card::before {
-    content: '';
+
+  .services-bg {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 100% 0%, rgba(244, 163, 0, 0.12), transparent 60%);
+    z-index: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 0% 0%, rgba(74, 93, 58, 0.06), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 100% 100%, rgba(244, 163, 0, 0.05), transparent 60%);
+    pointer-events: none;
+  }
+
+  .services-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .services-head {
+    max-width: 44rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .services-h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.04;
+  }
+  .services-h2 .accent {
+    color: var(--terracotta);
+  }
+  .services-lead {
+    font-size: clamp(1rem, 1vw + 0.92rem, 1.1rem);
+    color: var(--soil-brown-75);
+    line-height: 1.55;
+    max-width: 36ch;
+  }
+
+  /* ── Service grid: editorial 2x2 with image-forward cards ── */
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .service-card {
+    position: relative;
+    will-change: transform;
+    transition: transform var(--dur-base) var(--ease-out-soft);
+    transform-style: preserve-3d;
+  }
+
+  .service-sheen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     opacity: 0;
-    transition: opacity var(--dur-base);
-    z-index: -1;
+    transition: opacity var(--dur-fast) var(--ease-out-soft);
+    z-index: 3;
+    mix-blend-mode: overlay;
+    border-radius: var(--rad-xl);
   }
-  .service-card:hover {
-    /* Lift 4px, not 6px (tightened at Phase 2 design review) */
-    transform: translateY(-4px);
-    box-shadow: 0 18px 40px var(--shadow-warm-elev);
-    border-color: var(--olive-deep-15);
+
+  .service-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--rad-xl);
+    background: var(--cream);
+    box-shadow: 0 16px 36px var(--shadow-warm);
+    transition: box-shadow var(--dur-base) var(--ease-out-soft);
   }
-  .service-card:hover::before {
-    opacity: 1;
+  .service-card:hover .service-link {
+    box-shadow:
+      0 32px 60px var(--shadow-warm-elev),
+      0 6px 16px var(--shadow-warm);
+  }
+
+  .service-image-wrap {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+  }
+  .service-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out-quint);
+  }
+  .service-link:hover .service-image-wrap img {
+    transform: scale(1.06);
+  }
+  .service-image-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(31, 23, 14, 0) 50%, rgba(31, 23, 14, 0.5) 100%);
+    pointer-events: none;
   }
 
   .service-num {
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 0.95rem;
-    color: var(--terracotta);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .service-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: var(--rad-md);
-    background: var(--olive-deep-15);
-    color: var(--olive-deep);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.4rem;
-    transition: background var(--dur-base);
-  }
-  .service-card:hover .service-icon {
-    background: var(--olive-deep);
+    font-weight: 800;
+    font-size: 1.15rem;
     color: var(--cream);
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
 
+  .service-text {
+    padding: 1.5rem 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex: 1;
+  }
   .service-title {
     color: var(--olive-deep);
-    font-size: 1.4rem;
-    line-height: 1.2;
-  }
-  .service-title-es {
-    color: var(--soil-brown-60);
-    font-size: 0.92rem;
-    margin-top: 0;
-    margin-bottom: 0.3rem;
+    font-size: clamp(1.4rem, 2vw, 1.6rem);
+    line-height: 1.15;
   }
   .service-body {
     color: var(--soil-brown-75);
     font-size: 0.98rem;
     line-height: 1.55;
+    flex: 1;
   }
-
-  .service-arrow {
-    align-self: flex-end;
-    font-size: 1.4rem;
-    color: var(--soil-brown-60);
-    transition: color var(--dur-fast), transform var(--dur-fast) var(--ease-out-soft);
-    margin-top: auto;
-  }
-  .service-card:hover .service-arrow {
+  .service-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     color: var(--terracotta);
-    transform: translate(2px, -2px);
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-top: 0.4rem;
+    transition: gap var(--dur-fast) var(--ease-out-soft);
+  }
+  .service-link:hover .service-cta {
+    gap: 0.7rem;
+  }
+  .service-arrow {
+    display: inline-block;
+    transition: transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .service-link:hover .service-arrow {
+    transform: translateX(2px);
   }
 
-  @media (min-width: 40rem) {
-    .service-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Bottom stat — replaces the awkward botanical decoration */
+  .services-foot {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--soil-brown-15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
   }
-  @media (min-width: 64rem) {
-    .service-grid { grid-template-columns: repeat(4, 1fr); }
+  .services-foot-stat {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+  }
+  .foot-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    line-height: 0.9;
+    color: var(--terracotta);
+    letter-spacing: -0.04em;
+  }
+  .foot-plus {
+    color: var(--marigold);
+    font-style: italic;
+    font-size: 0.7em;
+    margin-left: 0.05em;
+  }
+  .foot-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    line-height: 1.2;
+    font-style: normal;
+  }
+  .foot-label-1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--olive-deep);
+  }
+  .foot-label-2 {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--soil-brown-60);
+    letter-spacing: 0.02em;
+  }
+  .services-foot-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--terracotta);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--rad-pill);
+    background: rgba(168, 86, 56, 0.08);
+    transition:
+      background var(--dur-fast),
+      gap var(--dur-fast),
+      transform var(--dur-fast);
+  }
+  .services-foot-link:hover {
+    background: rgba(168, 86, 56, 0.18);
+    gap: 0.7rem;
+    transform: translateX(2px);
+  }
+  @media (min-width: 56rem) {
+    .services-foot {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .service-image-wrap {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  @media (min-width: 72rem) {
+    .service-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .service-image-wrap {
+      aspect-ratio: 4 / 5;
+    }
+    /* Make the first card span 2 cols for editorial rhythm */
+    .service-card:first-child {
+      grid-column: span 2;
+    }
+    .service-card:first-child .service-image-wrap {
+      aspect-ratio: 16 / 9;
+    }
   }
 </style>

@@ -159,90 +159,101 @@ export const reviews = [
   },
 ];
 
+/** Service tile imagery — verified working Unsplash photos.
+ *  Note: titles use "and" instead of "&" because the Fraunces ampersand at card-title
+ *  size is too stylized to read at a glance. */
 export const services = [
   {
     icon: 'leaf',
-    title: { en: 'Landscape Design & Install', es: 'Diseño e Instalación de Paisajes' },
+    image:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400&q=85&auto=format&fit=crop',
+    title: { en: 'Landscape Design and Install', es: 'Diseño e Instalación' },
     body: {
-      en: 'From front-yard refresh to full backyard transformation. We design with you, then plant, build, and irrigate.',
-      es: 'Desde renovación de patio frontal hasta transformación completa del patio trasero. Diseñamos con usted, luego plantamos, construimos y regamos.',
+      en: 'Front yard refresh to full backyard transformation. We design with you, then plant, build, irrigate, and stick around.',
+      es: 'Renovación del patio frontal hasta transformación completa del patio trasero. Diseñamos con usted, luego plantamos y nos quedamos.',
     },
   },
   {
     icon: 'sprout',
-    title: { en: 'Nursery: Plants & Trees', es: 'Vivero: Plantas y Árboles' },
+    image:
+      'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1400&q=85&auto=format&fit=crop',
+    title: { en: 'Plants and Trees', es: 'Plantas y Árboles' },
     body: {
-      en: 'Annuals, perennials, shrubs, fruit trees, shade trees. All chosen for the Valley climate.',
-      es: 'Anuales, perennes, arbustos, árboles frutales, árboles de sombra. Todos elegidos para el clima del Valle.',
+      en: 'Annuals, perennials, shrubs, fruit trees, shade trees, native pollinators. All chosen for the Valley climate.',
+      es: 'Anuales, perennes, arbustos, árboles frutales, árboles de sombra, polinizadores nativos. Todos para el clima del Valle.',
     },
   },
   {
     icon: 'shovel',
-    title: { en: 'Garden Supplies', es: 'Suministros de Jardín' },
+    image:
+      'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1400&q=85&auto=format&fit=crop',
+    title: { en: 'Garden Supplies', es: 'Suministros' },
     body: {
-      en: 'Soil, mulch, fertilizer, pots, and tools. Delivery available across Kern and Tulare.',
-      es: 'Tierra, mantillo, fertilizante, macetas y herramientas. Entrega disponible en Kern y Tulare.',
+      en: 'Soil, mulch, fertilizer, pots, tools. Delivery across Kern and Tulare. Bulk pricing for big yards.',
+      es: 'Tierra, mantillo, fertilizante, macetas, herramientas. Entrega en Kern y Tulare. Precios al mayoreo.',
     },
   },
   {
     icon: 'wheat',
-    title: { en: 'Animal Feed & Supplies', es: 'Alimento Animal y Suministros' },
+    image:
+      'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1400&q=85&auto=format&fit=crop',
+    title: { en: 'Animal Feed and Supplies', es: 'Alimento Animal' },
     body: {
-      en: 'Feed for pets, livestock, and poultry. Same family-run trust customers have counted on for 44 years.',
-      es: 'Alimento para mascotas, ganado y aves. La misma confianza familiar en la que los clientes han confiado por 44 años.',
+      en: 'Pet, livestock, and poultry feed. Same family-run trust customers have counted on for 44 years.',
+      es: 'Alimento para mascotas, ganado y aves. La misma confianza familiar por 44 años.',
     },
   },
 ];
 
+/** Portfolio imagery — verified Unsplash IDs that resolve to actual yard/garden content. */
 export const portfolio = [
   {
     id: 'p1',
     title: { en: 'Drought-tolerant front yard', es: 'Jardín frontal sin riego' },
     location: 'Delano, CA',
+    year: '2025',
     tags: ['drought-tolerant', 'front-yard'],
-    placeholder: true,
-    /** Unsplash-hosted v0 placeholder. Adolfo's drive replaces these at v1. */
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400&q=85&auto=format&fit=crop',
   },
   {
     id: 'p2',
-    title: { en: 'Backyard transformation with seasonal color', es: 'Transformación del patio trasero con colores' },
+    title: { en: 'Backyard with seasonal color', es: 'Patio con color estacional' },
     location: 'Bakersfield, CA',
+    year: '2025',
     tags: ['backyard', 'install'],
-    placeholder: true,
-    image: 'https://images.unsplash.com/photo-1571767454098-246b94fbcf70?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1604762524889-3e2fcc145683?w=1400&q=85&auto=format&fit=crop',
   },
   {
     id: 'p3',
-    title: { en: 'Native pollinator garden', es: 'Jardín de polinizadores nativos' },
+    title: { en: 'Native pollinator garden', es: 'Jardín de polinizadores' },
     location: 'Visalia, CA',
+    year: '2024',
     tags: ['drought-tolerant', 'native'],
-    placeholder: true,
-    image: 'https://images.unsplash.com/photo-1558616629-899031969d5a?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1400&q=85&auto=format&fit=crop',
   },
   {
     id: 'p4',
     title: { en: 'Citrus orchard install', es: 'Instalación de huerto cítrico' },
     location: 'Wasco, CA',
+    year: '2024',
     tags: ['trees', 'install'],
-    placeholder: true,
-    image: 'https://images.unsplash.com/photo-1592420114011-69e34d1ea60d?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1530967919723-78d76b9c1b18?w=1400&q=85&auto=format&fit=crop',
   },
   {
     id: 'p5',
-    title: { en: 'Front entry refresh', es: 'Renovación de entrada principal' },
+    title: { en: 'Front entry refresh', es: 'Renovación de entrada' },
     location: 'Delano, CA',
+    year: '2024',
     tags: ['front-yard'],
-    placeholder: true,
-    image: 'https://images.unsplash.com/photo-1592595896616-c37162298647?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&auto=format&fit=crop',
   },
   {
     id: 'p6',
-    title: { en: 'Backyard with raised beds', es: 'Patio con jardineras elevadas' },
+    title: { en: 'Backyard with raised beds', es: 'Patio con jardineras' },
     location: 'McFarland, CA',
+    year: '2023',
     tags: ['backyard', 'edible'],
-    placeholder: true,
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1024&q=85',
+    image: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1400&q=85&auto=format&fit=crop',
   },
 ];
 
@@ -268,7 +279,7 @@ export const about = {
     es: '— Adolfo y familia',
   },
   imagePlaceholder:
-    'https://images.unsplash.com/photo-1530293959042-32a09cf95406?w=900&q=85',
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85&auto=format&fit=crop',
 };
 
 export const process = {
@@ -280,26 +291,32 @@ export const process = {
   steps: [
     {
       n: '01',
+      duration: { en: '~2 minutes', es: '~2 minutos' },
+      image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=900&q=85&auto=format&fit=crop',
       title: { en: 'Book a visit', es: 'Reserve una visita' },
       body: {
-        en: 'Pick a time online or call us. We come to your home, walk the yard, and listen to what you want.',
-        es: 'Elija un horario en línea o llámenos. Vamos a su casa, caminamos el jardín y escuchamos lo que quiere.',
+        en: 'Pick a time online or call. We come to your home, walk the yard, and listen.',
+        es: 'Elija un horario o llámenos. Vamos a su casa, caminamos el jardín, escuchamos.',
       },
     },
     {
       n: '02',
+      duration: { en: 'Free · 30-45 min', es: 'Gratis · 30-45 min' },
+      image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=900&q=85&auto=format&fit=crop',
       title: { en: 'Free site visit', es: 'Visita gratis' },
       body: {
-        en: 'Within a week, we walk your space, take measurements, and bring plant ideas that fit your light, soil, and budget.',
-        es: 'En una semana, caminamos su espacio, tomamos medidas, y traemos ideas que se ajustan a su luz, tierra y presupuesto.',
+        en: 'We walk your space, take measurements, and bring plant ideas that fit your light, soil, and budget.',
+        es: 'Caminamos su espacio, tomamos medidas, y traemos ideas que se ajustan a su luz, tierra y presupuesto.',
       },
     },
     {
       n: '03',
+      duration: { en: '1-3 weeks install', es: '1-3 semanas' },
+      image: 'https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?w=900&q=85&auto=format&fit=crop',
       title: { en: 'A yard you’ll keep using', es: 'Un jardín que disfrutará' },
       body: {
-        en: 'Honest quote, honest timeline. Once we install, we’re still a phone call away — that’s how three generations of Delano families have stuck with us.',
-        es: 'Presupuesto honesto, plazo honesto. Una vez instalado, seguimos a una llamada de distancia — así nos han acompañado tres generaciones de familias de Delano.',
+        en: 'Honest quote, honest timeline. Once we install, we’re still a phone call away — that’s why three generations have stuck with us.',
+        es: 'Presupuesto honesto, plazo honesto. Una vez instalado, seguimos cerca — por eso tres generaciones nos han acompañado.',
       },
     },
   ],
