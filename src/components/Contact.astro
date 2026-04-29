@@ -27,8 +27,8 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
   <div class="contact-pattern" aria-hidden="true"></div>
 
   <div class="container contact-inner">
-    <!-- Left: copy + contact card + atmospheric image -->
-    <aside class="contact-aside reveal" data-anim="reveal">
+    <!-- Heading block — full width on mobile, sits ABOVE both columns -->
+    <header class="contact-heading reveal" data-anim="reveal">
       <span class="eyebrow eyebrow-warm">
         <span data-lang-en>{contact.eyebrow.en}</span><span data-lang-es>{contact.eyebrow.es}</span>
       </span>
@@ -39,7 +39,10 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
       <p class="contact-body">
         <span data-lang-en>{contact.body.en}</span><span data-lang-es>{contact.body.es}</span>
       </p>
+    </header>
 
+    <!-- Left: supplementary trust + image + contact info (after form on mobile) -->
+    <aside class="contact-aside reveal" data-anim="reveal">
       <div class="contact-image">
         <img src={CONTACT_IMAGE} alt="" loading="lazy" decoding="async" width="900" height="650" />
         <div class="contact-image-overlay"></div>
@@ -288,18 +291,51 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
     pointer-events: none;
   }
 
+  /* Mobile: heading full width on top, form next, supplementary aside last.
+     Desktop: heading spans both cols, then aside + form side by side. */
   .contact-inner {
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.75rem;
   }
 
-  /* ── Aside ── */
+  .contact-heading {
+    order: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-width: 38rem;
+  }
+
+  /* Aside lives below the form on mobile via order */
   .contact-aside {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    order: 2;
+  }
+  .contact-form {
+    order: 1;
+  }
+
+  @media (min-width: 56rem) {
+    .contact-inner {
+      grid-template-columns: 1fr 1.2fr;
+      column-gap: 4rem;
+      row-gap: 2.5rem;
+    }
+    /* Heading spans both columns */
+    .contact-heading {
+      grid-column: 1 / -1;
+      max-width: 50rem;
+      margin-bottom: 0.5rem;
+    }
+    /* Side-by-side, natural source order (aside left, form right) */
+    .contact-aside,
+    .contact-form {
+      order: initial;
+    }
   }
   .eyebrow-warm {
     color: var(--terracotta);
@@ -309,26 +345,35 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
     font-weight: 600;
   }
   .contact-h2 {
-    font-size: clamp(1.85rem, 3.5vw, 2.6rem);
-    line-height: 1.1;
+    /* Tighter mobile baseline (1.55rem ~= 25px) — was 1.85 which made it
+       eat 4 lines on iPhone SE. Desktop scales up to 2.6rem as before. */
+    font-size: clamp(1.55rem, 3.5vw, 2.6rem);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
   }
   .contact-h2 .accent {
     color: var(--terracotta);
   }
   .contact-body {
     color: var(--soil-brown-75);
-    font-size: 1rem;
+    font-size: 0.98rem;
     line-height: 1.55;
-    max-width: 36ch;
+    max-width: 38ch;
   }
 
   .contact-image {
     position: relative;
-    aspect-ratio: 16 / 10;
+    /* Shorter on mobile so it doesn't eat vertical space */
+    aspect-ratio: 5 / 3;
     border-radius: var(--rad-xl);
     overflow: hidden;
     border: 1px solid var(--soil-brown-15);
     box-shadow: 0 16px 36px var(--shadow-warm);
+  }
+  @media (min-width: 56rem) {
+    .contact-image {
+      aspect-ratio: 16 / 10;
+    }
   }
   .contact-image img {
     width: 100%;
@@ -429,7 +474,7 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
     background: var(--cream);
     border: 1px solid var(--soil-brown-15);
     border-radius: var(--rad-xl);
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
     box-shadow: 0 24px 56px var(--shadow-warm-elev);
     align-self: start;
   }
@@ -444,16 +489,26 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
 
   .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem 1.1rem;
+    /* Mobile: stacked single column. iPhone SE was cramming 2 fields side-by-side. */
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  @media (min-width: 28rem) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.1rem;
+    }
   }
   .form-row {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
   }
-  .form-row-full {
-    grid-column: 1 / -1;
+  /* Email + description span both columns at 28rem+ where the grid is 2-col */
+  @media (min-width: 28rem) {
+    .form-row-full {
+      grid-column: 1 / -1;
+    }
   }
   .form-row label {
     font-size: 0.78rem;
