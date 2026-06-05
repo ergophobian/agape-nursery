@@ -1,38 +1,98 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import TrustReviews from '../components/TrustReviews.astro';
-import Services from '../components/Services.astro';
-import Portfolio from '../components/Portfolio.astro';
-import About from '../components/About.astro';
-import Process from '../components/Process.astro';
-import InStock from '../components/InStock.astro';
-import ServiceArea from '../components/ServiceArea.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
-import FloatingCallButton from '../components/FloatingCallButton.astro';
+const title = 'Agape Nursery & Landscape Supply';
+const message = 'Website temporarily offline';
+const detail = 'We are touching things up and will be back soon.';
 ---
 
-<Base>
-  <Nav />
-  <main id="main">
-    <Hero />
-    <TrustReviews />
-    <Services />
-    <Portfolio />
-    <About />
-    <Process />
-    <InStock />
-    <ServiceArea />
-    <Contact />
-  </main>
-  <Footer />
-  <FloatingCallButton />
-</Base>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={detail} />
+    <link rel="icon" href="data:," />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main class="offline" aria-labelledby="offline-title">
+      <p class="brand">{title}</p>
+      <h1 id="offline-title">{message}</h1>
+      <p class="detail">{detail}</p>
+    </main>
+  </body>
+</html>
 
-<script>
-  // Single bootstrapper for all motion moments.
-  // Loaded via Astro's <script> tag → bundled, defer-loaded after HTML parse.
-  import '../scripts/animations.ts';
-</script>
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    min-height: 100%;
+    background: #f5efe3;
+    color: #3e2e20;
+    font-family:
+      ui-serif,
+      Georgia,
+      Cambria,
+      'Times New Roman',
+      Times,
+      serif;
+  }
+
+  :global(body) {
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  .offline {
+    display: grid;
+    min-height: 100vh;
+    align-content: center;
+    justify-items: center;
+    padding: clamp(2rem, 6vw, 5rem);
+    text-align: center;
+  }
+
+  .brand {
+    margin: 0 0 1rem;
+    color: #4a5d3a;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #4a5d3a;
+    font-size: clamp(2.75rem, 8vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .detail {
+    max-width: 32rem;
+    margin: 1.25rem 0 0;
+    color: rgba(62, 46, 32, 0.74);
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.6;
+  }
+</style>
