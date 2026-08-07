@@ -1,8 +1,7 @@
 ---
 import { contact, business } from '../content/site';
 
-const CONTACT_IMAGE =
-  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85&auto=format&fit=crop';
+const CONTACT_IMAGE = '/photos/about/family-yard.jpg';
 
 /**
  * Form backend: FormSubmit (formsubmit.co).
@@ -102,7 +101,33 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
           </span>
           <span><span data-lang-en>{business.hours.summary}</span><span data-lang-es>{business.hours.summaryEs}</span></span>
         </li>
+        <li>
+          <span class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <a href={`mailto:${business.email}`}>{business.email}</a>
+        </li>
+        <li>
+          <span class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <a href={business.license.verifyUrl} target="_blank" rel="noopener noreferrer">
+            <span data-lang-en>{business.license.line.en}</span>
+            <span data-lang-es>{business.license.line.es}</span>
+          </a>
+        </li>
       </ul>
+
+      <div class="contact-direct">
+        <a class="btn btn-primary contact-call-btn" href={business.phone.href} data-magnetic>
+          <span data-lang-en>Call {business.phone.display}</span>
+          <span data-lang-es>Llame al {business.phone.display}</span>
+        </a>
+        <a class="contact-email-btn" href={`mailto:${business.email}`}>
+          <span data-lang-en>Or email us</span>
+          <span data-lang-es>O envíenos un correo</span>
+        </a>
+      </div>
     </aside>
 
     <!-- Right: form. POSTs to FormSubmit which emails Adolfo. -->
@@ -589,4 +614,23 @@ const FORM_ACTION = `https://formsubmit.co/${FORM_RECIPIENT}`;
       gap: 4rem;
     }
   }
+
+  .contact-direct {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+  }
+  .contact-call-btn {
+    justify-content: center;
+    text-align: center;
+  }
+  .contact-email-btn {
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--soil-brown, #3e2e20);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
 </style>

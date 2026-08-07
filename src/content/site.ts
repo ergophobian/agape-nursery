@@ -49,10 +49,26 @@ export const business = {
     cities: ['Delano', 'Bakersfield', 'Visalia', 'Wasco', 'Shafter', 'McFarland'],
   },
   /**
-   * Calendly placeholder URL — swap for Adolfo's real booking link before launch.
-   * Format: https://calendly.com/<account>/<event>
+   * California Contractors State License Board.
+   * C-27 Landscape Contractor — public verification:
+   * https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx
    */
-  calendlyUrl: 'https://calendly.com/agape-nursery/landscape-consultation',
+  license: {
+    board: 'CSLB',
+    number: '1158574',
+    classification: 'C-27',
+    classificationName: {
+      en: 'Landscape Contractor',
+      es: 'Contratista de Paisajismo',
+    },
+    display: 'CSLB #1158574',
+    line: {
+      en: 'Licensed C-27 Landscape Contractor · CSLB #1158574',
+      es: 'Contratista de Paisajismo con licencia C-27 · CSLB #1158574',
+    },
+    verifyUrl:
+      'https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx',
+  },
 };
 
 export const navItems = [
@@ -90,29 +106,6 @@ export const hero = {
   },
 };
 
-export const booking = {
-  eyebrow: { en: 'Schedule', es: 'Agendar' },
-  h2: {
-    en: 'Pick a time. We’ll come look at your yard.',
-    es: 'Elija un horario. Vamos a ver su jardín.',
-  },
-  body: {
-    en: 'A free 15-minute site visit, on your schedule. We bring ideas, plant suggestions, and a no-pressure quote.',
-    es: 'Visita gratis de 15 minutos, en su horario. Traemos ideas, sugerencias y un presupuesto sin presión.',
-  },
-  fallbackHeadline: {
-    en: 'Booking widget didn’t load?',
-    es: '¿No cargó el calendario?',
-  },
-  fallbackBody: {
-    en: 'No problem — call us at (661) 778-0602 or fill out the quick form below.',
-    es: 'Llámenos al (661) 778-0602 o complete el formulario.',
-  },
-  fallbackFormCta: {
-    en: 'Send us a message instead',
-    es: 'Enviar un mensaje',
-  },
-};
 
 export const trust = {
   yearsLabel: {
@@ -324,10 +317,10 @@ export const process = {
       n: '01',
       duration: { en: '~2 minutes', es: '~2 minutos' },
       image: '/photos/process/step-01-call-site.jpg',
-      title: { en: 'Book a visit', es: 'Reserve una visita' },
+      title: { en: 'Call or message us', es: 'Llámenos o escriba' },
       body: {
-        en: 'Pick a time online or call. We come to your home, walk the yard, and listen.',
-        es: 'Elija un horario o llámenos. Vamos a su casa, caminamos el jardín, escuchamos.',
+        en: 'Call us or send a quick message. We come to your home, walk the yard, and listen.',
+        es: 'Llámenos o envíe un mensaje. Vamos a su casa, caminamos el jardín, escuchamos.',
       },
     },
     {
@@ -391,7 +384,7 @@ export const contact = {
   form: {
     name: { en: 'Your name', es: 'Su nombre' },
     phone: { en: 'Phone number', es: 'Teléfono' },
-    email: { en: 'Email (optional)', es: 'Correo (opcional)' },
+    email: { en: 'Email', es: 'Correo' },
     projectType: { en: 'Project type', es: 'Tipo de proyecto' },
     timeline: { en: 'Timeline', es: 'Plazo' },
     description: { en: 'Tell us about your yard', es: 'Cuéntenos sobre su jardín' },

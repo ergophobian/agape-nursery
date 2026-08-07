@@ -49,7 +49,13 @@ import { business, footer, navItems } from '../content/site';
           <a href={business.phone.href} class="footer-phone">{business.phone.display}</a>
         </p>
         <p class="footer-meta italic-display">"<span data-lang-en>Adolfo answers his phone.</span><span data-lang-es>Adolfo contesta.</span>"</p>
-        <p class="footer-meta footer-email">{business.email}</p>
+        <p class="footer-meta footer-email">
+          <a href={`mailto:${business.email}`}>{business.email}</a>
+        </p>
+        <p class="footer-meta footer-license">
+          <span data-lang-en>{business.license.line.en}</span>
+          <span data-lang-es>{business.license.line.es}</span>
+        </p>
       </div>
 
       <div class="footer-col">
@@ -93,6 +99,10 @@ import { business, footer, navItems } from '../content/site';
       <p class="footer-built">
         <span data-lang-en>Family-built, family-run since 1982.</span>
         <span data-lang-es>Construido y dirigido por familia desde 1982.</span>
+        <span class="footer-license-sep" aria-hidden="true"> · </span>
+        <a class="footer-license-link" href={business.license.verifyUrl} target="_blank" rel="noopener noreferrer">
+          {business.license.display} · C-27
+        </a>
       </p>
     </div>
   </div>
@@ -232,6 +242,11 @@ import { business, footer, navItems } from '../content/site';
   .footer-hours,
   .footer-meta { color: rgba(245, 239, 227, 0.58); font-size: 0.85rem; }
   .footer-email { font-size: 0.82rem; word-break: break-all; }
+  .footer-email a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .footer-license { margin-top: 0.55rem; font-size: 0.78rem; opacity: 0.82; line-height: 1.4; }
+  .footer-license-sep { opacity: 0.5; }
+  .footer-license-link { color: rgba(245, 239, 227, 0.78); text-decoration: none; border-bottom: 1px solid rgba(245, 239, 227, 0.28); }
+  .footer-license-link:hover { color: #f5efe3; border-bottom-color: rgba(245, 239, 227, 0.6); }
   .footer-phone {
     font-family: var(--font-display);
     font-weight: 700;

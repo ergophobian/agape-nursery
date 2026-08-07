@@ -86,6 +86,8 @@ const ogImageUrl = new URL(asset('og-image.jpg'), Astro.site).toString();
         '@id': 'https://agapenurseryandlandscape.com',
         url: 'https://agapenurseryandlandscape.com',
         telephone: business.phone.display,
+        email: business.email,
+        hasCredential: `${business.license.classification} ${business.license.classificationName.en} · ${business.license.display}`,
         priceRange: '$$',
         address: {
           '@type': 'PostalAddress',
