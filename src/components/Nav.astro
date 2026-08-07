@@ -5,25 +5,15 @@ import { business, navItems, hero } from '../content/site';
 <nav class="nav" data-nav aria-label="Primary">
   <div class="nav-inner">
     <a href="#top" class="nav-brand" aria-label={`${business.shortName} home`}>
-      <span class="brand-mark">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path
-            d="M12 3 C 8 7, 5 11, 5 15 C 5 19, 8 21, 12 21 C 16 21, 19 19, 19 15 C 19 11, 16 7, 12 3 Z"
-            fill="currentColor"
-            opacity="0.94"
-          />
-          <path
-            d="M12 6 L12 18"
-            stroke="rgba(245, 239, 227, 0.5)"
-            stroke-width="1"
-            stroke-linecap="round"
-          />
-        </svg>
-      </span>
-      <span class="brand-word">
-        Agape
-        <span class="brand-since">est. 1982</span>
-      </span>
+      <img
+        class="brand-logo"
+        src="/branding/logo-nav.png"
+        alt="Green by Agape · Agape Nursery & Landscape Supply"
+        width="151"
+        height="72"
+        decoding="async"
+      />
+      <span class="brand-since-only">est. 1982</span>
     </a>
 
     <ul class="nav-list" role="list">
@@ -205,52 +195,38 @@ import { business, navItems, hero } from '../content/site';
   .nav-brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.4rem;
-    color: var(--cream);
-    letter-spacing: -0.02em;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-    transition:
-      color var(--dur-base) var(--ease-out-soft),
-      text-shadow var(--dur-base) var(--ease-out-soft);
+    gap: 0.65rem;
+    min-width: 0;
   }
-  .nav.is-scrolled .nav-brand {
-    color: var(--olive-deep);
-    text-shadow: none;
+  .brand-logo {
+    display: block;
+    height: clamp(40px, 5.2vw, 56px);
+    width: auto;
+    max-width: min(220px, 46vw);
+    object-fit: contain;
+    /* Logo is dark green; invert to cream over dark hero, then restore on scroll */
+    filter: brightness(0) invert(1);
+    transition: filter var(--dur-base) var(--ease-out-soft);
   }
-  .brand-mark {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(140deg, #5A7B3F 0%, var(--olive-deep) 70%);
-    color: var(--cream);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-      inset 0 -2px 4px rgba(255, 255, 255, 0.18),
-      0 4px 10px var(--shadow-warm);
+  .nav.is-scrolled .brand-logo {
+    filter: none;
   }
-  .brand-word {
-    display: inline-flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .brand-since {
+  .brand-since-only {
+    display: none;
     font-family: var(--font-body);
     font-style: italic;
-    font-size: 0.6rem;
+    font-size: 0.62rem;
     font-weight: 500;
-    color: rgba(245, 239, 227, 0.7);
-    letter-spacing: 0.16em;
+    color: rgba(245, 239, 227, 0.75);
+    letter-spacing: 0.14em;
     text-transform: lowercase;
-    margin-top: 2px;
-    transition: color var(--dur-base) var(--ease-out-soft);
+    white-space: nowrap;
   }
-  .nav.is-scrolled .brand-since {
-    color: var(--soil-brown-60);
+  @media (min-width: 720px) {
+    .brand-since-only { display: inline; }
+  }
+  .nav.is-scrolled .brand-since-only {
+    color: rgba(62, 46, 32, 0.62);
   }
 
   /* Nav links — desktop only. Cream over hero, soil-brown after scroll.

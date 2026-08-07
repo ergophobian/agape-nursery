@@ -26,8 +26,15 @@ import { business, footer, navItems } from '../content/site';
     <div class="footer-grid">
       <div class="footer-col footer-brand">
         <a href="#top" class="footer-brand-link">
-          <span class="footer-mark">A</span>
-          <span class="footer-name">Agape</span>
+          <img
+            class="footer-logo"
+            src="/branding/logo-md.png"
+            alt="Green by Agape · Agape Nursery & Landscape Supply"
+            width="202"
+            height="96"
+            decoding="async"
+            loading="lazy"
+          />
         </a>
         <p class="footer-tagline italic-display">Nursery & Landscape Supply.</p>
         <p class="footer-since"><span data-lang-en>Family-owned in</span><span data-lang-es>Familia propietaria en</span> Delano, California. <span data-lang-en>Since</span><span data-lang-es>Desde</span> 1982.</p>
@@ -207,25 +214,13 @@ import { business, footer, navItems } from '../content/site';
     gap: 0.55rem;
     margin-bottom: 0.85rem;
   }
-  .footer-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(140deg, #C4683E 0%, var(--terracotta) 100%);
-    color: var(--cream);
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.4rem;
-    box-shadow: 0 4px 16px rgba(168, 86, 56, 0.5);
-  }
-  .footer-name {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--cream);
+  .footer-logo {
+    display: block;
+    height: 64px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
   }
   .footer-tagline {
     color: var(--marigold);
