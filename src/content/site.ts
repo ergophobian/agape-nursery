@@ -391,8 +391,8 @@ export const contact = {
     submit: { en: 'Send to Adolfo', es: 'Enviar a Adolfo' },
     sending: { en: 'Sending…', es: 'Enviando…' },
     success: {
-      en: 'Got it! Adolfo will reach out within 24 hours. If urgent, call (661) 725-7749.',
-      es: '¡Recibido! Adolfo se comunicará en 24 horas. Si es urgente, llame al (661) 725-7749.',
+      en: 'Got it! If this is the first website lead, Adolfo should also check spam for a FormSubmit activation email and click it. If urgent, call (661) 725-7749.',
+      es: '¡Recibido! Si es el primer mensaje del sitio, Adolfo debe revisar spam por un correo de activación de FormSubmit y hacer clic. Si es urgente, llame al (661) 725-7749.',
     },
     error: {
       en: 'Something went wrong. Please call (661) 725-7749.',
