@@ -166,7 +166,7 @@ export const services = [
   {
     icon: 'leaf',
     image:
-      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400&q=85&auto=format&fit=crop',
+      '/photos/services/landscape.jpg',
     title: { en: 'Landscape Design and Install', es: 'Diseño e Instalación' },
     body: {
       en: 'Front yard refresh to full backyard transformation. We design with you, then plant, build, irrigate, and stick around.',
@@ -176,7 +176,7 @@ export const services = [
   {
     icon: 'sprout',
     image:
-      'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1400&q=85&auto=format&fit=crop',
+      '/photos/services/plants.jpg',
     title: { en: 'Plants and Trees', es: 'Plantas y Árboles' },
     body: {
       en: 'Annuals, perennials, shrubs, fruit trees, shade trees, native pollinators. All chosen for the Valley climate.',
@@ -186,7 +186,7 @@ export const services = [
   {
     icon: 'shovel',
     image:
-      'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1400&q=85&auto=format&fit=crop',
+      '/photos/services/supplies.jpg',
     title: { en: 'Garden Supplies', es: 'Suministros' },
     body: {
       en: 'Soil, mulch, fertilizer, pots, tools. Delivery across Kern and Tulare. Bulk pricing for big yards.',
@@ -196,7 +196,7 @@ export const services = [
   {
     icon: 'wheat',
     image:
-      'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1400&q=85&auto=format&fit=crop',
+      '/photos/services/nursery-stock.jpg',
     title: { en: 'Animal Feed and Supplies', es: 'Alimento Animal' },
     body: {
       en: 'Pet, livestock, and poultry feed. Same family-run trust customers have counted on for 44 years.',
@@ -213,7 +213,7 @@ export const portfolio = [
     location: 'Delano, CA',
     year: '2025',
     tags: ['drought-tolerant', 'front-yard'],
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p9-finished-curve.jpg',
   },
   {
     id: 'p2',
@@ -221,7 +221,7 @@ export const portfolio = [
     location: 'Bakersfield, CA',
     year: '2025',
     tags: ['backyard', 'install'],
-    image: 'https://images.unsplash.com/photo-1604762524889-3e2fcc145683?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p6-pool-lawn.jpg',
   },
   {
     id: 'p3',
@@ -229,7 +229,7 @@ export const portfolio = [
     location: 'Visalia, CA',
     year: '2024',
     tags: ['drought-tolerant', 'native'],
-    image: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p2-entry-plant.jpg',
   },
   {
     id: 'p4',
@@ -237,7 +237,7 @@ export const portfolio = [
     location: 'Wasco, CA',
     year: '2024',
     tags: ['trees', 'install'],
-    image: 'https://images.unsplash.com/photo-1530967919723-78d76b9c1b18?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p5-tree-planting.jpg',
   },
   {
     id: 'p5',
@@ -245,7 +245,7 @@ export const portfolio = [
     location: 'Delano, CA',
     year: '2024',
     tags: ['front-yard'],
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p3-walkway.jpg',
   },
   {
     id: 'p6',
@@ -253,11 +253,42 @@ export const portfolio = [
     location: 'McFarland, CA',
     year: '2023',
     tags: ['backyard', 'edible'],
-    image: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1400&q=85&auto=format&fit=crop',
+    image: '/photos/portfolio/p4-sod.jpg',
   },
-];
 
-export const portfolioFilters = [
+  {
+    id: 'p7',
+    title: { en: 'Gravel front with plantings', es: 'Frente con grava y plantas' },
+    location: 'Delano, CA',
+    year: '2025',
+    tags: ['front-yard', 'drought-tolerant'],
+    image: '/photos/portfolio/p7-gravel-front.jpg',
+  },
+  {
+    id: 'p8',
+    title: { en: 'Side yard sod install', es: 'Césped en pasillo lateral' },
+    location: 'Kern County, CA',
+    year: '2025',
+    tags: ['backyard', 'install'],
+    image: '/photos/portfolio/p8-side-lawn.jpg',
+  },
+  {
+    id: 'p9',
+    title: { en: 'Curved lawn and beds', es: 'Césped curvo y camas' },
+    location: 'Tulare County, CA',
+    year: '2025',
+    tags: ['front-yard', 'install'],
+    image: '/photos/portfolio/p9-finished-curve.jpg',
+  },
+  {
+    id: 'p10',
+    title: { en: 'Ranch lawn with fence views', es: 'Césped de rancho' },
+    location: 'Kern County, CA',
+    year: '2024',
+    tags: ['backyard', 'install'],
+    image: '/photos/portfolio/p10-ranch-lawn.jpg',
+  },
+];export const portfolioFilters = [
   { id: 'all', en: 'All Work', es: 'Todos' },
   { id: 'front-yard', en: 'Front Yards', es: 'Patios Frontales' },
   { id: 'backyard', en: 'Backyards', es: 'Patios Traseros' },
@@ -279,7 +310,7 @@ export const about = {
     es: '— Adolfo y familia',
   },
   imagePlaceholder:
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85&auto=format&fit=crop',
+    '/photos/about/family-yard.jpg',
 };
 
 export const process = {
@@ -292,7 +323,7 @@ export const process = {
     {
       n: '01',
       duration: { en: '~2 minutes', es: '~2 minutos' },
-      image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=900&q=85&auto=format&fit=crop',
+      image: '/photos/process/step-01-call-site.jpg',
       title: { en: 'Book a visit', es: 'Reserve una visita' },
       body: {
         en: 'Pick a time online or call. We come to your home, walk the yard, and listen.',
@@ -302,7 +333,7 @@ export const process = {
     {
       n: '02',
       duration: { en: 'Free · 30-45 min', es: 'Gratis · 30-45 min' },
-      image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=900&q=85&auto=format&fit=crop',
+      image: '/photos/process/step-02-visit.jpg',
       title: { en: 'Free site visit', es: 'Visita gratis' },
       body: {
         en: 'We walk your space, take measurements, and bring plant ideas that fit your light, soil, and budget.',
@@ -312,7 +343,7 @@ export const process = {
     {
       n: '03',
       duration: { en: '1-3 weeks install', es: '1-3 semanas' },
-      image: 'https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?w=900&q=85&auto=format&fit=crop',
+      image: '/photos/process/step-03-finish.jpg',
       title: { en: 'A yard you’ll keep using', es: 'Un jardín que disfrutará' },
       body: {
         en: 'Honest quote, honest timeline. Once we install, we’re still a phone call away — that’s why three generations have stuck with us.',

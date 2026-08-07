@@ -28,3 +28,10 @@ pnpm-debug.log*
 
 # tooling
 .lighthouseci/
+
+# photo import intermediates (curated copies live under public/photos/{hero,portfolio,services,about,process})
+public/photos/drive-import/
+public/photos/raw-*.jpg
+public/photos/web-*.jpg
+public/photos/thumbs/
+public/photos/CONTACT-SHEET.html
