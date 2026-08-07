@@ -20,8 +20,8 @@ export const business = {
   established: 1982,
   yearsInBusiness: new Date().getFullYear() - 1982,
   phone: {
-    display: '(661) 778-0602',
-    href: 'tel:+16617780602',
+    display: '(661) 725-7749',
+    href: 'tel:+16617257749',
   },
   email: 'hello@agapenurseryandlandscape.com',
   address: {
@@ -97,8 +97,8 @@ export const hero = {
     es: 'Visita Gratis · Sin Compromiso',
   },
   secondaryCta: {
-    en: 'Or call (661) 778-0602',
-    es: 'O llame al (661) 778-0602',
+    en: 'Or call (661) 725-7749',
+    es: 'O llame al (661) 725-7749',
   },
   trustLine: {
     en: 'Family-run since 1982 · Tulare + Kern Counties',
@@ -378,8 +378,8 @@ export const contact = {
     es: 'Envíe algunos detalles. Le contactamos en 24 horas.',
   },
   body: {
-    en: 'Prefer to talk? Call (661) 778-0602 — Adolfo answers his phone.',
-    es: '¿Prefiere hablar? Llame al (661) 778-0602 — Adolfo contesta su teléfono.',
+    en: 'Prefer to talk? Call (661) 725-7749 — Adolfo answers his phone.',
+    es: '¿Prefiere hablar? Llame al (661) 725-7749 — Adolfo contesta su teléfono.',
   },
   form: {
     name: { en: 'Your name', es: 'Su nombre' },
@@ -391,12 +391,12 @@ export const contact = {
     submit: { en: 'Send to Adolfo', es: 'Enviar a Adolfo' },
     sending: { en: 'Sending…', es: 'Enviando…' },
     success: {
-      en: 'Got it! Adolfo will reach out within 24 hours. If urgent, call (661) 778-0602.',
-      es: '¡Recibido! Adolfo se comunicará en 24 horas. Si es urgente, llame al (661) 778-0602.',
+      en: 'Got it! Adolfo will reach out within 24 hours. If urgent, call (661) 725-7749.',
+      es: '¡Recibido! Adolfo se comunicará en 24 horas. Si es urgente, llame al (661) 725-7749.',
     },
     error: {
-      en: 'Something went wrong. Please call (661) 778-0602.',
-      es: 'Algo salió mal. Por favor, llame al (661) 778-0602.',
+      en: 'Something went wrong. Please call (661) 725-7749.',
+      es: 'Algo salió mal. Por favor, llame al (661) 725-7749.',
     },
   },
   projectTypes: [
