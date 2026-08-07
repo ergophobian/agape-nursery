@@ -23,7 +23,7 @@ export const business = {
     display: '(661) 725-7749',
     href: 'tel:+16617257749',
   },
-  email: 'hello@agapenurseryandlandscape.com',
+  email: 'agapenurseryandlandscape@gmail.com',
   address: {
     street: '2011 Girard Street',
     city: 'Delano',
