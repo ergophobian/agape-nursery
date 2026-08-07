@@ -13,13 +13,15 @@ const CONTACT_IMAGE = '/photos/about/family-yard.jpg';
  *
  * No signup, no API key, free unlimited.
  *
- * To swap to a real address: change FORM_RECIPIENT to Adolfo's email.
- * To use the privacy-preserving hash mode (hides the email from page
- * source so spam crawlers can't scrape it): generate the hash at
- * https://formsubmit.co/ and paste here.
+ * Activated for agapenurseryandlandscape@gmail.com via FormSubmit.
+ * Using the activation hash so the raw email is not exposed in HTML.
+ * Mailto links still use business.email for direct email.
  */
-const FORM_RECIPIENT = business.email; // 'agapenurseryandlandscape@gmail.com'
-const FORM_ACTION = `https://formsubmit.co/ajax/${FORM_RECIPIENT}`;
+
+// FormSubmit activation hash for agapenurseryandlandscape@gmail.com
+// (hides the raw email from page source; from FormSubmit activation email)
+const FORM_SUBMIT_HASH = '63213481595dff6e9749b5bd90c44e77';
+const FORM_ACTION = `https://formsubmit.co/ajax/${FORM_SUBMIT_HASH}`;
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-h2">
