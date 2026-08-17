@@ -14,8 +14,11 @@ export const reviewConfig = {
   sessionKey: 'agape-review-auth-v1',
   storageKey: 'agape-review-annotations-v1',
   authorKey: 'agape-review-author-v1',
-  /** Same FormSubmit hash as the public contact form — emails the nursery inbox. */
-  formSubmitHash: '63213481595dff6e9749b5bd90c44e77',
+  /**
+   * Review notes go to Kyle, not the nursery lead inbox.
+   * FormSubmit: first send triggers an activation email to this address — click it once.
+   */
+  notifyEmail: 'kylekumar408@gmail.com',
   defaultAuthor: 'Adolfo',
   sessionTtlMs: 1000 * 60 * 60 * 24 * 14, // 14 days
 } as const;

@@ -697,25 +697,32 @@ async function sendToKyle() {
   }
   setStatus('Sending…');
   try {
-    const res = await fetch(`https://formsubmit.co/ajax/${reviewConfig.formSubmitHash}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+    // FormSubmit delivers to Kyle's inbox. First-ever send requires Kyle to
+    // click the FormSubmit activation email for this address.
+    const res = await fetch(
+      `https://formsubmit.co/ajax/${encodeURIComponent(reviewConfig.notifyEmail)}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `Agape website review from ${payload.author}`,
+          _template: 'table',
+          _captcha: 'false',
+          name: payload.author,
+          email: reviewConfig.notifyEmail,
+          message: `Website review notes\n\nPage: ${payload.page}\nWhen: ${payload.exportedAt}\n\n${payload.textSummary || '(drawings only)'}\n\nFull JSON is in annotations_json — save it and use Import on /review if you want the pins back on the page.`,
+          page_url: location.href,
+          annotation_count: String(annotations.length),
+          annotations_json: JSON.stringify(payload),
+        }),
       },
-      body: JSON.stringify({
-        _subject: `Agape website review from ${payload.author}`,
-        name: payload.author,
-        email: 'review@agapenursery.com',
-        message: `Website review notes\n\nPage: ${payload.page}\nWhen: ${payload.exportedAt}\n\n${payload.textSummary || '(drawings only)'}\n\nFull JSON is attached in annotations_json.`,
-        page_url: location.href,
-        annotation_count: String(annotations.length),
-        annotations_json: JSON.stringify(payload),
-      }),
-    });
+    );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    setStatus('Sent to the nursery inbox');
-    alert('Sent. Kyle will get your notes by email. You can keep editing — this device still has your local copy.');
+    setStatus('Sent to Kyle');
+    alert('Sent to Kyle. You can keep editing — this device still has your local copy.');
   } catch (err) {
     console.error(err);
     setStatus('Send failed — download JSON instead');
