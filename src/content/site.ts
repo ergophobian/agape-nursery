@@ -74,6 +74,7 @@ export const business = {
 export const navItems = [
   { id: 'contact', en: 'Get a Quote', es: 'Cotización' },
   { id: 'services', en: 'Services', es: 'Servicios' },
+  { id: 'bulk-materials', en: 'Bulk Materials', es: 'Mayoreo' },
   { id: 'portfolio', en: 'Our Work', es: 'Nuestro Trabajo' },
   { id: 'about', en: 'Family Story', es: 'Familia' },
   { id: 'in-stock', en: 'In Stock', es: 'En Stock' },
@@ -172,8 +173,8 @@ export const services = [
       '/photos/services/plants.jpg',
     title: { en: 'Plants and Trees', es: 'Plantas y Árboles' },
     body: {
-      en: 'Annuals, perennials, shrubs, fruit trees, shade trees, native pollinators. All chosen for the Valley climate.',
-      es: 'Anuales, perennes, arbustos, árboles frutales, árboles de sombra, polinizadores nativos. Todos para el clima del Valle.',
+      en: 'Annuals, perennials, shrubs, fruit trees, shade trees, and plants chosen for the Valley climate.',
+      es: 'Anuales, perennes, arbustos, árboles frutales, árboles de sombra y plantas elegidas para el clima del Valle.',
     },
   },
   {
@@ -187,46 +188,69 @@ export const services = [
     },
   },
   {
-    icon: 'wheat',
+    icon: 'droplet',
     image:
-      '/photos/services/nursery-stock.jpg',
-    title: { en: 'Animal Feed and Supplies', es: 'Alimento Animal' },
+      '/photos/services/irrigation.jpg',
+    title: { en: 'Irrigation Install and Repair', es: 'Riego · Instalación y Reparación' },
     body: {
-      en: 'Pet, livestock, and poultry feed. Same family-run trust customers have counted on for 44 years.',
-      es: 'Alimento para mascotas, ganado y aves. La misma confianza familiar por 44 años.',
+      en: 'PVC and drip systems, open-trench installs, repairs, and remodels so your plants get water where they need it.',
+      es: 'Sistemas de PVC y goteo, instalación en zanja, reparaciones y remodelaciones para regar donde hace falta.',
     },
   },
 ];
 
-/** Portfolio imagery — verified Unsplash IDs that resolve to actual yard/garden content. */
+/** Bulk landscape materials offered at the yard — Adolfo review request 2026-08-14. */
+export const bulkMaterials = {
+  eyebrow: { en: 'At the yard', es: 'En el vivero' },
+  h2: {
+    en: 'Landscape materials in bulk.',
+    es: 'Materiales de paisajismo al mayoreo.',
+  },
+  body: {
+    en: 'Need a truckload or a few yards? We supply bulk landscape materials for homeowners and crews across the Valley.',
+    es: '¿Necesita un camión o unos metros? Suministramos materiales de paisajismo al mayoreo para hogares y contratistas del Valle.',
+  },
+  image: '/photos/services/bulk-materials.jpg',
+  cta: { en: 'Call for bulk pricing', es: 'Llame para precios al mayoreo' },
+  items: [
+    { en: 'Gravel', es: 'Grava' },
+    { en: 'Mulch', es: 'Mantillo' },
+    { en: 'Soil', es: 'Tierra' },
+    { en: 'Sand', es: 'Arena' },
+    { en: 'Decomposed granite (DG)', es: 'Granito descompuesto (DG)' },
+    { en: 'Base rock', es: 'Base de roca' },
+  ],
+};
+
+/** Portfolio — diversified across Adolfo's project photos (not one repeated job). */
 export const portfolio = [
   {
     id: 'p1',
-    title: { en: 'Drought-tolerant front yard', es: 'Jardín frontal sin riego' },
-    location: 'Delano, CA',
+    title: { en: 'Curved lawn and planting beds', es: 'Césped curvo y camas' },
+    location: 'Tulare County, CA',
     year: '2025',
-    tags: ['drought-tolerant', 'front-yard'],
+    tags: ['front-yard', 'install'],
     image: '/photos/portfolio/p9-finished-curve.jpg',
   },
   {
     id: 'p2',
-    title: { en: 'Backyard with seasonal color', es: 'Patio con color estacional' },
-    location: 'Bakersfield, CA',
+    title: { en: 'Plant staging and install', es: 'Preparación e instalación de plantas' },
+    location: 'Kern County, CA',
     year: '2025',
-    tags: ['backyard', 'install'],
-    image: '/photos/portfolio/p6-pool-lawn.jpg',
+    tags: ['install', 'front-yard'],
+    image: '/photos/portfolio/p-plant-staging.jpg',
   },
   {
     id: 'p3',
-    title: { en: 'Native pollinator garden', es: 'Jardín de polinizadores' },
-    location: 'Visalia, CA',
+    title: { en: 'Front entry planting', es: 'Plantación de entrada' },
+    location: 'Delano, CA',
     year: '2024',
-    tags: ['drought-tolerant', 'native'],
+    tags: ['front-yard'],
     image: '/photos/portfolio/p2-entry-plant.jpg',
   },
   {
     id: 'p4',
-    title: { en: 'Citrus orchard install', es: 'Instalación de huerto cítrico' },
+    title: { en: 'Tree planting and grade work', es: 'Plantación de árboles y nivelación' },
     location: 'Wasco, CA',
     year: '2024',
     tags: ['trees', 'install'],
@@ -234,7 +258,7 @@ export const portfolio = [
   },
   {
     id: 'p5',
-    title: { en: 'Front entry refresh', es: 'Renovación de entrada' },
+    title: { en: 'Walkway and bed install', es: 'Pasillo y camas' },
     location: 'Delano, CA',
     year: '2024',
     tags: ['front-yard'],
@@ -242,13 +266,12 @@ export const portfolio = [
   },
   {
     id: 'p6',
-    title: { en: 'Backyard with raised beds', es: 'Patio con jardineras' },
+    title: { en: 'Fresh sod install', es: 'Instalación de césped' },
     location: 'McFarland, CA',
     year: '2023',
-    tags: ['backyard', 'edible'],
+    tags: ['backyard', 'install'],
     image: '/photos/portfolio/p4-sod.jpg',
   },
-
   {
     id: 'p7',
     title: { en: 'Gravel front with plantings', es: 'Frente con grava y plantas' },
@@ -259,27 +282,43 @@ export const portfolio = [
   },
   {
     id: 'p8',
-    title: { en: 'Side yard sod install', es: 'Césped en pasillo lateral' },
+    title: { en: 'Stone patio and plantings', es: 'Patio de piedra y plantas' },
     location: 'Kern County, CA',
     year: '2025',
     tags: ['backyard', 'install'],
-    image: '/photos/portfolio/p8-side-lawn.jpg',
+    image: '/photos/portfolio/p-stone-patio.jpg',
   },
   {
     id: 'p9',
-    title: { en: 'Curved lawn and beds', es: 'Césped curvo y camas' },
+    title: { en: 'Curved walk and lawn', es: 'Pasillo curvo y césped' },
     location: 'Tulare County, CA',
     year: '2025',
-    tags: ['front-yard', 'install'],
-    image: '/photos/portfolio/p9-finished-curve.jpg',
+    tags: ['backyard', 'install'],
+    image: '/photos/portfolio/p-curved-walk.jpg',
   },
   {
     id: 'p10',
-    title: { en: 'Ranch lawn with fence views', es: 'Césped de rancho' },
+    title: { en: 'Irrigation trench install', es: 'Instalación de riego en zanja' },
     location: 'Kern County, CA',
     year: '2024',
-    tags: ['backyard', 'install'],
-    image: '/photos/portfolio/p10-ranch-lawn.jpg',
+    tags: ['install'],
+    image: '/photos/portfolio/p-irrigation-trench.jpg',
+  },
+  {
+    id: 'p11',
+    title: { en: 'Gravel beds and shrubs', es: 'Camas de grava y arbustos' },
+    location: 'Delano, CA',
+    year: '2024',
+    tags: ['front-yard', 'drought-tolerant'],
+    image: '/photos/portfolio/p-gravel-beds.jpg',
+  },
+  {
+    id: 'p12',
+    title: { en: 'Parkway planting strip', es: 'Franja de plantación' },
+    location: 'Kern County, CA',
+    year: '2024',
+    tags: ['front-yard', 'install'],
+    image: '/photos/portfolio/p-parkway-planting.jpg',
   },
 ];export const portfolioFilters = [
   { id: 'all', en: 'All Work', es: 'Todos' },
@@ -295,8 +334,8 @@ export const about = {
     es: 'Cuarenta y cuatro años. Misma familia. Misma tierra bajo las uñas.',
   },
   body: {
-    en: 'Adolfo started Agape in 1982 with a simple idea: grow plants that actually work in the San Joaquin Valley, sell them honestly, and stick around long enough that customers’ kids become customers too. Three generations later, that’s still the operating principle. We know which trees survive the August heat. We know which roses will keep blooming through October. And we know that the best yard isn’t the most expensive one — it’s the one that fits your life.',
-    es: 'Adolfo fundó Agape en 1982 con una idea simple: cultivar plantas que realmente funcionen en el Valle de San Joaquín, venderlas con honestidad, y quedarse el tiempo suficiente para que los hijos de los clientes también sean clientes. Tres generaciones después, ese sigue siendo el principio. Sabemos qué árboles sobreviven el calor de agosto. Sabemos qué rosas siguen floreciendo en octubre. Y sabemos que el mejor jardín no es el más caro — es el que se adapta a su vida.',
+    en: 'Agape started serving Delano and the surrounding communities in 1982. The idea was simple: grow plants that actually work in the San Joaquin Valley, sell them honestly, and stick around long enough that customers’ kids become customers too. Generations later, that’s still the operating principle. We know which trees survive the August heat. We know which roses will keep blooming through October. And we know that the best yard isn’t the most expensive one — it’s the one that fits your life.',
+    es: 'Agape comenzó a servir a Delano y las comunidades de alrededor en 1982. La idea era simple: cultivar plantas que realmente funcionen en el Valle de San Joaquín, venderlas con honestidad, y quedarse el tiempo suficiente para que los hijos de los clientes también sean clientes. Generaciones después, ese sigue siendo el principio. Sabemos qué árboles sobreviven el calor de agosto. Sabemos qué rosas siguen floreciendo en octubre. Y sabemos que el mejor jardín no es el más caro — es el que se adapta a su vida.',
   },
   signature: {
     en: '— Adolfo & family',
@@ -329,8 +368,8 @@ export const process = {
       image: '/photos/process/step-02-visit.jpg',
       title: { en: 'Free site visit', es: 'Visita gratis' },
       body: {
-        en: 'We walk your space, take measurements, and bring plant ideas that fit your light, soil, and budget.',
-        es: 'Caminamos su espacio, tomamos medidas, y traemos ideas que se ajustan a su luz, tierra y presupuesto.',
+        en: 'We walk your space, check grade and irrigation needs, take measurements, and bring plant ideas that fit your light, soil, and budget.',
+        es: 'Caminamos su espacio, revisamos nivelación y riego, tomamos medidas, y traemos ideas que se ajustan a su luz, tierra y presupuesto.',
       },
     },
     {
@@ -402,9 +441,10 @@ export const contact = {
   projectTypes: [
     { value: 'design-install', en: 'Landscape design & install', es: 'Diseño e instalación' },
     { value: 'plant-install', en: 'Plant install', es: 'Instalación de plantas' },
+    { value: 'irrigation', en: 'Irrigation install / repair', es: 'Riego · instalación / reparación' },
+    { value: 'bulk-materials', en: 'Bulk materials (gravel, mulch, soil, sand, DG)', es: 'Materiales al mayoreo (grava, mantillo, tierra, arena, DG)' },
     { value: 'refresh', en: 'Refresh / repair existing yard', es: 'Renovación / reparación' },
     { value: 'plants-pickup', en: 'Just plants for pickup', es: 'Solo plantas para recoger' },
-    { value: 'feed', en: 'Animal feed & supplies', es: 'Alimento y suministros' },
     { value: 'other', en: 'Not sure / other', es: 'No estoy seguro / otro' },
   ],
   timelines: [

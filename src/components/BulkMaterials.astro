@@ -1,0 +1,113 @@
+---
+import { bulkMaterials, business } from '../content/site';
+---
+
+<section id="bulk-materials" class="bulk" aria-labelledby="bulk-h2">
+  <div class="container bulk-inner">
+    <div class="bulk-copy reveal" data-anim="reveal">
+      <span class="eyebrow">
+        <span data-lang-en>{bulkMaterials.eyebrow.en}</span>
+        <span data-lang-es>{bulkMaterials.eyebrow.es}</span>
+      </span>
+      <h2 id="bulk-h2" class="bulk-h2">
+        <span data-lang-en>Landscape materials <span class="italic-display accent">in bulk.</span></span>
+        <span data-lang-es>Materiales de paisajismo <span class="italic-display accent">al mayoreo.</span></span>
+      </h2>
+      <p class="bulk-body">
+        <span data-lang-en>{bulkMaterials.body.en}</span>
+        <span data-lang-es>{bulkMaterials.body.es}</span>
+      </p>
+      <ul class="bulk-list" role="list">
+        {bulkMaterials.items.map((item) => (
+          <li class="bulk-chip">
+            <span data-lang-en>{item.en}</span>
+            <span data-lang-es>{item.es}</span>
+          </li>
+        ))}
+      </ul>
+      <a href={business.phone.href} class="btn btn-primary bulk-cta">
+        <span data-lang-en>{bulkMaterials.cta.en}</span>
+        <span data-lang-es>{bulkMaterials.cta.es}</span>
+      </a>
+    </div>
+    <div class="bulk-visual reveal" data-anim="reveal">
+      <img
+        src={bulkMaterials.image}
+        alt="Landscape materials and finished yard work from Agape"
+        loading="lazy"
+        decoding="async"
+        width="900"
+        height="700"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .bulk {
+    background: #fff;
+    padding: clamp(3.5rem, 8vw, 6rem) 0;
+    border-top: 1px solid var(--soil-brown-15);
+    border-bottom: 1px solid var(--soil-brown-15);
+  }
+  .bulk-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .bulk-h2 {
+    margin: 0.5rem 0 1rem;
+    font-family: var(--font-display);
+    font-size: var(--fz-h2);
+    color: var(--olive-deep);
+    line-height: 1.15;
+  }
+  .bulk-body {
+    margin: 0 0 1.25rem;
+    color: var(--soil-brown-75);
+    max-width: 36rem;
+    line-height: 1.6;
+  }
+  .bulk-list {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .bulk-chip {
+    border: 1px solid var(--soil-brown-15);
+    background: var(--cream);
+    color: var(--soil-brown);
+    border-radius: 999px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+  .bulk-cta {
+    display: inline-flex;
+  }
+  .bulk-visual {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 18px 40px var(--shadow-warm);
+    aspect-ratio: 5 / 4;
+  }
+  .bulk-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 860px) {
+    .bulk-inner {
+      grid-template-columns: 1fr;
+    }
+    .bulk-visual {
+      order: -1;
+      max-height: 280px;
+    }
+  }
+</style>
