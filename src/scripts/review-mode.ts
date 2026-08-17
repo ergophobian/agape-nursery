@@ -82,16 +82,34 @@ function readSession(): Session | null {
   }
 }
 
+const OPEN_KEY = 'agape-review-open';
+
+function setReviewOpen(on: boolean) {
+  // Session-only so the public homepage never keeps markup tools stuck open.
+  try {
+    if (on) sessionStorage.setItem(OPEN_KEY, '1');
+    else sessionStorage.removeItem(OPEN_KEY);
+  } catch {
+    // ignore
+  }
+  // Clear the sticky localStorage flag from the first version.
+  try {
+    localStorage.removeItem(OPEN_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 function writeSession(author: string) {
   const session: Session = { ok: true, at: Date.now(), author };
   localStorage.setItem(reviewConfig.sessionKey, JSON.stringify(session));
   localStorage.setItem(reviewConfig.authorKey, author);
-  localStorage.setItem('agape-review-open', '1');
+  setReviewOpen(true);
 }
 
 function clearSession() {
   localStorage.removeItem(reviewConfig.sessionKey);
-  localStorage.removeItem('agape-review-open');
+  setReviewOpen(false);
 }
 
 function authorName() {
@@ -344,7 +362,17 @@ function mountChrome() {
   });
   $('#rv-logout', root)?.addEventListener('click', () => {
     clearSession();
-    location.href = '/review';
+    location.href = '/';
+  });
+  const exitBtn = document.createElement('button');
+  exitBtn.type = 'button';
+  exitBtn.className = 'secondary';
+  exitBtn.id = 'rv-exit';
+  exitBtn.textContent = 'Exit to public site';
+  $('#rv-logout', root)?.parentElement?.appendChild(exitBtn);
+  exitBtn.addEventListener('click', () => {
+    setReviewOpen(false);
+    location.href = '/';
   });
   $('#rv-send', root)?.addEventListener('click', sendToKyle);
 
@@ -783,31 +811,38 @@ export function initReviewMode() {
   const wantsReview = params.get('review') === '1' || path === '/review';
   const session = readSession();
 
+  // Drop the old sticky localStorage open flag so clean URLs stay public.
+  try {
+    localStorage.removeItem(OPEN_KEY);
+  } catch {
+    // ignore
+  }
+
   if (path === '/review' && !session) {
     showLogin({ gatePage: true });
     return;
   }
 
   if (path === '/review' && session) {
+    setReviewOpen(true);
     location.replace('/?review=1');
     return;
   }
 
-  if (session && (wantsReview || params.has('review') || localStorage.getItem(reviewConfig.storageKey))) {
-    // If already authed and they have annotations or asked for review, show tools.
-    // Avoid surprising authed users on every normal visit: only auto-open when
-    // ?review=1 or existing annotation data + explicit prior open flag.
-    const openFlag = localStorage.getItem('agape-review-open') === '1';
-    if (wantsReview || openFlag) {
-      localStorage.setItem('agape-review-open', '1');
-      mountChrome();
-      return;
-    }
+  // Markup tools only when explicitly reviewing (?review=1), never on the plain site.
+  if (wantsReview && session) {
+    setReviewOpen(true);
+    mountChrome();
+    return;
   }
 
   if (wantsReview && !session) {
     showLogin();
+    return;
   }
+
+  // Public homepage / normal pages: no review UI.
+  setReviewOpen(false);
 }
 
 // Auto-boot when imported from the site layout.
