@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import { studioPhotoSlots, studioTextSlots } from '../content/review';
+---
+
+<Base
+  title="Request site changes · Agape Nursery"
+  description="Private photo and text change requests for the Agape Nursery website."
+>
+  <main id="main" class="studio">
+    <header class="studio-head">
+      <p class="eyebrow">Private</p>
+      <h1>Change photos or text</h1>
+      <p>
+        Pick a replacement from the photos already on the site, type the new wording,
+        then send the request to Kyle. Nothing goes live until he applies it.
+      </p>
+      <p class="studio-links">
+        <a href="/?review=1">Mark up the live page</a>
+        <a href="/">View public site</a>
+      </p>
+    </header>
+
+    <section class="studio-block">
+      <h2>Photos</h2>
+      <p class="hint">Click a card, then choose one of Adolfo’s photos.</p>
+      <div id="photo-slots" class="photo-grid">
+        {studioPhotoSlots.map((slot) => (
+          <button type="button" class="photo-slot" data-slot={slot.id} data-current={slot.current}>
+            <img src={slot.current} alt="" width="320" height="220" />
+            <span class="slot-label">{slot.label}</span>
+            <span class="slot-choice" data-choice>Current photo</span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="studio-block">
+      <h2>Text</h2>
+      <p class="hint">Leave a field blank if that line is fine.</p>
+      <div class="text-grid">
+        {studioTextSlots.map((slot) => (
+          <label class="text-slot">
+            <span>{slot.label}</span>
+            <textarea id={`text-${slot.id}`} rows={slot.id === 'about-body' ? 4 : 2} placeholder={slot.current}></textarea>
+          </label>
+        ))}
+      </div>
+    </section>
+
+    <section class="studio-block">
+      <h2>Anything else</h2>
+      <textarea id="extra-notes" rows="4" placeholder="Other changes, photos you still need to send, etc."></textarea>
+      <div class="studio-actions">
+        <button type="button" id="send-changes">Send changes to Kyle</button>
+        <p id="studio-status" class="hint"></p>
+      </div>
+    </section>
+
+    <dialog id="picker">
+      <div class="picker-head">
+        <strong id="picker-title">Choose a photo</strong>
+        <button type="button" id="picker-close" class="secondary">Close</button>
+      </div>
+      <div id="picker-grid" class="picker-grid"></div>
+    </dialog>
+  </main>
+</Base>
+
+<script>
+  import '../scripts/studio';
+</script>
+
+<style>
+  .studio {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 5rem;
+    color: #1c1917;
+  }
+  .studio-head h1 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: #4A5D3A;
+  }
+  .studio-head p { color: #44403c; line-height: 1.55; max-width: 40rem; }
+  .eyebrow {
+    margin: 0 0 0.4rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #78716c;
+    font-weight: 700;
+  }
+  .studio-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .studio-links a { color: #4A5D3A; font-weight: 600; }
+  .studio-block { margin-top: 2.25rem; }
+  .studio-block h2 { margin: 0 0 0.35rem; font-size: 1.25rem; }
+  .hint { color: #78716c; font-size: 0.95rem; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+  .photo-slot {
+    appearance: none;
+    border: 1px solid #e7e5e4;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(62, 46, 32, 0.08);
+  }
+  .photo-slot img { width: 100%; height: 140px; object-fit: cover; display: block; }
+  .photo-slot.changed { outline: 3px solid #A85638; }
+  .slot-label, .slot-choice {
+    display: block;
+    padding: 0.45rem 0.7rem 0;
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+  .slot-choice { padding-bottom: 0.7rem; font-weight: 500; color: #78716c; }
+  .text-grid { display: grid; gap: 0.9rem; margin-top: 1rem; }
+  .text-slot span { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: #57534e; }
+  textarea {
+    width: 100%;
+    border: 1px solid #d6d3d1;
+    border-radius: 12px;
+    padding: 0.75rem 0.85rem;
+    font: inherit;
+    line-height: 1.45;
+  }
+  .studio-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+  button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.8rem 1.15rem;
+    background: #1c1917;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button.secondary { background: #e7e5e4; color: #1c1917; }
+  dialog {
+    border: 0;
+    border-radius: 18px;
+    padding: 1rem;
+    width: min(920px, 94vw);
+    max-height: 86vh;
+  }
+  dialog::backdrop { background: rgba(28, 25, 23, 0.55); }
+  .picker-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+  .picker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.6rem;
+    overflow: auto;
+    max-height: 70vh;
+  }
+  .picker-grid button { padding: 0; border-radius: 10px; background: #fff; }
+  .picker-grid img { width: 100%; height: 92px; object-fit: cover; display: block; border-radius: 10px; }
+</style>

@@ -277,7 +277,7 @@ function mountChrome() {
   root.innerHTML = `
     <div class="rv-panel rv-chrome" id="rv-panel">
       <h2>Site review</h2>
-      <p class="rv-sub">Drop notes and draw on the live page. Everything saves on this device until you send or download it.</p>
+      <p class="rv-sub">Drop notes and draw on the live page. To swap photos or rewrite text, use <a href="/studio" style="color:#fbbf24">Change photos / text</a>.</p>
       <div class="rv-row">
         <label style="flex:1">
           <span style="display:block;font-size:11px;font-weight:700;color:#78716c;margin-bottom:4px">YOUR NAME</span>
